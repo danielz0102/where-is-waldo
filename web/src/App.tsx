@@ -1,5 +1,7 @@
+import Scenario from '~components/Scenario'
+
 function App() {
-	return <h1>Hello World</h1>
+	return <Scenario />
 }
 
 export default App

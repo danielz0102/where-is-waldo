@@ -4,6 +4,15 @@
 	"linter": {
 		"domains": {
 			"react": "recommended"
+		},
+		"rules": {
+			"nursery": {
+				"useSortedClasses": {
+					"fix": "safe",
+					"level": "info",
+					"options": { "attributes": ["className"] }
+				}
+			}
 		}
 	},
 	"javascript": {

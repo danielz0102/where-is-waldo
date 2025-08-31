@@ -6,6 +6,7 @@
 	"scripts": {
 		"dev": "pnpm --filter web dev",
 		"lint": "biome lint",
+		"lint:fix": "biome lint --write",
 		"format": "biome format --write"
 	},
 	"keywords": [],
