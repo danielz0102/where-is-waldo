@@ -7,6 +7,14 @@
 		}
 	},
 	"javascript": {
-		"globals": ["describe", "it", "expect", "beforeEach", "afterEach", "vi"]
+		"globals": [
+			"describe",
+			"it",
+			"test",
+			"expect",
+			"beforeEach",
+			"afterEach",
+			"vi"
+		]
 	}
 }
