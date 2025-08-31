@@ -8,4 +8,9 @@ export default defineConfig({
 		environment: 'happy-dom',
 		setupFiles: './tests/setup.ts',
 	},
+	resolve: {
+		alias: {
+			'@': '/src',
+		},
+	},
 })
