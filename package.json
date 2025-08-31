@@ -1,0 +1,16 @@
+{
+	"name": "where-is-waldo",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "pnpm --filter web dev"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.15.0",
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.2"
+	}
+}
