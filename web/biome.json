@@ -5,5 +5,8 @@
 		"domains": {
 			"react": "recommended"
 		}
+	},
+	"javascript": {
+		"globals": ["describe", "it", "expect", "beforeEach", "afterEach", "vi"]
 	}
 }
