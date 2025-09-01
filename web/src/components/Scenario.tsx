@@ -3,18 +3,30 @@ import waldoImage from '~assets/whereswaldo.jpg'
 import TargetsMenu from './TargetsMenu'
 
 export default function Scenario() {
-	const [menuOpen, setMenuOpen] = useState(false)
+	const [menuOptions, setMenuOptions] = useState({ open: false, x: 0, y: 0 })
 
-	const handleClick = () => {
-		setMenuOpen((open) => !open)
+	const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+		setMenuOptions(({ open }) => ({
+			open: !open,
+			x: event.clientX,
+			y: event.clientY,
+		}))
 	}
 
 	return (
 		<>
-			<button type="button" onClick={handleClick}>
-				<img src={waldoImage} alt="Where's Waldo scene" />
-			</button>
-			{menuOpen && <TargetsMenu />}
+			<canvas
+				onClick={handleClick}
+				width={800}
+				height={600}
+				data-testid="scenario"
+				style={{
+					backgroundImage: `url(${waldoImage})`,
+					backgroundSize: 'cover',
+					cursor: 'crosshair',
+				}}
+			/>
+			{menuOptions.open && <TargetsMenu x={menuOptions.x} y={menuOptions.y} />}
 		</>
 	)
 }
