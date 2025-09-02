@@ -33,7 +33,7 @@ function TargetButton({ image, name }: TargetButtonProps) {
 	return (
 		<button
 			type="button"
-			className="flex gap-2 cursor-pointer text-neutral-100"
+			className="flex cursor-pointer gap-2 text-neutral-100"
 		>
 			<img className="size-8 object-contain" src={image} alt="" />
 			{name}
