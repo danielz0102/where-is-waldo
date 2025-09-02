@@ -21,7 +21,7 @@ export default mergeConfig(
 			globals: true,
 			environment: 'happy-dom',
 			setupFiles: './tests/setup.ts',
-			css: true,
+			css: false, // Disable CSS processing to avoid parsing errors
 		},
 	})
 )
