@@ -7,7 +7,9 @@ test('displays menu at the position given', () => {
 	const menu = screen.getByRole('menu')
 	const styles = window.getComputedStyle(menu)
 
-	expect(styles.position).toBe('absolute')
+	//! I didn't find a good way to compute Tailwind classes in test environment, so I cannot avoid testing implementation here
+	expect(menu.classList).toContain('absolute')
+
 	expect(styles.top).toBe('200px')
 	expect(styles.left).toBe('100px')
 })
