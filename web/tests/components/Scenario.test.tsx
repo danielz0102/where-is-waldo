@@ -1,51 +1,55 @@
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import Scenario from '~components/Scenario'
+import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import type { CanvasItemProps } from "~components/CanvasItem";
+import Scenario from "~components/Scenario";
 
-vi.mock('~components/TargetsMenu', () => ({
-	default: ({ x = 0, y = 0 }) => (
-		<div data-testid="targets-menu" data-x={x} data-y={y}></div>
-	),
-}))
+vi.mock("~components/TargetsMenu", () => ({
+  default: () => <div data-testid="targets-menu"></div>,
+}));
 
-test('shows the targets menu when user clicks', async () => {
-	const user = userEvent.setup()
-	render(<Scenario />)
+vi.mock("~components/CanvasItem", () => ({
+  default: ({ children, x, y }: CanvasItemProps) => (
+    <div data-testid="canvas-item" data-x={x} data-y={y}>
+      {children}
+    </div>
+  ),
+}));
 
-	expect(screen.queryByTestId('targets-menu')).not.toBeInTheDocument()
+test("passes correct position to CanvasItem when clicked", async () => {
+  const user = userEvent.setup();
+  render(<Scenario />);
 
-	const canvas = screen.getByTestId('scenario')
-	await user.click(canvas)
+  const canvas = screen.getByTestId("scenario");
+  await user.pointer([
+    { target: canvas, coords: { x: 50, y: 100 }, keys: "[MouseLeft]" },
+    { keys: "[/MouseLeft]" },
+  ]);
 
-	expect(screen.queryByTestId('targets-menu')).toBeInTheDocument()
-})
+  const canvasItem = screen.getByTestId("canvas-item");
+  expect(canvasItem).toHaveAttribute("data-x", "50");
+  expect(canvasItem).toHaveAttribute("data-y", "100");
+});
 
-test('hides the targets menu when user clicks again', async () => {
-	const user = userEvent.setup()
-	render(<Scenario />)
+test("hides CanvasItem when clicked again", async () => {
+  const user = userEvent.setup();
+  render(<Scenario />);
+  const canvas = screen.getByTestId("scenario");
+  await user.click(canvas);
 
-	const canvas = screen.getByTestId('scenario')
-	await user.click(canvas)
+  const canvasItem = screen.getByTestId("canvas-item");
+  await user.click(canvas);
 
-	expect(screen.queryByTestId('targets-menu')).toBeInTheDocument()
+  expect(canvasItem).not.toBeInTheDocument();
+});
 
-	await user.click(canvas)
+test("renders TargetsMenu inside CanvasItem when menu is open", async () => {
+  const user = userEvent.setup();
+  render(<Scenario />);
+  const canvas = screen.getByTestId("scenario");
 
-	expect(screen.queryByTestId('targets-menu')).not.toBeInTheDocument()
-})
+  await user.click(canvas);
+  const canvasItem = screen.getByTestId("canvas-item");
 
-test('passes correct position to targets menu when clicked', async () => {
-	const user = userEvent.setup()
-	render(<Scenario />)
-
-	const canvas = screen.getByTestId('scenario')
-	await user.pointer([
-		{ target: canvas, coords: { x: 50, y: 100 }, keys: '[MouseLeft]' },
-		{ keys: '[/MouseLeft]' },
-	])
-
-	const menu = screen.getByTestId('targets-menu')
-
-	expect(menu).toHaveAttribute('data-x', '50')
-	expect(menu).toHaveAttribute('data-y', '100')
-})
+  const menu = within(canvasItem).getByTestId("targets-menu");
+  expect(menu).toBeVisible();
+});
