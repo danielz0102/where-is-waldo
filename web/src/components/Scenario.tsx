@@ -30,7 +30,7 @@ export default function Scenario() {
       />
       {clickData.show && (
         <>
-          <CanvasItem x={clickData.x + 40} y={clickData.y - 50}>
+          <CanvasItem x={clickData.x + 40} y={clickData.y - 75}>
             <TargetsMenu />
           </CanvasItem>
           <CanvasItem x={clickData.x - 30} y={clickData.y - 30}>

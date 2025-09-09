@@ -21,9 +21,9 @@ function TargetButton({ image, name }: TargetButtonProps) {
   return (
     <button
       type="button"
-      className="flex cursor-pointer gap-2 text-neutral-100"
+      className="flex cursor-pointer items-center gap-2 p-2 font-medium text-neutral-100 hover:bg-neutral-300/70"
     >
-      <img className="size-8 object-contain" src={image} alt="" />
+      <img className="size-10 object-cover object-top" src={image} alt="" />
       {name}
     </button>
   );
