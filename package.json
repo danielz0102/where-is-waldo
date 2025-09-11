@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "pnpm --filter web dev",
+		"dev": "pnpm --filter api dev & pnpm --filter web dev",
 		"lint": "biome lint",
 		"lint:fix": "biome lint --write",
 		"format": "biome format --write"
