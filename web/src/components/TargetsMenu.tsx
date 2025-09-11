@@ -4,7 +4,7 @@ import wizard from '~assets/wizard.webp'
 
 export default function TargetsMenu() {
 	return (
-		<div role="menu" className="flex flex-col bg-neutral-700/70">
+		<div role="menu" className="flex flex-col rounded bg-neutral-700/70">
 			<TargetButton image={waldo} name="Waldo" />
 			<TargetButton image={wizard} name="Wizard" />
 			<TargetButton image={odlaw} name="Odlaw" />
