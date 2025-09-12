@@ -5,20 +5,29 @@
 	"scripts": {
 		"build": "tsc",
 		"start": "node dist/app.js",
-		"dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/app.ts"
+		"dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node -r tsconfig-paths/register' src/app.ts",
+		"db:push": "drizzle-kit push",
+		"check": "tsc --noEmit"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"packageManager": "pnpm@10.15.0",
 	"dependencies": {
-		"express": "^5.1.0"
+		"dotenv": "^17.2.2",
+		"drizzle-orm": "^0.44.5",
+		"express": "^5.1.0",
+		"pg": "^8.16.3",
+		"zod": "^4.1.8"
 	},
 	"devDependencies": {
 		"@types/express": "^5.0.3",
 		"@types/node": "^24.3.1",
+		"@types/pg": "^8.15.5",
+		"drizzle-kit": "^0.31.4",
 		"nodemon": "^3.1.10",
 		"ts-node": "^10.9.2",
+		"tsconfig-paths": "^4.2.0",
 		"typescript": "~5.8.3"
 	}
 }
