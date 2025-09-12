@@ -1,0 +1,8 @@
+### Get all characters
+GET http://localhost:3000/api/characters
+
+### Get one character by ID
+GET http://localhost:3000/api/characters/1
+
+### Check if a character has been clicked
+GET http://localhost:3000/api/characters/1?x=100&y=150
