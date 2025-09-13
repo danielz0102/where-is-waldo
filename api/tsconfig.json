@@ -9,7 +9,7 @@
 		"forceConsistentCasingInFileNames": true,
 		"baseUrl": ".",
 		"paths": {
-			"~config": ["config.ts"],
+			"~config": ["src/config.ts"],
 			"~controllers/*": ["src/controllers/*"],
 			"~models/*": ["src/models/*"],
 			"~routers/*": ["src/routers/*"],
