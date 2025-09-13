@@ -10,9 +10,12 @@
 		"baseUrl": ".",
 		"paths": {
 			"~config": ["config.ts"],
+			"~controllers/*": ["src/controllers/*"],
+			"~models/*": ["src/models/*"],
+			"~routers/*": ["src/routers/*"],
 			"~/*": ["src/*"]
 		}
 	},
-	"include": ["src/**/*"],
+	"include": ["src/**/*", "tests/**/*.test.ts"],
 	"exclude": ["node_modules"]
 }
