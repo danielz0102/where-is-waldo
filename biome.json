@@ -27,7 +27,16 @@
 			"quoteStyle": "single",
 			"semicolons": "asNeeded",
 			"trailingCommas": "es5"
-		}
+		},
+		"globals": [
+			"describe",
+			"it",
+			"test",
+			"expect",
+			"beforeEach",
+			"afterEach",
+			"vi"
+		]
 	},
 	"assist": {
 		"enabled": true,

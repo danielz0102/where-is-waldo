@@ -14,16 +14,5 @@
 				}
 			}
 		}
-	},
-	"javascript": {
-		"globals": [
-			"describe",
-			"it",
-			"test",
-			"expect",
-			"beforeEach",
-			"afterEach",
-			"vi"
-		]
 	}
 }
