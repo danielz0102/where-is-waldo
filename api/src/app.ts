@@ -1,5 +1,5 @@
 import express from 'express'
-import config from '~/config'
+import config from './config'
 import charactersRouter from './routers/characters.router'
 import scenariosRouter from './routers/scenarios.router'
 
