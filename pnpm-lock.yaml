@@ -51,9 +51,6 @@ importers:
       drizzle-kit:
         specifier: ^0.31.4
         version: 0.31.4
-      happy-dom:
-        specifier: ^18.0.1
-        version: 18.0.1
       nodemon:
         specifier: ^3.1.10
         version: 3.1.10
