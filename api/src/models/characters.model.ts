@@ -29,10 +29,10 @@ async function hasBeenClicked(id: string, { x, y }: { x: number; y: number }) {
 		.where(
 			and(
 				eq(characters.id, id),
-				gte(characters.minX, x),
-				lte(characters.maxX, x),
-				gte(characters.minY, y),
-				lte(characters.maxY, y)
+				lte(characters.minX, x),
+				gte(characters.maxX, x),
+				lte(characters.minY, y),
+				gte(characters.maxY, y)
 			)
 		)
 

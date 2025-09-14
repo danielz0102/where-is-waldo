@@ -38,8 +38,8 @@ describe('hasBeenClicked', () => {
 	it('returns true if the coords are within the character bounds', async () => {
 		const allCharacters = await CharactersModel.getAll()
 		const character = allCharacters[0]
-		const x = (character.minX + character.maxX) / 2
-		const y = (character.minY + character.maxY) / 2
+		const x = Math.floor((character.minX + character.maxX) / 2)
+		const y = Math.floor((character.minY + character.maxY) / 2)
 
 		const result = await CharactersModel.hasBeenClicked(character.id, { x, y })
 
