@@ -14,9 +14,6 @@ importers:
 
   api:
     dependencies:
-      '@types/supertest':
-        specifier: ^6.0.3
-        version: 6.0.3
       dotenv:
         specifier: ^17.2.2
         version: 17.2.2
@@ -48,6 +45,9 @@ importers:
       '@types/pg':
         specifier: ^8.15.5
         version: 8.15.5
+      '@types/supertest':
+        specifier: ^6.0.3
+        version: 6.0.3
       drizzle-kit:
         specifier: ^0.31.4
         version: 0.31.4
