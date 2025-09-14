@@ -9,7 +9,7 @@
 		"test": "NODE_ENV=testing vitest",
 		"check": "tsc --noEmit --project tsconfig.app.json",
 		"db:push": "drizzle-kit push",
-		"seed": "NODE_ENV=testing tsx --tsconfig ./tsconfig.app.json src/db/seed.ts"
+		"seed:test": "NODE_ENV=testing tsx --tsconfig ./tsconfig.app.json tests/seed.ts"
 	},
 	"keywords": [],
 	"author": "",

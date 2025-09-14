@@ -1,6 +1,6 @@
 import { reset, seed } from 'drizzle-seed'
-import db from '.'
-import { characters, scenarios } from './schema'
+import db from '~/db'
+import { characters, scenarios } from '~/db/schema'
 
 async function main() {
 	console.log('🌱 Seeding database...')
