@@ -11,6 +11,7 @@ function getAll() {
 	return db.select().from(scenarios)
 }
 
-function get(id: string) {
-	return db.select().from(scenarios).where(eq(scenarios.id, id))
+async function get(id: string) {
+	const result = await db.select().from(scenarios).where(eq(scenarios.id, id))
+	return result[0]
 }
