@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-const charactersRouter = Router()
+export const charactersRouter = Router()
 
 charactersRouter.get('/', (_, res) => {
 	res.send('List of characters')
@@ -18,5 +18,3 @@ charactersRouter.get('/:id', (req, res) => {
 
 	res.send(`Details of character with ID: ${id}`)
 })
-
-export default charactersRouter
