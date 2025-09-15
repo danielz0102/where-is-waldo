@@ -34,7 +34,9 @@
 			"test",
 			"expect",
 			"beforeEach",
+			"beforeAll",
 			"afterEach",
+			"afterAll",
 			"vi"
 		]
 	},

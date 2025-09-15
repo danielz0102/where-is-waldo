@@ -1,3 +1,4 @@
+import type { InferSelectModel } from 'drizzle-orm'
 import { integer, pgTable, uuid, varchar } from 'drizzle-orm/pg-core'
 
 export const scenarios = pgTable('scenarios', {
@@ -17,3 +18,6 @@ export const characters = pgTable('characters', {
 		.references(() => scenarios.id)
 		.notNull(),
 })
+
+export type Scenario = InferSelectModel<typeof scenarios>
+export type Character = InferSelectModel<typeof characters>

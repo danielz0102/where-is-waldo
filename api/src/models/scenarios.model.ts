@@ -1,17 +1,17 @@
 import { eq } from 'drizzle-orm'
 import db from '~/db'
-import { scenarios } from '~/db/schema'
+import { type Scenario, scenarios } from '~/db/schema'
 
 export const ScenariosModel = {
 	getAll,
 	get,
 }
 
-function getAll() {
+function getAll(): Promise<Scenario[]> {
 	return db.select().from(scenarios)
 }
 
-async function get(id: string) {
+async function get(id: string): Promise<Scenario | undefined> {
 	const result = await db.select().from(scenarios).where(eq(scenarios.id, id))
 	return result[0]
 }

@@ -1,12 +1,7 @@
 import { Router } from 'express'
+import { ScenariosController } from '~controllers/scenarios.controller'
 
 export const scenariosRouter = Router()
 
-scenariosRouter.get('/', (_, res) => {
-	res.send('List of scenarios')
-})
-
-scenariosRouter.get('/:id', (req, res) => {
-	const { id } = req.params
-	res.send(`Details of scenario with ID: ${id}`)
-})
+scenariosRouter.get('/', ScenariosController.getAll)
+scenariosRouter.get('/:id', ScenariosController.get)
