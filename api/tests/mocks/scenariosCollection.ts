@@ -1,4 +1,6 @@
-export default [
+import type { Scenario } from '~/db/schema'
+
+const scenariosCollection: Scenario[] = [
 	{
 		id: '1',
 		name: 'Find Waldo in the Park',
@@ -15,3 +17,5 @@ export default [
 		imgUrl: 'https://example.com/scenario3.jpg',
 	},
 ]
+
+export default scenariosCollection
