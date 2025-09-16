@@ -1,7 +1,7 @@
 import { ScenariosModel } from '~models/ScenariosModel'
 
 describe('getAll', () => {
-	it('returns all scenarios', async () => {
+	it('returns an array', async () => {
 		const scenarios = await ScenariosModel.getAll()
 		expect(scenarios).toBeInstanceOf(Array)
 	})
@@ -9,16 +9,16 @@ describe('getAll', () => {
 
 describe('get', () => {
 	it('returns a scenario by id', async () => {
-		const allScenarios = await ScenariosModel.getAll()
+		const scenarios = await ScenariosModel.getAll()
 
-		const scenario = await ScenariosModel.get(allScenarios[0].id)
+		const scenario = await ScenariosModel.get(scenarios[0].id)
 
-		expect(scenario).toEqual(allScenarios[0])
+		expect(scenario).toEqual(scenarios[0])
 	})
 
-	it('throws an error if the id does not exist', async () => {
-		const result = ScenariosModel.get('non-existent-id')
+	it('returns null if the scenario does not exists', async () => {
+		const result = await ScenariosModel.get(crypto.randomUUID())
 
-		await expect(result).rejects.toThrow()
+		expect(result).toBeNull()
 	})
 })
