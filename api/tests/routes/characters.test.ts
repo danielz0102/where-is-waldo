@@ -1,16 +1,15 @@
 import request from 'supertest'
+import { CharactersModel } from '~models/CharactersModel'
 import { app } from '~tests/app'
 import charactersCollection from '~tests/mocks/charactersCollection'
-import { AsyncServiceMocker } from '~tests/utils/AsyncServiceMocker'
 
 vi.mock('~models/CharactersModel')
 
-const { CharactersModel } = await import('~models/CharactersModel')
-const CharactersModelMocker = new AsyncServiceMocker(CharactersModel)
+const CharactersModelMock = vi.mocked(CharactersModel)
 
 describe('GET /api/characters', () => {
 	it('responds with all characters', async () => {
-		CharactersModelMocker.mock('getAll', charactersCollection)
+		CharactersModelMock.getAll.mockResolvedValueOnce(charactersCollection)
 
 		const response = await request(app).get('/api/characters').expect(200)
 
@@ -21,7 +20,7 @@ describe('GET /api/characters', () => {
 describe('GET /api/characters/:id', () => {
 	it('responds with the character with the given ID', async () => {
 		const character = charactersCollection[0]
-		CharactersModelMocker.mock('get', character)
+		CharactersModelMock.get.mockResolvedValueOnce(character)
 
 		const response = await request(app).get('/api/characters/1').expect(200)
 
@@ -29,7 +28,7 @@ describe('GET /api/characters/:id', () => {
 	})
 
 	it('responds with 404 if the character does not exist', async () => {
-		CharactersModelMocker.mock('get', null)
+		CharactersModelMock.get.mockResolvedValueOnce(null)
 
 		const response = await request(app)
 			.get('/api/characters/non-existent-id')
@@ -41,7 +40,7 @@ describe('GET /api/characters/:id', () => {
 
 describe('GET /api/characters/:id/click', () => {
 	it('responds true if the character has been clicked', async () => {
-		CharactersModelMocker.mock('hasBeenClicked', true)
+		CharactersModelMock.hasBeenClicked.mockResolvedValueOnce(true)
 
 		const response = await request(app)
 			.get('/api/characters/1/click')
@@ -52,7 +51,7 @@ describe('GET /api/characters/:id/click', () => {
 	})
 
 	it('responds false if the character has not been clicked', async () => {
-		CharactersModelMocker.mock('hasBeenClicked', false)
+		CharactersModelMock.hasBeenClicked.mockResolvedValueOnce(false)
 
 		const response = await request(app)
 			.get('/api/characters/1/click')
