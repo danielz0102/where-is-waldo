@@ -1,5 +1,0 @@
-### Get all scenarios
-GET http://localhost:3000/api/scenarios
-
-### Get one scenario by ID
-GET http://localhost:3000/api/scenarios/0d12ac43-a838-4f66-beea-5081a64ebdb1
