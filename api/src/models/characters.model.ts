@@ -1,6 +1,6 @@
 import { and, eq, gte, lte } from 'drizzle-orm'
 import db from '~/db'
-import { characters } from '~/db/schema'
+import { type Character, characters } from '~/db/schema'
 
 export const CharactersModel = {
 	getAll,
@@ -9,20 +9,23 @@ export const CharactersModel = {
 	hasBeenClicked,
 }
 
-function getAll() {
+function getAll(): Promise<Character[]> {
 	return db.select().from(characters)
 }
 
-async function get(id: string) {
+async function get(id: string): Promise<Character | null> {
 	const result = await db.select().from(characters).where(eq(characters.id, id))
 	return result[0]
 }
 
-function getAllFromScenario(id: string) {
+function getAllFromScenario(id: string): Promise<Character[]> {
 	return db.select().from(characters).where(eq(characters.scenarioId, id))
 }
 
-async function hasBeenClicked(id: string, { x, y }: { x: number; y: number }) {
+async function hasBeenClicked(
+	id: string,
+	{ x, y }: { x: number; y: number }
+): Promise<boolean> {
 	const result = await db
 		.select()
 		.from(characters)
