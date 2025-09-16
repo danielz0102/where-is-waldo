@@ -15,7 +15,7 @@ function getAll(): Promise<Character[]> {
 
 async function get(id: string): Promise<Character | null> {
 	const result = await db.select().from(characters).where(eq(characters.id, id))
-	return result[0]
+	return result[0] ?? null
 }
 
 function getAllFromScenario(id: string): Promise<Character[]> {

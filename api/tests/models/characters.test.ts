@@ -2,67 +2,87 @@ import { CharactersModel } from '~models/CharactersModel'
 import { ScenariosModel } from '~models/ScenariosModel'
 
 describe('getAll', () => {
-	it('returns all scenarios', async () => {
-		const scenarios = await CharactersModel.getAll()
-		expect(scenarios).toBeInstanceOf(Array)
+	it('returns an array', async () => {
+		const characters = await CharactersModel.getAll()
+		expect(characters).toBeInstanceOf(Array)
 	})
 })
 
 describe('get', () => {
-	it('returns a scenario by id', async () => {
-		const allScenarios = await CharactersModel.getAll()
+	it('returns the character with the given id', async () => {
+		const characters = await CharactersModel.getAll()
 
-		const scenario = await CharactersModel.get(allScenarios[0].id)
+		const character = await CharactersModel.get(characters[0].id)
 
-		expect(scenario).toEqual(allScenarios[0])
+		expect(character).toEqual(characters[0])
 	})
 
-	it('throws an error if the id does not exist', async () => {
-		const result = CharactersModel.get('non-existent-id')
+	it('returns null if the character does not exist', async () => {
+		const result = await CharactersModel.get(crypto.randomUUID())
 
-		await expect(result).rejects.toThrow()
+		expect(result).toBeNull()
 	})
 })
 
 describe('getAllFromScenario', () => {
-	it('returns all characters from a scenario', async () => {
-		const allScenarios = await ScenariosModel.getAll()
-		const characters = await CharactersModel.getAllFromScenario(
-			allScenarios[0].id
-		)
+	it('returns an array', async () => {
+		const scenarios = await ScenariosModel.getAll()
+
+		const characters = await CharactersModel.getAllFromScenario(scenarios[0].id)
+
 		expect(characters).toBeInstanceOf(Array)
 	})
 })
 
 describe('hasBeenClicked', () => {
 	it('returns true if the coords are within the character bounds', async () => {
-		const allCharacters = await CharactersModel.getAll()
-		const character = allCharacters[0]
-		const x = Math.floor((character.minX + character.maxX) / 2)
-		const y = Math.floor((character.minY + character.maxY) / 2)
+		const { x, y, id } = await getIdWithValidCoordinates()
 
-		const result = await CharactersModel.hasBeenClicked(character.id, { x, y })
+		const result = await CharactersModel.hasBeenClicked(id, { x, y })
 
 		expect(result).toBe(true)
 	})
 
 	it('returns false if the coords are outside the character bounds', async () => {
-		const allCharacters = await CharactersModel.getAll()
-		const character = allCharacters[0]
-		const x = character.maxX + 10
-		const y = character.maxY + 10
+		const { x, y, id } = await getIdWithInvalidCoordinates()
 
-		const result = await CharactersModel.hasBeenClicked(character.id, { x, y })
+		const result = await CharactersModel.hasBeenClicked(id, { x, y })
 
 		expect(result).toBe(false)
 	})
 
-	it('throws an error if the character id does not exist', async () => {
-		const result = CharactersModel.hasBeenClicked('non-existent-id', {
+	it('returns false if the character does not exists', async () => {
+		const result = await CharactersModel.hasBeenClicked(crypto.randomUUID(), {
 			x: 0,
 			y: 0,
 		})
 
-		await expect(result).rejects.toThrow()
+		expect(result).toBe(false)
 	})
 })
+
+async function getIdWithValidCoordinates(): Promise<{
+	x: number
+	y: number
+	id: string
+}> {
+	const characters = await CharactersModel.getAll()
+	const character = characters[0]
+	const x = Math.floor((character.minX + character.maxX) / 2)
+	const y = Math.floor((character.minY + character.maxY) / 2)
+
+	return { x, y, id: character.id }
+}
+
+async function getIdWithInvalidCoordinates(): Promise<{
+	x: number
+	y: number
+	id: string
+}> {
+	const characters = await CharactersModel.getAll()
+	const character = characters[0]
+	const x = character.maxX + 10
+	const y = character.maxY + 10
+
+	return { x, y, id: character.id }
+}
