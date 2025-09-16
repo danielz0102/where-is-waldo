@@ -36,6 +36,8 @@ describe('GET /api/characters/:id', () => {
 
 		expect(response.body).toEqual({ error: 'Character not found' })
 	})
+
+	it.todo('responds with 400 if ID is not valid')
 })
 
 describe('GET /api/characters/:id/click', () => {
