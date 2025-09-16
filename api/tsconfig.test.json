@@ -2,6 +2,8 @@
 	"extends": "./tsconfig.app.json",
 	"compilerOptions": {
 		"types": ["vitest/globals"],
+		"module": "es2022",
+		"moduleResolution": "bundler",
 		"paths": {
 			"~controllers/*": ["src/controllers/*"],
 			"~models/*": ["src/models/*"],

@@ -1,2 +1,2 @@
-// biome-ignore lint/suspicious/noExplicitAny: This is a utility for mocking any async service
+// biome-ignore lint/suspicious/noExplicitAny: This is a generic async function type
 export type AsyncFunction = (...args: any[]) => Promise<any>
