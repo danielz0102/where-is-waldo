@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { ScenariosController } from '~controllers/scenarios.controller'
+import { ScenariosController } from '~controllers/ScenariosController'
 
 export const scenariosRouter = Router()
 

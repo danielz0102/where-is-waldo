@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express'
-import { ScenariosModel } from '~models/scenarios.model'
+import { ScenariosModel } from '~models/ScenariosModel'
 
 export const ScenariosController = {
 	getAll,

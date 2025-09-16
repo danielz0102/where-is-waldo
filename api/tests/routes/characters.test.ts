@@ -2,10 +2,10 @@ import request from 'supertest'
 import { app } from '~tests/app'
 import charactersCollection from '~tests/mocks/charactersCollection'
 
-vi.mock('~models/characters.model')
+vi.mock('~models/CharactersModel')
 
 beforeAll(async () => {
-	const { CharactersModel } = await import('~models/characters.model')
+	const { CharactersModel } = await import('~models/CharactersModel')
 	const CharactersModelMock = vi.mocked(CharactersModel)
 
 	CharactersModelMock.getAll.mockResolvedValue(charactersCollection)
@@ -35,7 +35,7 @@ describe('GET /api/characters/:id', () => {
 
 	it('responds with 404 if the character does not exist', async () => {
 		const id = 'non-existent-id'
-		const { CharactersModel } = await import('~models/characters.model')
+		const { CharactersModel } = await import('~models/CharactersModel')
 		const CharactersModelMock = vi.mocked(CharactersModel)
 		CharactersModelMock.get.mockResolvedValue(null)
 
@@ -60,7 +60,7 @@ describe('GET /api/characters/:id/click', () => {
 	})
 
 	it('responds false if the character has not been clicked', async () => {
-		const { CharactersModel } = await import('~models/characters.model')
+		const { CharactersModel } = await import('~models/CharactersModel')
 		const CharactersModelMock = vi.mocked(CharactersModel)
 		CharactersModelMock.hasBeenClicked.mockResolvedValue(false)
 

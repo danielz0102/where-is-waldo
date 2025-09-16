@@ -1,4 +1,4 @@
-import { ScenariosModel } from '~models/scenarios.model'
+import { ScenariosModel } from '~models/ScenariosModel'
 
 describe('getAll', () => {
 	it('returns all scenarios', async () => {

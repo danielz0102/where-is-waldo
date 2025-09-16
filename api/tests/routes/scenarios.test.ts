@@ -2,10 +2,10 @@ import request from 'supertest'
 import { app } from '~tests/app'
 import scenariosCollection from '~tests/mocks/scenariosCollection'
 
-vi.mock('~models/scenarios.model')
+vi.mock('~models/ScenariosModel')
 
 beforeAll(async () => {
-	const { ScenariosModel } = await import('~models/scenarios.model')
+	const { ScenariosModel } = await import('~models/ScenariosModel')
 	vi.mocked(ScenariosModel.getAll).mockResolvedValue(scenariosCollection)
 	vi.mocked(ScenariosModel.get).mockResolvedValue(scenariosCollection[0])
 })
@@ -28,7 +28,7 @@ describe('get', () => {
 	})
 
 	it('responds with an error if the scenario does not exist', async () => {
-		const { ScenariosModel } = await import('~models/scenarios.model')
+		const { ScenariosModel } = await import('~models/ScenariosModel')
 		vi.mocked(ScenariosModel.get).mockResolvedValueOnce(undefined)
 
 		const response = await request(app)

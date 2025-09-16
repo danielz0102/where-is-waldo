@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express'
-import { CharactersModel } from '~models/characters.model'
+import { CharactersModel } from '~models/CharactersModel'
 
 export const CharactersController = {
 	getAll,

@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { charactersRouter } from './characters.router'
-import { scenariosRouter } from './scenarios.router'
+import { charactersRouter } from './charactersRouter'
+import { scenariosRouter } from './scenariosRouter'
 
 export const indexRouter = Router()
 

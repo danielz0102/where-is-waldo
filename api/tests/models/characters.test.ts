@@ -1,5 +1,5 @@
-import { CharactersModel } from '~models/characters.model'
-import { ScenariosModel } from '~models/scenarios.model'
+import { CharactersModel } from '~models/CharactersModel'
+import { ScenariosModel } from '~models/ScenariosModel'
 
 describe('getAll', () => {
 	it('returns all scenarios', async () => {
