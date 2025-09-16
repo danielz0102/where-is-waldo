@@ -1,13 +1,16 @@
 import request from 'supertest'
 import { app } from '~tests/app'
 import scenariosCollection from '~tests/mocks/scenariosCollection'
+import { AsyncServiceMocker } from '~tests/utils/AsyncServiceMocker'
 
 vi.mock('~models/ScenariosModel')
 
+const { ScenariosModel } = await import('~models/ScenariosModel')
+const ScenariosModelMocker = new AsyncServiceMocker(ScenariosModel)
+
 describe('GET /api/scenarios', () => {
 	it('responds with all scenarios', async () => {
-		const { ScenariosModel } = await import('~models/ScenariosModel')
-		vi.mocked(ScenariosModel.getAll).mockResolvedValueOnce(scenariosCollection)
+		ScenariosModelMocker.mock('getAll', scenariosCollection)
 
 		const response = await request(app).get('/api/scenarios').expect(200)
 
@@ -17,8 +20,7 @@ describe('GET /api/scenarios', () => {
 
 describe('GET /api/scenarios/:id', () => {
 	it('responds with the scenario found', async () => {
-		const { ScenariosModel } = await import('~models/ScenariosModel')
-		vi.mocked(ScenariosModel.get).mockResolvedValueOnce(scenariosCollection[0])
+		ScenariosModelMocker.mock('get', scenariosCollection[0])
 
 		const response = await request(app).get('/api/scenarios/1').expect(200)
 
@@ -26,8 +28,7 @@ describe('GET /api/scenarios/:id', () => {
 	})
 
 	it('responds with an error if the scenario does not exist', async () => {
-		const { ScenariosModel } = await import('~models/ScenariosModel')
-		vi.mocked(ScenariosModel.get).mockResolvedValueOnce(null)
+		ScenariosModelMocker.mock('get', null)
 
 		const response = await request(app)
 			.get('/api/scenarios/unknown')

@@ -1,15 +1,16 @@
 import request from 'supertest'
 import { app } from '~tests/app'
 import charactersCollection from '~tests/mocks/charactersCollection'
+import { AsyncServiceMocker } from '~tests/utils/AsyncServiceMocker'
 
 vi.mock('~models/CharactersModel')
 
+const { CharactersModel } = await import('~models/CharactersModel')
+const CharactersModelMocker = new AsyncServiceMocker(CharactersModel)
+
 describe('GET /api/characters', () => {
 	it('responds with all characters', async () => {
-		const { CharactersModel } = await import('~models/CharactersModel')
-		vi.mocked(CharactersModel.getAll).mockResolvedValueOnce(
-			charactersCollection
-		)
+		CharactersModelMocker.mock('getAll', charactersCollection)
 
 		const response = await request(app).get('/api/characters').expect(200)
 
@@ -20,8 +21,7 @@ describe('GET /api/characters', () => {
 describe('GET /api/characters/:id', () => {
 	it('responds with the character with the given ID', async () => {
 		const character = charactersCollection[0]
-		const { CharactersModel } = await import('~models/CharactersModel')
-		vi.mocked(CharactersModel.get).mockResolvedValueOnce(character)
+		CharactersModelMocker.mock('get', character)
 
 		const response = await request(app).get('/api/characters/1').expect(200)
 
@@ -29,8 +29,7 @@ describe('GET /api/characters/:id', () => {
 	})
 
 	it('responds with 404 if the character does not exist', async () => {
-		const { CharactersModel } = await import('~models/CharactersModel')
-		vi.mocked(CharactersModel.get).mockResolvedValueOnce(null)
+		CharactersModelMocker.mock('get', null)
 
 		const response = await request(app)
 			.get('/api/characters/non-existent-id')
@@ -42,8 +41,7 @@ describe('GET /api/characters/:id', () => {
 
 describe('GET /api/characters/:id/click', () => {
 	it('responds true if the character has been clicked', async () => {
-		const { CharactersModel } = await import('~models/CharactersModel')
-		vi.mocked(CharactersModel.hasBeenClicked).mockResolvedValueOnce(true)
+		CharactersModelMocker.mock('hasBeenClicked', true)
 
 		const response = await request(app)
 			.get('/api/characters/1/click')
@@ -54,8 +52,7 @@ describe('GET /api/characters/:id/click', () => {
 	})
 
 	it('responds false if the character has not been clicked', async () => {
-		const { CharactersModel } = await import('~models/CharactersModel')
-		vi.mocked(CharactersModel.hasBeenClicked).mockResolvedValueOnce(false)
+		CharactersModelMocker.mock('hasBeenClicked', false)
 
 		const response = await request(app)
 			.get('/api/characters/1/click')
@@ -64,4 +61,6 @@ describe('GET /api/characters/:id/click', () => {
 
 		expect(response.body).toEqual(false)
 	})
+
+	it.todo('responds with 400 if x or y query params are missing')
 })
