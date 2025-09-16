@@ -22,6 +22,8 @@ describe('get', () => {
 
 		expect(result).toBeNull()
 	})
+
+	it.todo('returns null if the uuid is not valid')
 })
 
 describe('getAllFromScenario', () => {
@@ -59,6 +61,8 @@ describe('hasBeenClicked', () => {
 
 		expect(result).toBe(false)
 	})
+
+	it.todo('returns false if the uuid is not valid')
 })
 
 async function getIdWithValidCoordinates(): Promise<{

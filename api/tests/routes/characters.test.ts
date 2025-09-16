@@ -36,8 +36,6 @@ describe('GET /api/characters/:id', () => {
 
 		expect(response.body).toEqual({ error: 'Character not found' })
 	})
-
-	it.todo('responds with 400 if ID is not valid')
 })
 
 describe('GET /api/characters/:id/click', () => {
@@ -63,5 +61,7 @@ describe('GET /api/characters/:id/click', () => {
 		expect(response.body).toEqual(false)
 	})
 
-	it.todo('responds with 400 if x or y query params are missing')
+	it('responds with 400 if x or y query params are missing', () => {
+		return request(app).get('/api/characters/1/click').expect(400)
+	})
 })
