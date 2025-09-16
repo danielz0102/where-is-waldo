@@ -56,4 +56,13 @@ describe('hasBeenClicked', () => {
 
 		expect(result).toBe(false)
 	})
+
+	it('throws an error if the character id does not exist', async () => {
+		const result = CharactersModel.hasBeenClicked('non-existent-id', {
+			x: 0,
+			y: 0,
+		})
+
+		await expect(result).rejects.toThrow()
+	})
 })
