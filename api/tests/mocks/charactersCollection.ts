@@ -2,7 +2,7 @@ import type { Character } from '~/db/schema'
 
 const collection: Character[] = [
 	{
-		id: '1',
+		id: crypto.randomUUID(),
 		name: 'Waldo',
 		maxX: 100,
 		maxY: 200,
@@ -11,7 +11,7 @@ const collection: Character[] = [
 		scenarioId: '1',
 	},
 	{
-		id: '2',
+		id: crypto.randomUUID(),
 		name: 'Wenda',
 		maxX: 150,
 		maxY: 250,
@@ -20,7 +20,7 @@ const collection: Character[] = [
 		scenarioId: '1',
 	},
 	{
-		id: '3',
+		id: crypto.randomUUID(),
 		name: 'Waldo',
 		maxX: 100,
 		maxY: 200,
@@ -29,7 +29,7 @@ const collection: Character[] = [
 		scenarioId: '2',
 	},
 	{
-		id: '4',
+		id: crypto.randomUUID(),
 		name: 'Wenda',
 		maxX: 150,
 		maxY: 250,

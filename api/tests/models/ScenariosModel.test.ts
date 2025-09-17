@@ -21,4 +21,10 @@ describe('get', () => {
 
 		expect(result).toBeNull()
 	})
+
+	it('returns null if the id is not valid', async () => {
+		const result = await ScenariosModel.get('not-a-uuid')
+
+		expect(result).toBeNull()
+	})
 })

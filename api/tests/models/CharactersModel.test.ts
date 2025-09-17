@@ -23,7 +23,11 @@ describe('get', () => {
 		expect(result).toBeNull()
 	})
 
-	it.todo('returns null if the uuid is not valid')
+	it('returns null if the uuid is not valid', async () => {
+		const result = await CharactersModel.get('not-a-uuid')
+
+		expect(result).toBeNull()
+	})
 })
 
 describe('getAllFromScenario', () => {
@@ -62,7 +66,14 @@ describe('hasBeenClicked', () => {
 		expect(result).toBe(false)
 	})
 
-	it.todo('returns false if the uuid is not valid')
+	it('returns false if the uuid is not valid', async () => {
+		const result = await CharactersModel.hasBeenClicked('not-a-uuid', {
+			x: 0,
+			y: 0,
+		})
+
+		expect(result).toBe(false)
+	})
 })
 
 async function getIdWithValidCoordinates(): Promise<{
