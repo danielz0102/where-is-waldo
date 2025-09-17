@@ -7,6 +7,13 @@ export default function Scenario() {
 	const [clickData, setClickData] = useState({ show: false, x: 0, y: 0 })
 
 	const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+		const canvas = event.currentTarget
+		const rect = canvas.getBoundingClientRect()
+		const x = ((event.clientX - rect.left) / rect.width) * 100
+		const y = ((event.clientY - rect.top) / rect.height) * 100
+
+		console.log({ x, y })
+
 		setClickData(({ show }) => ({
 			show: !show,
 			x: event.clientX,
@@ -20,20 +27,17 @@ export default function Scenario() {
 				role="img"
 				aria-label="Where's Waldo scenario"
 				onClick={handleClick}
-				width={800}
-				height={600}
+				className="mx-auto size-full cursor-crosshair bg-cover"
 				style={{
 					backgroundImage: `url(${waldoImage})`,
-					backgroundSize: 'cover',
-					cursor: 'crosshair',
 				}}
 			/>
 			{clickData.show && (
 				<>
-					<CanvasItem x={clickData.x + 40} y={clickData.y - 85}>
+					<CanvasItem x={clickData.x + 100} y={clickData.y}>
 						<TargetsMenu />
 					</CanvasItem>
-					<CanvasItem x={clickData.x - 30} y={clickData.y - 30}>
+					<CanvasItem x={clickData.x} y={clickData.y}>
 						<TargetBox />
 					</CanvasItem>
 				</>
@@ -50,7 +54,10 @@ interface CanvasItemProps {
 
 function CanvasItem({ x, y, children }: CanvasItemProps) {
 	return (
-		<div style={{ position: 'absolute', top: `${y}px`, left: `${x}px` }}>
+		<div
+			style={{ position: 'absolute', top: `${y}px`, left: `${x}px` }}
+			className="-translate-x-1/2 -translate-y-1/2 transform"
+		>
 			{children}
 		</div>
 	)
