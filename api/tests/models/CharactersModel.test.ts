@@ -1,3 +1,4 @@
+import type { Character } from '~/db/schema'
 import { CharactersModel } from '~models/CharactersModel'
 import { ScenariosModel } from '~models/ScenariosModel'
 
@@ -42,17 +43,21 @@ describe('getAllFromScenario', () => {
 
 describe('hasBeenClicked', () => {
 	it('returns true if the coords are within the character bounds', async () => {
-		const { x, y, id } = await getIdWithValidCoordinates()
+		const character = await getFirstCharacter()
+		const x = Math.floor((character.minX + character.maxX) / 2)
+		const y = Math.floor((character.minY + character.maxY) / 2)
 
-		const result = await CharactersModel.hasBeenClicked(id, { x, y })
+		const result = await CharactersModel.hasBeenClicked(character.id, { x, y })
 
 		expect(result).toBe(true)
 	})
 
 	it('returns false if the coords are outside the character bounds', async () => {
-		const { x, y, id } = await getIdWithInvalidCoordinates()
+		const character = await getFirstCharacter()
+		const x = character.maxX + 10
+		const y = character.maxY + 10
 
-		const result = await CharactersModel.hasBeenClicked(id, { x, y })
+		const result = await CharactersModel.hasBeenClicked(character.id, { x, y })
 
 		expect(result).toBe(false)
 	})
@@ -76,28 +81,7 @@ describe('hasBeenClicked', () => {
 	})
 })
 
-async function getIdWithValidCoordinates(): Promise<{
-	x: number
-	y: number
-	id: string
-}> {
+async function getFirstCharacter(): Promise<Character> {
 	const characters = await CharactersModel.getAll()
-	const character = characters[0]
-	const x = Math.floor((character.minX + character.maxX) / 2)
-	const y = Math.floor((character.minY + character.maxY) / 2)
-
-	return { x, y, id: character.id }
-}
-
-async function getIdWithInvalidCoordinates(): Promise<{
-	x: number
-	y: number
-	id: string
-}> {
-	const characters = await CharactersModel.getAll()
-	const character = characters[0]
-	const x = character.maxX + 10
-	const y = character.maxY + 10
-
-	return { x, y, id: character.id }
+	return characters[0]
 }
