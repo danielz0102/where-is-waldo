@@ -8,7 +8,7 @@
 		"dev": "tsx --watch --tsconfig ./tsconfig.app.json src/app.ts",
 		"test": "NODE_ENV=testing vitest",
 		"check": "tsc --noEmit --project tsconfig.app.json",
-		"db:push": "drizzle-kit push",
+		"db": "drizzle-kit",
 		"seed:test": "NODE_ENV=testing tsx --tsconfig ./tsconfig.app.json tests/seed.ts"
 	},
 	"keywords": [],
