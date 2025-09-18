@@ -4,6 +4,7 @@ const collection: Character[] = [
 	{
 		id: crypto.randomUUID(),
 		name: 'Waldo',
+		imgUrl: 'https://waldo.com/waldo.png',
 		maxX: 100,
 		maxY: 200,
 		minX: 50,
@@ -13,6 +14,7 @@ const collection: Character[] = [
 	{
 		id: crypto.randomUUID(),
 		name: 'Wenda',
+		imgUrl: 'https://waldo.com/wenda.png',
 		maxX: 150,
 		maxY: 250,
 		minX: 100,
@@ -22,6 +24,7 @@ const collection: Character[] = [
 	{
 		id: crypto.randomUUID(),
 		name: 'Waldo',
+		imgUrl: 'https://waldo.com/waldo.png',
 		maxX: 100,
 		maxY: 200,
 		minX: 50,
@@ -31,6 +34,7 @@ const collection: Character[] = [
 	{
 		id: crypto.randomUUID(),
 		name: 'Wenda',
+		imgUrl: 'https://waldo.com/wenda.png',
 		maxX: 150,
 		maxY: 250,
 		minX: 100,

@@ -10,6 +10,7 @@ export const scenarios = pgTable('scenarios', {
 export const characters = pgTable('characters', {
 	id: uuid().primaryKey().defaultRandom(),
 	name: varchar({ length: 255 }).notNull(),
+	imgUrl: varchar({ length: 255 }).notNull(),
 	maxX: real().notNull(),
 	minX: real().notNull(),
 	maxY: real().notNull(),
