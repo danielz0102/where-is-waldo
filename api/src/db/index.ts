@@ -1,4 +1,4 @@
 import { drizzle } from 'drizzle-orm/node-postgres'
-import config from '~/config'
+import { DB_URL } from '~/config'
 
-export default drizzle(config.dbUrl)
+export default drizzle(DB_URL)

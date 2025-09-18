@@ -6,12 +6,20 @@ dotenv.config({ quiet: true })
 const envSchema = z
 	.enum(['development', 'production', 'testing'])
 	.default('development')
+
 const configSchema = z.object({
-	port: z.coerce.number().default(3000),
-	nodeEnv: envSchema,
-	dbUrl: z.url(),
+	PORT: z.coerce.number().default(3000),
+	NODE_ENV: envSchema,
+	DB_URL: z.url(),
 })
+
 const nodeEnv = envSchema.parse(process.env.NODE_ENV)
+
+export const { PORT, DB_URL, NODE_ENV } = configSchema.parse({
+	PORT: process.env.PORT,
+	NODE_ENV: nodeEnv,
+	DB_URL: getDbUrl(nodeEnv),
+})
 
 function getDbUrl(env: z.infer<typeof envSchema>) {
 	if (env === 'development') return process.env.DEV_DB_URL
@@ -19,9 +27,3 @@ function getDbUrl(env: z.infer<typeof envSchema>) {
 
 	return process.env.PROD_DB_URL
 }
-
-export default configSchema.parse({
-	port: process.env.PORT,
-	nodeEnv,
-	dbUrl: getDbUrl(nodeEnv),
-})
