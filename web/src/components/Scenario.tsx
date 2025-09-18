@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import waldoImage from '~assets/whereswaldo.jpg'
+import type { Scenario as ScenarioObj } from '~/type'
 import TargetBox from './TargetBox'
 import TargetsMenu from './TargetsMenu'
 
-export default function Scenario() {
+export default function Scenario({ data }: { data: ScenarioObj }) {
 	const [clickData, setClickData] = useState({ show: false, x: 0, y: 0 })
 
 	const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
@@ -29,7 +29,7 @@ export default function Scenario() {
 				onClick={handleClick}
 				className="mx-auto size-full cursor-crosshair bg-cover"
 				style={{
-					backgroundImage: `url(${waldoImage})`,
+					backgroundImage: `url(${data.imageUrl})`,
 				}}
 			/>
 			{clickData.show && (
