@@ -1,9 +1,11 @@
+import cors from 'cors'
 import express from 'express'
-import { PORT } from './config'
+import { CLIENT_URL, PORT } from './config'
 import { indexRouter } from './routers'
 
 const app = express()
 app.use(express.json())
+app.use(cors({ origin: CLIENT_URL }))
 
 app.use(indexRouter)
 
