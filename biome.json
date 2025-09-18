@@ -17,7 +17,6 @@
 		"rules": {
 			"recommended": true,
 			"correctness": {
-				"noUndeclaredDependencies": "error",
 				"noUndeclaredVariables": "error"
 			}
 		}

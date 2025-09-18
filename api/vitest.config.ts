@@ -1,4 +1,3 @@
-// biome-ignore lint/correctness/noUndeclaredDependencies: vitest is declared in the root package.json
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
