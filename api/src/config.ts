@@ -11,16 +11,16 @@ const configSchema = z.object({
 	PORT: z.coerce.number().default(3000),
 	NODE_ENV: envSchema,
 	DB_URL: z.url(),
-	CLIENT_URL: z.url(),
+	CLIENT_ORIGIN: z.string().optional(),
 })
 
 const nodeEnv = envSchema.parse(process.env.NODE_ENV)
 
-export const { PORT, DB_URL, NODE_ENV, CLIENT_URL } = configSchema.parse({
+export const { PORT, DB_URL, NODE_ENV, CLIENT_ORIGIN } = configSchema.parse({
 	PORT: process.env.PORT,
 	NODE_ENV: nodeEnv,
 	DB_URL: getDbUrl(nodeEnv),
-	CLIENT_URL: process.env.CLIENT_URL,
+	CLIENT_ORIGIN: getClientUrl(nodeEnv),
 })
 
 function getDbUrl(env: z.infer<typeof envSchema>) {
@@ -28,4 +28,10 @@ function getDbUrl(env: z.infer<typeof envSchema>) {
 	if (env === 'testing') return process.env.TEST_DB_URL
 
 	return process.env.PROD_DB_URL
+}
+
+function getClientUrl(env: z.infer<typeof envSchema>) {
+	if (env === 'production') return process.env.CLIENT_ORIGIN
+
+	return '*'
 }
