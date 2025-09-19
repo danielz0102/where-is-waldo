@@ -9,6 +9,9 @@ export default function Scenario({
 }: {
 	data: ScenarioObj & { characters: Character[] }
 }) {
+	const [activeCharacters, setActiveCharacters] = useState<Character[]>(
+		data.characters
+	)
 	const [clickData, setClickData] = useState({
 		show: false,
 		x: 0,
@@ -32,7 +35,7 @@ export default function Scenario({
 		}))
 	}
 
-	const selectCharacter = async (character: Character) => {
+	const handleSelection = async (character: Character) => {
 		setClickData((data) => ({ ...data, show: false }))
 
 		const isCorrect = await checkClick({
@@ -41,7 +44,11 @@ export default function Scenario({
 			y: clickData.normalizedY,
 		})
 
-		console.log({ isCorrect })
+		if (isCorrect) {
+			setActiveCharacters((chars) => {
+				return chars.filter((c) => c.id !== character.id)
+			})
+		}
 	}
 
 	return (
@@ -59,8 +66,8 @@ export default function Scenario({
 				<>
 					<CanvasItem x={clickData.x + 100} y={clickData.y}>
 						<TargetsMenu
-							characters={data.characters}
-							onCharacterSelected={selectCharacter}
+							characters={activeCharacters}
+							onCharacterSelected={handleSelection}
 						/>
 					</CanvasItem>
 					<CanvasItem x={clickData.x} y={clickData.y}>
