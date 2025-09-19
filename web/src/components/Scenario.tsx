@@ -1,9 +1,13 @@
 import { useState } from 'react'
-import type { Scenario as ScenarioObj } from '~/type'
+import type { Character, Scenario as ScenarioObj } from '~/types'
 import TargetBox from './TargetBox'
 import TargetsMenu from './TargetsMenu'
 
-export default function Scenario({ data }: { data: ScenarioObj }) {
+export default function Scenario({
+	data,
+}: {
+	data: ScenarioObj & { characters: Character[] }
+}) {
 	const [clickData, setClickData] = useState({ show: false, x: 0, y: 0 })
 
 	const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
@@ -29,13 +33,13 @@ export default function Scenario({ data }: { data: ScenarioObj }) {
 				onClick={handleClick}
 				className="mx-auto size-full cursor-crosshair bg-cover"
 				style={{
-					backgroundImage: `url(${data.imageUrl})`,
+					backgroundImage: `url(${data.imgUrl})`,
 				}}
 			/>
 			{clickData.show && (
 				<>
 					<CanvasItem x={clickData.x + 100} y={clickData.y}>
-						<TargetsMenu />
+						<TargetsMenu characters={data.characters} />
 					</CanvasItem>
 					<CanvasItem x={clickData.x} y={clickData.y}>
 						<TargetBox />
