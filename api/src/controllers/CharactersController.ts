@@ -7,8 +7,19 @@ export const CharactersController = {
 	checkClick,
 }
 
-async function getAll(_: Request, res: Response) {
-	const characters = await CharactersModel.getAll()
+async function getAll(
+	req: Request<unknown, unknown, unknown, { scenarioId?: string }>,
+	res: Response
+) {
+	const { scenarioId } = req.query
+
+	const characters = await (() => {
+		if (scenarioId) {
+			return CharactersModel.getAllFromScenario(scenarioId)
+		}
+		return CharactersModel.getAll()
+	})()
+
 	res.json(characters)
 }
 

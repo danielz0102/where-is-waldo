@@ -15,6 +15,20 @@ describe('GET /api/characters', () => {
 
 		expect(response.body).toEqual(charactersCollection)
 	})
+
+	it('responds with all characters from the scenario passed', async () => {
+		const scenarioId = '1'
+		const characters = charactersCollection.filter(
+			(c) => c.scenarioId === scenarioId
+		)
+		CharactersModelMock.getAllFromScenario.mockResolvedValueOnce(characters)
+
+		const response = await request(app)
+			.get(`/api/characters?scenarioId=${scenarioId}`)
+			.expect(200)
+
+		expect(response.body).toEqual(characters)
+	})
 })
 
 describe('GET /api/characters/:id', () => {

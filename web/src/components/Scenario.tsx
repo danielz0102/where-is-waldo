@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { Character, Scenario as ScenarioObj } from '~/types'
+import { checkClick } from '~services/checkClick'
 import TargetBox from './TargetBox'
 import TargetsMenu from './TargetsMenu'
 
@@ -8,21 +9,39 @@ export default function Scenario({
 }: {
 	data: ScenarioObj & { characters: Character[] }
 }) {
-	const [clickData, setClickData] = useState({ show: false, x: 0, y: 0 })
+	const [clickData, setClickData] = useState({
+		show: false,
+		x: 0,
+		y: 0,
+		normalizedX: 0,
+		normalizedY: 0,
+	})
 
 	const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
 		const canvas = event.currentTarget
 		const rect = canvas.getBoundingClientRect()
-		const x = ((event.clientX - rect.left) / rect.width) * 100
-		const y = ((event.clientY - rect.top) / rect.height) * 100
-
-		console.log({ x, y })
+		const normalizedX = ((event.clientX - rect.left) / rect.width) * 100
+		const normalizedY = ((event.clientY - rect.top) / rect.height) * 100
 
 		setClickData(({ show }) => ({
 			show: !show,
 			x: event.clientX,
 			y: event.clientY,
+			normalizedX,
+			normalizedY,
 		}))
+	}
+
+	const selectCharacter = async (character: Character) => {
+		setClickData((data) => ({ ...data, show: false }))
+
+		const isCorrect = await checkClick({
+			id: character.id,
+			x: clickData.normalizedX,
+			y: clickData.normalizedY,
+		})
+
+		console.log({ isCorrect })
 	}
 
 	return (
@@ -39,7 +58,10 @@ export default function Scenario({
 			{clickData.show && (
 				<>
 					<CanvasItem x={clickData.x + 100} y={clickData.y}>
-						<TargetsMenu characters={data.characters} />
+						<TargetsMenu
+							characters={data.characters}
+							onCharacterSelected={selectCharacter}
+						/>
 					</CanvasItem>
 					<CanvasItem x={clickData.x} y={clickData.y}>
 						<TargetBox />

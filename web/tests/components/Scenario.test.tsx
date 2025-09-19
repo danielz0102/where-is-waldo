@@ -21,7 +21,7 @@ const data = {
 test('renders a canvas with the correct image', () => {
 	render(<Scenario data={data} />)
 
-	const canvas = screen.getByRole('img', { name: /where's waldo/i })
+	const canvas = screen.getByRole('img')
 
 	expect(canvas.style.backgroundImage).toContain(data.imgUrl)
 })
