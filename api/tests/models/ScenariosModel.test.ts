@@ -8,22 +8,22 @@ describe('getAll', () => {
 })
 
 describe('get', () => {
-	it('returns a scenario by id', async () => {
+	it('returns the scenario found by the filters', async () => {
 		const scenarios = await ScenariosModel.getAll()
 
-		const scenario = await ScenariosModel.get(scenarios[0].id)
+		const scenario = await ScenariosModel.get({
+			id: scenarios[0].id,
+			name: scenarios[0].name,
+		})
 
 		expect(scenario).toEqual(scenarios[0])
 	})
 
 	it('returns null if the scenario does not exists', async () => {
-		const result = await ScenariosModel.get(crypto.randomUUID())
-
-		expect(result).toBeNull()
-	})
-
-	it('returns null if the id is not valid', async () => {
-		const result = await ScenariosModel.get('not-a-uuid')
+		const result = await ScenariosModel.get({
+			name: 'non-existing-scenario',
+			id: crypto.randomUUID(),
+		})
 
 		expect(result).toBeNull()
 	})

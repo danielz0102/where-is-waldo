@@ -1,7 +1,6 @@
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import db from '~/db'
 import { type Scenario, scenarios } from '~/db/schema'
-import { uuidIsValid } from '~/lib/uuidIsValid'
 
 export const ScenariosModel = {
 	getAll,
@@ -12,11 +11,22 @@ function getAll(): Promise<Scenario[]> {
 	return db.select().from(scenarios)
 }
 
-async function get(id: string): Promise<Scenario | null> {
-	if (!uuidIsValid(id)) {
-		return null
+async function get(
+	filters: {
+		[K in keyof Scenario]?: Scenario[K]
 	}
+): Promise<Scenario | null> {
+	const entries = Object.entries(filters) as Array<
+		[keyof Scenario, Scenario[keyof Scenario]]
+	>
 
-	const result = await db.select().from(scenarios).where(eq(scenarios.id, id))
+	const equalStatements = entries.map(([key, value]) =>
+		eq(scenarios[key], value)
+	)
+
+	const result = await db
+		.select()
+		.from(scenarios)
+		.where(and(...equalStatements))
 	return result[0] ?? null
 }
