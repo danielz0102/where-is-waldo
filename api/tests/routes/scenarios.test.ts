@@ -7,6 +7,10 @@ vi.mock('~models/ScenariosModel')
 
 const ScenariosModelMock = vi.mocked(ScenariosModel)
 
+beforeEach(() => {
+	vi.clearAllMocks()
+})
+
 describe('GET /api/scenarios', () => {
 	it('responds with all scenarios', async () => {
 		ScenariosModelMock.get.mockResolvedValueOnce(scenariosCollection)
@@ -14,6 +18,29 @@ describe('GET /api/scenarios', () => {
 		const response = await request(app).get('/api/scenarios').expect(200)
 
 		expect(response.body).toEqual(scenariosCollection)
+	})
+
+	it('allows get by name', async () => {
+		ScenariosModelMock.get.mockResolvedValueOnce([scenariosCollection[1]])
+
+		const response = await request(app)
+			.get('/api/scenarios')
+			.query({ name: 'Beach' })
+			.expect(200)
+
+		expect(ScenariosModelMock.get).toHaveBeenCalledWith({ name: 'Beach' })
+		expect(response.body).toEqual([scenariosCollection[1]])
+	})
+
+	it('ignores unknown query params', async () => {
+		ScenariosModelMock.get.mockResolvedValueOnce(scenariosCollection)
+
+		await request(app)
+			.get('/api/scenarios')
+			.query({ unknown: 'value' })
+			.expect(200)
+
+		expect(ScenariosModelMock.get).toHaveBeenCalledWith({})
 	})
 })
 

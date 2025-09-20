@@ -6,8 +6,9 @@ export const ScenariosController = {
 	get,
 }
 
-async function getAll(_: Request, res: Response) {
-	const scenarios = await ScenariosModel.get()
+async function getAll(req: Request, res: Response) {
+	const filters = req.query.name ? { name: String(req.query.name) } : {}
+	const scenarios = await ScenariosModel.get(filters)
 	res.json(scenarios)
 }
 
