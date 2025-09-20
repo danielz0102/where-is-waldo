@@ -8,7 +8,7 @@ interface CanvasItemProps {
 export default function CanvasItem({
 	x,
 	y,
-	show = true,
+	show = false,
 	children,
 }: CanvasItemProps) {
 	if (!show) return null
