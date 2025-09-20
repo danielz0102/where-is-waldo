@@ -33,7 +33,7 @@ describe('get', () => {
 
 describe('getAllFromScenario', () => {
 	it('returns an array', async () => {
-		const scenarios = await ScenariosModel.getAll()
+		const scenarios = await ScenariosModel.get()
 
 		const characters = await CharactersModel.getAllFromScenario(scenarios[0].id)
 

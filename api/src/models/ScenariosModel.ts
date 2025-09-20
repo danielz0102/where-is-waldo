@@ -3,19 +3,19 @@ import db from '~/db'
 import { type Scenario, scenarios } from '~/db/schema'
 
 export const ScenariosModel = {
-	getAll,
 	get,
 }
 
-function getAll(): Promise<Scenario[]> {
-	return db.select().from(scenarios)
-}
-
 async function get(
-	filters: {
+	filters?: {
 		[K in keyof Scenario]?: Scenario[K]
 	}
-): Promise<Scenario | null> {
+): Promise<Scenario[]> {
+	if (!filters || Object.keys(filters).length === 0) {
+		const allScenarios = await db.select().from(scenarios)
+		return allScenarios
+	}
+
 	const entries = Object.entries(filters) as Array<
 		[keyof Scenario, Scenario[keyof Scenario]]
 	>
@@ -28,5 +28,6 @@ async function get(
 		.select()
 		.from(scenarios)
 		.where(and(...equalStatements))
-	return result[0] ?? null
+
+	return result
 }

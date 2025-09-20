@@ -9,7 +9,7 @@ const ScenariosModelMock = vi.mocked(ScenariosModel)
 
 describe('GET /api/scenarios', () => {
 	it('responds with all scenarios', async () => {
-		ScenariosModelMock.getAll.mockResolvedValueOnce(scenariosCollection)
+		ScenariosModelMock.get.mockResolvedValueOnce(scenariosCollection)
 
 		const response = await request(app).get('/api/scenarios').expect(200)
 
@@ -19,7 +19,7 @@ describe('GET /api/scenarios', () => {
 
 describe('GET /api/scenarios/:id', () => {
 	it('responds with the scenario found', async () => {
-		ScenariosModelMock.get.mockResolvedValueOnce(scenariosCollection[0])
+		ScenariosModelMock.get.mockResolvedValueOnce([scenariosCollection[0]])
 
 		const response = await request(app).get('/api/scenarios/1').expect(200)
 
@@ -27,7 +27,7 @@ describe('GET /api/scenarios/:id', () => {
 	})
 
 	it('responds with an error if the scenario does not exist', async () => {
-		ScenariosModelMock.get.mockResolvedValueOnce(null)
+		ScenariosModelMock.get.mockResolvedValueOnce([])
 
 		const response = await request(app)
 			.get('/api/scenarios/unknown')
