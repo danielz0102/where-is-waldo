@@ -11,7 +11,7 @@ type ClickEvent = React.MouseEvent<HTMLCanvasElement> | null
 export default function Level() {
 	const [clickEvent, setClickEvent] = useState<ClickEvent>(null)
 	const { x, y, toggle } = useCanvasClick(clickEvent)
-	const { data, isLoading } = useScenario('main')
+	const { data, isLoading } = useScenario('Beach')
 
 	if (isLoading) {
 		return <div>Loading...</div>
