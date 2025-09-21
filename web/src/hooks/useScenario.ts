@@ -1,21 +1,20 @@
 import { useQuery } from '@tanstack/react-query'
-import { getAllScenarios } from '~services/getAllScenarios'
-import { getCharactersFromScenario } from '~services/getCharactersFromScenario'
+import { getByScenario } from '~services/CharactersService'
+import { getByName } from '~services/ScenariosService'
 
 export function useScenario(name: string) {
 	return useQuery({
 		queryKey: ['scenario'],
 		queryFn: async () => {
-			const scenarios = await getAllScenarios()
-			const mainScenario = scenarios.find((s) => s.name === name)
+			const scenario = await getByName(name)
 
-			if (!mainScenario) {
-				throw new Error('Main scenario not found')
+			if (!scenario) {
+				throw new Error(`${name} scenario not found`)
 			}
 
-			const characters = await getCharactersFromScenario(mainScenario.id)
+			const characters = await getByScenario(scenario.id)
 
-			return { ...mainScenario, characters }
+			return { ...scenario, characters }
 		},
 		refetchOnWindowFocus: false,
 	})
