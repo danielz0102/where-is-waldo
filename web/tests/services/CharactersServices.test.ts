@@ -1,8 +1,8 @@
 import { HttpResponse, http } from 'msw'
 import { API_URL } from '~/config'
 import { checkClick, getByScenario } from '~services/CharactersService'
-import characters from '../mocks/characters'
-import { server } from '../mocks/node'
+import characters from '~tests/mocks/characters'
+import { server } from '~tests/mocks/node'
 
 describe('checkClick', () => {
 	it('returns true when the API responds true', async () => {
