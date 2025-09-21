@@ -10,3 +10,12 @@ test('renders a button for each character passed', () => {
 
 	expect(buttons).toHaveLength(characters.length)
 })
+
+test('the buttons has a character name and image', () => {
+	render(<TargetsMenu characters={characters} />)
+
+	characters.forEach((c) => {
+		expect(screen.queryByText(c.name)).toBeVisible()
+		expect(screen.getByAltText(c.name)).toHaveAttribute('src', c.imgUrl)
+	})
+})
