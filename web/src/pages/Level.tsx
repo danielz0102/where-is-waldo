@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useCanvasClick } from '~/hooks/useCanvasClick'
 import { useScenario } from '~/hooks/useScenario'
+import type { Character } from '~/types'
 import CanvasItem from '~components/CanvasItem'
 import Scenario from '~components/Scenario'
 import TargetBox from '~components/TargetBox'
@@ -12,6 +13,17 @@ export default function Level() {
 	const [clickEvent, setClickEvent] = useState<ClickEvent>(null)
 	const { x, y, toggle } = useCanvasClick(clickEvent)
 	const { data, isLoading } = useScenario('Beach')
+	const [activeCharacters, setActiveCharacters] = useState<Character[]>([])
+
+	useEffect(() => {
+		if (data?.characters) {
+			setActiveCharacters(data.characters)
+		}
+	}, [data])
+
+	const handleCharacterSelection = (character: Character) => {
+		console.log({ selected: character })
+	}
 
 	if (isLoading) {
 		return <div>Loading...</div>
@@ -25,7 +37,10 @@ export default function Level() {
 					<TargetBox />
 				</CanvasItem>
 				<CanvasItem x={x + 100} y={y} show={toggle}>
-					<TargetsMenu characters={data.characters} />
+					<TargetsMenu
+						characters={activeCharacters}
+						onSelection={handleCharacterSelection}
+					/>
 				</CanvasItem>
 			</>
 		)
