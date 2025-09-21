@@ -1,37 +1,20 @@
-import { useState } from 'react'
-import { useCanvasClick } from '~/hooks/useCanvasClick'
-import type { Character, Scenario as ScenarioType } from '~/types'
-import CanvasItem from './CanvasItem'
-import TargetBox from './TargetBox'
-import TargetsMenu from './TargetsMenu'
+import type { Scenario as ScenarioType } from '~/types'
 
 interface ScenarioProps {
-	data: ScenarioType & { characters: Character[] }
+	data: ScenarioType
+	onClick: (e: React.MouseEvent<HTMLCanvasElement>) => void
 }
 
-export default function Scenario({ data }: ScenarioProps) {
-	const [clickEvent, setClickEvent] =
-		useState<React.MouseEvent<HTMLCanvasElement> | null>(null)
-
-	const { x, y, toggle } = useCanvasClick(clickEvent)
-
+export default function Scenario({ data, onClick }: ScenarioProps) {
 	return (
-		<>
-			<canvas
-				role="img"
-				aria-label="Where's Waldo scenario"
-				onClick={(e) => setClickEvent(e)}
-				className="mx-auto size-full cursor-crosshair bg-cover"
-				style={{
-					backgroundImage: `url(${data.imgUrl})`,
-				}}
-			/>
-			<CanvasItem x={x} y={y} show={toggle}>
-				<TargetBox />
-			</CanvasItem>
-			<CanvasItem x={x + 100} y={y} show={toggle}>
-				<TargetsMenu characters={data.characters} />
-			</CanvasItem>
-		</>
+		<canvas
+			role="img"
+			aria-label={data.name}
+			className="mx-auto size-full cursor-crosshair bg-cover"
+			onClick={onClick}
+			style={{
+				backgroundImage: `url(${data.imgUrl})`,
+			}}
+		/>
 	)
 }
