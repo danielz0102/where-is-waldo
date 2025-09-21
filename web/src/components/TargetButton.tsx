@@ -1,15 +1,7 @@
 import type { Character } from '~/types'
 
-export default function TargetButton({
-	character,
-	onClick,
-}: {
-	character: Character
-	onClick: () => void
-}) {
-	const handleClick = () => {
-		onClick()
-	}
+export default function TargetButton({ character }: { character: Character }) {
+	const handleClick = () => {}
 
 	return (
 		<button
@@ -20,7 +12,7 @@ export default function TargetButton({
 			<img
 				className="size-10 object-cover object-top"
 				src={character.imgUrl}
-				alt=""
+				alt={character.name}
 			/>
 			{character.name}
 		</button>
