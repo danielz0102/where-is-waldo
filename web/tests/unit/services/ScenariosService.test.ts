@@ -13,7 +13,7 @@ describe('getAll', () => {
 
 	it('throws an error when the API fails', async () => {
 		server.use(
-			http.get(`${API_URL}/api/scenarios/`, () => {
+			http.get(`${API_URL}/api/scenarios`, () => {
 				return HttpResponse.json(
 					{ message: 'Internal Server Error' },
 					{ status: 500 }

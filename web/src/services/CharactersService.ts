@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { API_URL } from '~/config'
+import { apiClient } from '~/api/apiClient'
 import type { Character } from '~/types'
 
 export async function checkClick({
@@ -11,16 +10,16 @@ export async function checkClick({
 	x: number
 	y: number
 }): Promise<boolean> {
-	const { data } = await axios.get<boolean>(
-		`${API_URL}/api/characters/${id}/click?x=${x}&y=${y}`
+	const { data } = await apiClient.get<boolean>(
+		`characters/${id}/click?x=${x}&y=${y}`
 	)
 
 	return data
 }
 
 export async function getByScenario(id: string): Promise<Character[]> {
-	const { data } = await axios.get<Character[]>(
-		`${API_URL}/api/characters?scenarioId=${id}`
+	const { data } = await apiClient.get<Character[]>(
+		`characters?scenarioId=${id}`
 	)
 
 	return data
