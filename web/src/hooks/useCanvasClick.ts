@@ -1,19 +1,20 @@
-import { useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 
-export function useCanvasClick(
-	clickEvent: React.MouseEvent<HTMLCanvasElement> | null
-) {
-	const [click, setClick] = useState({ x: 0, y: 0, toggle: false })
+export function useCanvasClick() {
+	const [data, setData] = useState({ x: 0, y: 0, toggle: false })
+	const canvasRect = useRef<DOMRect | null>(null)
 
-	useEffect(() => {
-		if (!clickEvent) return
+	const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+		canvasRect.current = event.currentTarget.getBoundingClientRect()
+		const clientX = event.clientX
+		const clientY = event.clientY
 
-		setClick(({ toggle }) => ({
+		setData(({ toggle }) => ({
 			toggle: !toggle,
-			x: clickEvent.clientX,
-			y: clickEvent.clientY,
+			x: clientX,
+			y: clientY,
 		}))
-	}, [clickEvent])
+	}
 
-	return click
+	return { ...data, canvasRect: canvasRect.current, handleCanvasClick }
 }

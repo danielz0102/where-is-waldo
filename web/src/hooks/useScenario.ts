@@ -4,7 +4,7 @@ import { getByName } from '~services/ScenariosService'
 
 export function useScenario(name: string) {
 	return useQuery({
-		queryKey: ['scenario'],
+		queryKey: ['scenario', name],
 		queryFn: async () => {
 			const scenario = await getByName(name)
 

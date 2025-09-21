@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react'
 import { useCanvasClick } from '~/hooks/useCanvasClick'
 import { useScenario } from '~/hooks/useScenario'
+import { normalizeCoordinates } from '~/lib/normalizeCoordinates'
 import type { Character } from '~/types'
 import CanvasItem from '~components/CanvasItem'
 import Scenario from '~components/Scenario'
 import TargetBox from '~components/TargetBox'
 import TargetsMenu from '~components/TargetsMenu'
+import { checkClick } from '~services/CharactersService'
 
-type ClickEvent = React.MouseEvent<HTMLCanvasElement> | null
-
-export default function Level() {
-	const [clickEvent, setClickEvent] = useState<ClickEvent>(null)
-	const { x, y, toggle } = useCanvasClick(clickEvent)
-	const { data, isLoading } = useScenario('Beach')
+export default function Level({ name }: { name: string }) {
+	const { x, y, toggle, canvasRect, handleCanvasClick } = useCanvasClick()
+	const { data, isLoading } = useScenario(name)
 	const [activeCharacters, setActiveCharacters] = useState<Character[]>([])
 
 	useEffect(() => {
@@ -21,8 +20,22 @@ export default function Level() {
 		}
 	}, [data])
 
-	const handleCharacterSelection = (character: Character) => {
-		console.log({ selected: character })
+	const handleCharacterSelection = async ({ id }: Character) => {
+		if (!canvasRect) {
+			throw new Error('There is no canvas rect')
+		}
+
+		const { x: normX, y: normY } = normalizeCoordinates({
+			x,
+			y,
+			width: canvasRect.width,
+			height: canvasRect.height,
+		})
+		const hasBeenClicked = await checkClick({ id, x: normX, y: normY })
+
+		if (hasBeenClicked) {
+			setActiveCharacters((prev) => prev.filter((char) => char.id !== id))
+		}
 	}
 
 	if (isLoading) {
@@ -32,7 +45,7 @@ export default function Level() {
 	if (data) {
 		return (
 			<>
-				<Scenario data={data} onClick={(e) => setClickEvent(e)} />
+				<Scenario data={data} onClick={handleCanvasClick} />
 				<CanvasItem x={x} y={y} show={toggle}>
 					<TargetBox />
 				</CanvasItem>

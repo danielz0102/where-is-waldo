@@ -1,8 +1,8 @@
 import { HttpResponse, http } from 'msw'
 import { API_URL } from '~/config'
 import { getAll, getByName } from '~services/ScenariosService'
-import { server } from '../mocks/node'
-import scenarios from '../mocks/scenarios'
+import { server } from '~tests/mocks/node'
+import scenarios from '~tests/mocks/scenarios'
 
 describe('getAll', () => {
 	it('returns an array on success', async () => {
