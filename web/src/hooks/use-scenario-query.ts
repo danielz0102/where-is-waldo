@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getByScenario } from '~services/characters-service'
 import { getByName } from '~services/scenarios-service'
 
-export function useScenario(name: string) {
+export function useScenarioQuery(name: string) {
 	return useQuery({
 		queryKey: ['scenario', name],
 		queryFn: async () => {

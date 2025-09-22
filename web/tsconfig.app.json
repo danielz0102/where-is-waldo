@@ -31,6 +31,7 @@
 			"~assets/*": ["src/assets/*"],
 			"~services/*": ["src/services/*"],
 			"~hooks/*": ["src/hooks/*"],
+			"~pages/*": ["src/pages/*"],
 			"~/*": ["src/*"]
 		}
 	},

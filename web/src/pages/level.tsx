@@ -6,12 +6,12 @@ import TargetBox from '~components/target-box'
 import TargetMenu from '~components/target-menu'
 import { useActiveCharacters } from '~hooks/use-active-characters'
 import { useCanvasClick } from '~hooks/use-canvas-click'
-import { useScenario } from '~hooks/use-scenario'
+import { useScenarioQuery } from '~hooks/use-scenario-query'
 import { checkClick } from '~services/characters-service'
 
 export default function Level({ name }: { name: string }) {
+	const { data, isLoading } = useScenarioQuery(name)
 	const { x, y, toggle, canvasRect, handleCanvasClick } = useCanvasClick()
-	const { data, isLoading } = useScenario(name)
 	const { activeCharacters, setActiveCharacters } = useActiveCharacters(
 		data?.characters
 	)
