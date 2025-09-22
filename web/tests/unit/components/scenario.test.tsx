@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Scenario from '~components/Scenario'
+import Scenario from '~components/scenario'
 
 const data = {
 	id: '1',

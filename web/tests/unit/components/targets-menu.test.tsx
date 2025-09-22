@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import TargetsMenu from '~components/TargetsMenu'
+import TargetsMenu from '~components/targets-menu'
 import characters from '~tests/mocks/characters'
 
 test('renders a button for each character passed', () => {

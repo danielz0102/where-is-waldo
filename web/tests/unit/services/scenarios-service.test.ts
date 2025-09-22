@@ -1,6 +1,6 @@
 import { HttpResponse, http } from 'msw'
 import { API_URL } from '~/config'
-import { getAll, getByName } from '~services/ScenariosService'
+import { getAll, getByName } from '~services/scenarios-service'
 import { server } from '~tests/mocks/node'
 import scenarios from '~tests/mocks/scenarios'
 

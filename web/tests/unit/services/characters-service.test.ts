@@ -1,6 +1,6 @@
 import { HttpResponse, http } from 'msw'
 import { API_URL } from '~/config'
-import { checkClick, getByScenario } from '~services/CharactersService'
+import { checkClick, getByScenario } from '~services/characters-service'
 import characters from '~tests/mocks/characters'
 import { server } from '~tests/mocks/node'
 

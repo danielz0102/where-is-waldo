@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
-import { useCanvasClick } from '~/hooks/useCanvasClick'
-import { useScenario } from '~/hooks/useScenario'
-import { normalizeCoordinates } from '~/lib/normalizeCoordinates'
+import { normalizeCoordinates } from '~/lib/normalize-coordinates'
 import type { Character } from '~/types'
-import CanvasItem from '~components/CanvasItem'
-import Scenario from '~components/Scenario'
-import TargetBox from '~components/TargetBox'
-import TargetsMenu from '~components/TargetsMenu'
-import { checkClick } from '~services/CharactersService'
+import CanvasItem from '~components/canvas-item'
+import Scenario from '~components/scenario'
+import TargetBox from '~components/target-box'
+import TargetsMenu from '~components/targets-menu'
+import { useCanvasClick } from '~hooks/use-canvas-click'
+import { useScenario } from '~hooks/use-scenario'
+import { checkClick } from '~services/characters-service'
 
 export default function Level({ name }: { name: string }) {
 	const { x, y, toggle, canvasRect, handleCanvasClick } = useCanvasClick()

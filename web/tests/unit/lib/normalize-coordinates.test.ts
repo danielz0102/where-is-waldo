@@ -1,4 +1,4 @@
-import { normalizeCoordinates } from '~/lib/normalizeCoordinates'
+import { normalizeCoordinates } from '~/lib/normalize-coordinates'
 
 test('returns the normalized coordinates to a range of 0 to 100', () => {
 	const { x, y } = normalizeCoordinates({

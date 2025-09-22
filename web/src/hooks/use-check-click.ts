@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { checkClick } from '~services/CharactersService'
+import { checkClick } from '~services/characters-service'
 
 export function useCheckClick({
 	id,
