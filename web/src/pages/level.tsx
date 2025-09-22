@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { normalizeCoordinates } from '~/lib/normalize-coordinates'
 import type { Character } from '~/types'
 import CanvasItem from '~components/canvas-item'
+import Marker from '~components/marker'
 import Scenario from '~components/scenario'
 import TargetBox from '~components/target-box'
 import TargetMenu from '~components/target-menu'
@@ -12,9 +14,13 @@ import { checkClick } from '~services/characters-service'
 export default function Level({ name }: { name: string }) {
 	const { data, isLoading } = useScenarioQuery(name)
 	const { x, y, toggle, canvasRect, handleCanvasClick } = useCanvasClick()
+	const [showMenu, setShowMenu] = useState(toggle)
 	const { activeCharacters, setActiveCharacters } = useActiveCharacters(
 		data?.characters
 	)
+	const [markers, setMarkers] = useState<
+		{ x: number; y: number; ok: boolean }[]
+	>([])
 
 	const handleCharacterSelection = async ({ id }: Character) => {
 		if (!canvasRect) {
@@ -31,7 +37,10 @@ export default function Level({ name }: { name: string }) {
 
 		if (hasBeenClicked) {
 			setActiveCharacters((prev) => prev.filter((char) => char.id !== id))
+			setShowMenu(false)
 		}
+
+		setMarkers((prev) => [...prev, { x, y, ok: hasBeenClicked }])
 	}
 
 	if (isLoading) {
@@ -51,6 +60,13 @@ export default function Level({ name }: { name: string }) {
 						onSelection={handleCharacterSelection}
 					/>
 				</CanvasItem>
+
+				{markers.map(({ ok, x, y }) => (
+					//TODO: Fix key
+					<CanvasItem key={`${x}-${y}-${ok}`} x={x} y={y} show={true}>
+						<Marker ok={ok} />
+					</CanvasItem>
+				))}
 			</>
 		)
 	}

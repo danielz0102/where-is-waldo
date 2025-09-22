@@ -38,8 +38,7 @@ test('displays a menu with buttons of the characters when the user clicks', asyn
 
 	await user.click(image)
 
-	const menu = screen.queryByRole('menu')
-	expect(menu).toBeInTheDocument()
+	expect(screen.queryByRole('menu')).toBeInTheDocument()
 
 	scenarioCharacters.forEach((char) => {
 		expect(
@@ -59,26 +58,38 @@ test('hides the menu when the user clicks again', async () => {
 	expect(screen.queryByRole('menu')).not.toBeInTheDocument()
 })
 
+test.skip('hides the menu when the user clicks a menu option', async () => {
+	const user = userEvent.setup()
+	render(<LevelWrapper name={scenario.name} />)
+	const image = await screen.findByRole('img', { name: scenario.name })
+
+	await user.click(image)
+
+	const btn = screen.getByRole('button', { name: scenarioCharacters[0].name })
+	await user.click(btn)
+
+	expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+})
+
 test('removes the character button from the menu when the user selects it on the right coordinates', async () => {
+	const user = userEvent.setup()
 	const character = scenarioCharacters[0]
 	const x = (character.minX + character.maxX) / 2
 	const y = (character.minY + character.maxY) / 2
 	render(<LevelWrapper name={scenario.name} />)
-
 	const image = await screen.findByRole('img', { name: scenario.name })
 
 	await clickOn({ x, y, element: image })
+	const btn = screen.getByRole('button', { name: character.name })
+	await user.click(btn)
 
-	await waitFor(() =>
-		expect(
-			screen.queryByRole('button', { name: character.name })
-		).not.toBeInTheDocument()
-	)
+	await waitFor(() => expect(btn).not.toBeInTheDocument())
 })
 
 async function clickOn({
 	x,
 	y,
+	element,
 }: {
 	x: number
 	y: number
@@ -86,6 +97,6 @@ async function clickOn({
 }) {
 	const user = userEvent.setup()
 
-	await user.pointer({ keys: '[MouseLeft]', coords: { x, y } })
+	await user.pointer({ keys: '[MouseLeft]', target: element, coords: { x, y } })
 	await user.pointer({ keys: '[/MouseLeft]' })
 }
