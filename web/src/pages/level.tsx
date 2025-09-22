@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
 import { normalizeCoordinates } from '~/lib/normalize-coordinates'
 import type { Character } from '~/types'
 import CanvasItem from '~components/canvas-item'
 import Scenario from '~components/scenario'
 import TargetBox from '~components/target-box'
-import TargetsMenu from '~components/targets-menu'
+import TargetMenu from '~components/target-menu'
+import { useActiveCharacters } from '~hooks/use-active-characters'
 import { useCanvasClick } from '~hooks/use-canvas-click'
 import { useScenario } from '~hooks/use-scenario'
 import { checkClick } from '~services/characters-service'
@@ -12,13 +12,9 @@ import { checkClick } from '~services/characters-service'
 export default function Level({ name }: { name: string }) {
 	const { x, y, toggle, canvasRect, handleCanvasClick } = useCanvasClick()
 	const { data, isLoading } = useScenario(name)
-	const [activeCharacters, setActiveCharacters] = useState<Character[]>([])
-
-	useEffect(() => {
-		if (data?.characters) {
-			setActiveCharacters(data.characters)
-		}
-	}, [data])
+	const { activeCharacters, setActiveCharacters } = useActiveCharacters(
+		data?.characters
+	)
 
 	const handleCharacterSelection = async ({ id }: Character) => {
 		if (!canvasRect) {
@@ -50,7 +46,7 @@ export default function Level({ name }: { name: string }) {
 					<TargetBox />
 				</CanvasItem>
 				<CanvasItem x={x + 100} y={y} show={toggle}>
-					<TargetsMenu
+					<TargetMenu
 						characters={activeCharacters}
 						onSelection={handleCharacterSelection}
 					/>

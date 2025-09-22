@@ -1,6 +1,6 @@
 import type { Character } from '~/types'
 
-export default function TargetsMenu({
+export default function TargetMenu({
 	characters,
 	onSelection,
 }: {
