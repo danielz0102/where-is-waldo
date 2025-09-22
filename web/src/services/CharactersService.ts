@@ -1,5 +1,5 @@
-import { apiClient } from '~/api/apiClient'
 import type { Character } from '~/types'
+import { httpClient } from './http-client'
 
 export async function checkClick({
 	id,
@@ -10,7 +10,7 @@ export async function checkClick({
 	x: number
 	y: number
 }): Promise<boolean> {
-	const { data } = await apiClient.get<boolean>(
+	const { data } = await httpClient.get<boolean>(
 		`characters/${id}/click?x=${x}&y=${y}`
 	)
 
@@ -18,7 +18,7 @@ export async function checkClick({
 }
 
 export async function getByScenario(id: string): Promise<Character[]> {
-	const { data } = await apiClient.get<Character[]>(
+	const { data } = await httpClient.get<Character[]>(
 		`characters?scenarioId=${id}`
 	)
 
