@@ -1,17 +1,23 @@
+import { useCanvasClick } from '~hooks/use-canvas-click'
 import type { Scenario as ScenarioType } from '~/types'
 
 interface ScenarioProps {
 	data: ScenarioType
-	onClick: (e: React.MouseEvent<HTMLCanvasElement>) => void
 }
 
-export default function Scenario({ data, onClick }: ScenarioProps) {
+export default function Scenario({ data }: ScenarioProps) {
+	const click = useCanvasClick((state) => state.click)
+
+	const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+		click(e)
+	}
+
 	return (
 		<canvas
 			role="img"
 			aria-label={data.name}
 			className="mx-auto size-full cursor-crosshair bg-cover"
-			onClick={onClick}
+			onClick={handleClick}
 			style={{
 				backgroundImage: `url(${data.imgUrl})`,
 			}}

@@ -1,17 +1,19 @@
 interface CanvasItemProps {
 	x: number
 	y: number
-	show?: boolean
+	hidden?: boolean
 	children: React.ReactNode
 }
 
 export default function CanvasItem({
 	x,
 	y,
-	show = false,
+	hidden = false,
 	children,
 }: CanvasItemProps) {
-	if (!show) return null
+	if (hidden) {
+		return null
+	}
 
 	return (
 		<div

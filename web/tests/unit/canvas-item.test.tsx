@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import CanvasItem from '~components/canvas-item'
 
-test('does not display children if "show" is false', () => {
+test('does not display children if "hidden" is true', () => {
 	render(
-		<CanvasItem x={100} y={100}>
+		<CanvasItem x={100} y={100} hidden>
 			Child Content
 		</CanvasItem>
 	)
@@ -11,9 +11,9 @@ test('does not display children if "show" is false', () => {
 	expect(screen.queryByText('Child Content')).not.toBeInTheDocument()
 })
 
-test('displays children if "show" is true', () => {
+test('displays children by default', () => {
 	render(
-		<CanvasItem x={100} y={100} show>
+		<CanvasItem x={100} y={100}>
 			Child Content
 		</CanvasItem>
 	)
@@ -23,7 +23,7 @@ test('displays children if "show" is true', () => {
 
 test('positions children in the coordinates passed', async () => {
 	render(
-		<CanvasItem x={100} y={100} show>
+		<CanvasItem x={100} y={100}>
 			Child Content
 		</CanvasItem>
 	)

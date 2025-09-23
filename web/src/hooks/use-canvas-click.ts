@@ -1,20 +1,25 @@
-import { useRef, useState } from 'react'
+import { create } from 'zustand'
 
-export function useCanvasClick() {
-	const [data, setData] = useState({ x: 0, y: 0, toggle: false })
-	const canvasRect = useRef<DOMRect | null>(null)
-
-	const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
-		canvasRect.current = event.currentTarget.getBoundingClientRect()
-		const clientX = event.clientX
-		const clientY = event.clientY
-
-		setData(({ toggle }) => ({
-			toggle: !toggle,
-			x: clientX,
-			y: clientY,
-		}))
-	}
-
-	return { ...data, canvasRect: canvasRect.current, handleCanvasClick }
+export interface CanvasClick {
+	x: number
+	y: number
+	toggle: boolean
+	rect: DOMRect | null
+	click: (event: React.MouseEvent<HTMLCanvasElement>) => void
 }
+
+export const useCanvasClick = create<CanvasClick>((set) => ({
+	x: 0,
+	y: 0,
+	toggle: false,
+	event: null,
+	rect: null,
+	click: (e: React.MouseEvent<HTMLCanvasElement>) => {
+		set((state) => ({
+			x: e.clientX,
+			y: e.clientY,
+			toggle: !state.toggle,
+			rect: e.currentTarget.getBoundingClientRect(),
+		}))
+	},
+}))

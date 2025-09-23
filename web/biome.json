@@ -6,6 +6,9 @@
 			"react": "recommended"
 		},
 		"rules": {
+			"correctness": {
+				"useExhaustiveDependencies": "off"
+			},
 			"nursery": {
 				"useSortedClasses": {
 					"fix": "safe",
