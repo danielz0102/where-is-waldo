@@ -3,7 +3,7 @@ import { create } from 'zustand'
 export interface CanvasClick {
 	x: number
 	y: number
-	toggle: boolean
+	clickCount: number
 	rect: DOMRect | null
 	click: (event: React.MouseEvent<HTMLCanvasElement>) => void
 }
@@ -11,14 +11,14 @@ export interface CanvasClick {
 export const useCanvasClick = create<CanvasClick>((set) => ({
 	x: 0,
 	y: 0,
-	toggle: false,
 	event: null,
 	rect: null,
+	clickCount: 0,
 	click: (e: React.MouseEvent<HTMLCanvasElement>) => {
 		set((state) => ({
 			x: e.clientX,
 			y: e.clientY,
-			toggle: !state.toggle,
+			clickCount: state.clickCount + 1,
 			rect: e.currentTarget.getBoundingClientRect(),
 		}))
 	},

@@ -12,7 +12,7 @@ const scenarioCharacters = characters.filter(
 )
 
 beforeEach(() => {
-	useCanvasClick.setState({ x: 0, y: 0, toggle: false, rect: null })
+	useCanvasClick.setState({ x: 0, y: 0, rect: null })
 })
 
 test('renders an image of the scenario', async () => {
@@ -55,7 +55,18 @@ test('hides the menu when the user clicks again', async () => {
 	expect(screen.queryByRole('menu')).not.toBeInTheDocument()
 })
 
-test.todo('hides the menu when the user clicks a menu option', async () => {})
+test('hides the menu when the user clicks a menu option', async () => {
+	const user = userEvent.setup()
+	renderLevel()
+	const image = await screen.findByRole('img', { name: scenario.name })
+	const character = scenarioCharacters[0]
+	await user.click(image)
+
+	const btn = screen.getByRole('button', { name: character.name })
+	await user.click(btn)
+
+	expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+})
 
 test.todo(
 	'removes the character button from the menu when the user selects it on the right coordinates',

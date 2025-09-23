@@ -18,6 +18,9 @@
 			"recommended": true,
 			"correctness": {
 				"noUndeclaredVariables": "error"
+			},
+			"suspicious": {
+				"useIterableCallbackReturn": "off"
 			}
 		}
 	},
