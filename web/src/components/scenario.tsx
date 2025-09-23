@@ -1,11 +1,12 @@
-import { useCanvasClick } from '~hooks/use-canvas-click'
 import type { Scenario as ScenarioType } from '~/types'
+import { useCanvasClick } from '~hooks/use-canvas-click'
 
 interface ScenarioProps {
 	data: ScenarioType
+	children: React.ReactNode
 }
 
-export default function Scenario({ data }: ScenarioProps) {
+export default function Scenario({ data, children }: ScenarioProps) {
 	const click = useCanvasClick((state) => state.click)
 
 	const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -13,14 +14,17 @@ export default function Scenario({ data }: ScenarioProps) {
 	}
 
 	return (
-		<canvas
-			role="img"
-			aria-label={data.name}
-			className="mx-auto size-full cursor-crosshair bg-cover"
-			onClick={handleClick}
-			style={{
-				backgroundImage: `url(${data.imgUrl})`,
-			}}
-		/>
+		<div className="relative size-full">
+			<canvas
+				role="img"
+				aria-label={data.name}
+				className="mx-auto size-full cursor-crosshair bg-cover"
+				onClick={handleClick}
+				style={{
+					backgroundImage: `url(${data.imgUrl})`,
+				}}
+			/>
+			{children}
+		</div>
 	)
 }

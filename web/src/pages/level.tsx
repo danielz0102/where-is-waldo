@@ -12,11 +12,10 @@ export default function Level({ name }: { name: string }) {
 
 	if (data) {
 		return (
-			<>
-				<Scenario data={data} />
+			<Scenario data={data}>
 				<TargetBox />
 				<CharacterMenu characters={data.characters} />
-			</>
+			</Scenario>
 		)
 	}
 }
