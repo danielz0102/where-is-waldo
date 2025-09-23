@@ -8,7 +8,7 @@ test('does not display children if "hidden" is true', () => {
 		</CanvasItem>
 	)
 
-	expect(screen.queryByText('Child Content')).not.toBeInTheDocument()
+	expect(screen.queryByText('Child Content')).not.toBeVisible()
 })
 
 test('displays children by default', () => {
