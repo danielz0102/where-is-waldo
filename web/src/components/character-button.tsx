@@ -1,6 +1,6 @@
+import { useCanvasClickStore } from '~/stores/use-canvas-click-store'
+import { useCharacterSelectionStore } from '~/stores/use-character-selection-store'
 import type { Character } from '~/types'
-import { useCanvasClick } from '~hooks/use-canvas-click'
-import { useCharacterSelection } from '~hooks/use-character-selection'
 import { checkClick } from '~services/characters-service'
 
 interface CharacterButtonProps {
@@ -8,9 +8,9 @@ interface CharacterButtonProps {
 }
 
 export default function CharacterButton({ character }: CharacterButtonProps) {
-	const normX = useCanvasClick((state) => state.normX)
-	const normY = useCanvasClick((state) => state.normY)
-	const update = useCharacterSelection((state) => state.update)
+	const normX = useCanvasClickStore((state) => state.normX)
+	const normY = useCanvasClickStore((state) => state.normY)
+	const update = useCharacterSelectionStore((state) => state.update)
 
 	const handleClick = async () => {
 		const isCorrect = await checkClick({
@@ -19,7 +19,7 @@ export default function CharacterButton({ character }: CharacterButtonProps) {
 			y: normY,
 		})
 
-		update(isCorrect)
+		update({ success: isCorrect, character })
 	}
 
 	return (

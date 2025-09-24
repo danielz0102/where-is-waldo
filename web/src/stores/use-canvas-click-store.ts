@@ -8,9 +8,10 @@ export interface CanvasClick {
 	normY: number
 	clickCount: number
 	click: (event: React.MouseEvent<HTMLCanvasElement>) => void
+	reset: () => void
 }
 
-export const useCanvasClick = create<CanvasClick>((set) => ({
+export const useCanvasClickStore = create<CanvasClick>((set, _, store) => ({
 	x: 0,
 	y: 0,
 	normX: 0,
@@ -25,7 +26,6 @@ export const useCanvasClick = create<CanvasClick>((set) => ({
 			width: rect.width,
 			height: rect.height,
 		})
-
 		set(({ clickCount }) => ({
 			x: e.clientX,
 			y: e.clientY,
@@ -33,5 +33,8 @@ export const useCanvasClick = create<CanvasClick>((set) => ({
 			normY,
 			clickCount: clickCount + 1,
 		}))
+	},
+	reset: () => {
+		set(store.getInitialState())
 	},
 }))

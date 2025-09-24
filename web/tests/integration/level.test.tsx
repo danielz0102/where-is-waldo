@@ -1,7 +1,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, renderHook, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { useCanvasClick } from '~hooks/use-canvas-click'
+import { useCanvasClickStore } from '~/stores/use-canvas-click-store'
+import { useCharacterSelectionStore } from '~/stores/use-character-selection-store'
 import Level from '~pages/level'
 import characters from '~tests/mocks/characters'
 import scenarios from '~tests/mocks/scenarios'
@@ -12,7 +13,12 @@ const scenarioCharacters = characters.filter(
 )
 
 beforeEach(() => {
-	useCanvasClick.setState({ x: 0, y: 0, rect: null })
+	renderHook(() => {
+		const resetClick = useCanvasClickStore((state) => state.reset)
+		const restSelection = useCharacterSelectionStore((state) => state.reset)
+		resetClick()
+		restSelection()
+	})
 })
 
 test('renders an image of the scenario', async () => {
@@ -68,23 +74,20 @@ test('hides the menu when the user clicks a menu option', async () => {
 	expect(screen.queryByRole('menu')).not.toBeInTheDocument()
 })
 
-test.todo(
-	'removes the character button from the menu when the user selects it on the right coordinates',
-	async () => {
-		const user = userEvent.setup()
-		const character = scenarioCharacters[0]
-		const x = (character.minX + character.maxX) / 2
-		const y = (character.minY + character.maxY) / 2
-		renderLevel(scenario.name)
-		const image = await screen.findByRole('img', { name: scenario.name })
+test('removes the character button from the menu when the user selects it on the right coordinates', async () => {
+	const user = userEvent.setup()
+	const character = scenarioCharacters[0]
+	const x = (character.minX + character.maxX) / 2
+	const y = (character.minY + character.maxY) / 2
+	renderLevel(scenario.name)
+	const image = await screen.findByRole('img', { name: scenario.name })
 
-		await clickOn({ x, y, element: image })
-		const btn = screen.getByRole('button', { name: character.name })
-		await user.click(btn)
+	await clickOn({ x, y, element: image })
+	const btn = screen.getByRole('button', { name: character.name })
+	await user.click(btn)
 
-		await waitFor(() => expect(btn).not.toBeInTheDocument())
-	}
-)
+	await waitFor(() => expect(btn).not.toBeInTheDocument())
+})
 
 const queryClient = new QueryClient({
 	defaultOptions: {

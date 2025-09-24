@@ -1,11 +1,11 @@
 import { Crosshair } from 'lucide-react'
-import { useCanvasClick } from '~hooks/use-canvas-click'
+import { useCanvasClickStore } from '~/stores/use-canvas-click-store'
 import { useMenuHiding } from '~hooks/use-menu-hiding'
 import CanvasItem from './canvas-item'
 
 export default function TargetBox() {
-	const x = useCanvasClick((state) => state.x)
-	const y = useCanvasClick((state) => state.y)
+	const x = useCanvasClickStore((state) => state.x)
+	const y = useCanvasClickStore((state) => state.y)
 	const hidden = useMenuHiding()
 
 	return (

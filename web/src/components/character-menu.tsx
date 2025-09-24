@@ -1,5 +1,6 @@
+import { useCanvasClickStore } from '~/stores/use-canvas-click-store'
 import type { Character } from '~/types'
-import { useCanvasClick } from '~hooks/use-canvas-click'
+import { useActiveCharacters } from '~hooks/use-active-characters'
 import { useMenuHiding } from '~hooks/use-menu-hiding'
 import CanvasItem from './canvas-item'
 import CharacterButton from './character-button'
@@ -9,16 +10,15 @@ interface CharacterMenuProps {
 }
 
 export default function CharacterMenu({ characters }: CharacterMenuProps) {
-	const x = useCanvasClick((state) => state.x)
-	const y = useCanvasClick((state) => state.y)
+	const { activeCharacters } = useActiveCharacters(characters)
 	const hidden = useMenuHiding()
-
-	console.log('render!!!')
+	const x = useCanvasClickStore((state) => state.x)
+	const y = useCanvasClickStore((state) => state.y)
 
 	return (
 		<CanvasItem x={x + 100} y={y} hidden={hidden}>
 			<div role="menu" className="flex flex-col rounded bg-neutral-700/70">
-				{characters.map((char) => (
+				{activeCharacters.map((char) => (
 					<CharacterButton key={char.id} character={char} />
 				))}
 			</div>

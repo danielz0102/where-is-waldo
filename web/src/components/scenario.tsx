@@ -1,5 +1,5 @@
+import { useCanvasClickStore } from '~/stores/use-canvas-click-store'
 import type { Scenario as ScenarioType } from '~/types'
-import { useCanvasClick } from '~hooks/use-canvas-click'
 
 interface ScenarioProps {
 	data: ScenarioType
@@ -7,7 +7,7 @@ interface ScenarioProps {
 }
 
 export default function Scenario({ data, children }: ScenarioProps) {
-	const click = useCanvasClick((state) => state.click)
+	const click = useCanvasClickStore((state) => state.click)
 
 	const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
 		click(e)
