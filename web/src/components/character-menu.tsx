@@ -9,8 +9,11 @@ interface CharacterMenuProps {
 }
 
 export default function CharacterMenu({ characters }: CharacterMenuProps) {
-	const { x, y } = useCanvasClick()
+	const x = useCanvasClick((state) => state.x)
+	const y = useCanvasClick((state) => state.y)
 	const hidden = useMenuHiding()
+
+	console.log('render!!!')
 
 	return (
 		<CanvasItem x={x + 100} y={y} hidden={hidden}>

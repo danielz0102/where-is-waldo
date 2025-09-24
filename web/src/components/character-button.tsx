@@ -8,8 +8,9 @@ interface CharacterButtonProps {
 }
 
 export default function CharacterButton({ character }: CharacterButtonProps) {
-	const { normX, normY } = useCanvasClick()
-	const { update } = useCharacterSelection()
+	const normX = useCanvasClick((state) => state.normX)
+	const normY = useCanvasClick((state) => state.normY)
+	const update = useCharacterSelection((state) => state.update)
 
 	const handleClick = async () => {
 		const isCorrect = await checkClick({

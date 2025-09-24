@@ -4,7 +4,8 @@ import { useMenuHiding } from '~hooks/use-menu-hiding'
 import CanvasItem from './canvas-item'
 
 export default function TargetBox() {
-	const { x, y } = useCanvasClick()
+	const x = useCanvasClick((state) => state.x)
+	const y = useCanvasClick((state) => state.y)
 	const hidden = useMenuHiding()
 
 	return (
