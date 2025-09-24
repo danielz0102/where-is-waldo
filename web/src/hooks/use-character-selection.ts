@@ -8,7 +8,6 @@ type CharacterSelection = {
 
 export const useCharacterSelection = create<CharacterSelection>((set, get) => {
 	return {
-		isCharacterSelected: false,
 		success: false,
 		selectionCount: 0,
 		update: (success) => {

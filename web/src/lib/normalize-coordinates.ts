@@ -1,15 +1,12 @@
-export function normalizeCoordinates({
-	x,
-	y,
-	width,
-	height,
-}: {
+interface NormalizeCoordinatesParams {
 	x: number
 	y: number
 	width: number
 	height: number
-}) {
-	const normalizedX = (x / width) * 100
-	const normalizedY = (y / height) * 100
+}
+
+export function normalizeCoordinates(params: NormalizeCoordinatesParams) {
+	const normalizedX = (params.x / params.width) * 100
+	const normalizedY = (params.y / params.height) * 100
 	return { x: normalizedX, y: normalizedY }
 }

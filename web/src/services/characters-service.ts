@@ -1,17 +1,15 @@
 import type { Character } from '~/types'
 import { httpClient } from './http-client'
 
-export async function checkClick({
-	id,
-	x,
-	y,
-}: {
+interface CheckClickParams {
 	id: string
 	x: number
 	y: number
-}): Promise<boolean> {
+}
+
+export async function checkClick(params: CheckClickParams): Promise<boolean> {
 	const { data } = await httpClient.get<boolean>(
-		`characters/${id}/click?x=${x}&y=${y}`
+		`characters/${params.id}/click?x=${params.x}&y=${params.y}`
 	)
 
 	return data
