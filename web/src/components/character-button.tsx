@@ -1,4 +1,3 @@
-import { normalizeCoordinates } from '~/lib/normalize-coordinates'
 import type { Character } from '~/types'
 import { useCanvasClick } from '~hooks/use-canvas-click'
 import { useCharacterSelection } from '~hooks/use-character-selection'
@@ -9,21 +8,10 @@ interface CharacterButtonProps {
 }
 
 export default function CharacterButton({ character }: CharacterButtonProps) {
-	const { x, y, rect } = useCanvasClick()
+	const { normX, normY } = useCanvasClick()
 	const { update } = useCharacterSelection()
 
 	const handleClick = async () => {
-		if (!rect) {
-			throw new Error('No rect found')
-		}
-
-		const { x: normX, y: normY } = normalizeCoordinates({
-			x,
-			y,
-			width: rect.width,
-			height: rect.height,
-		})
-
 		const isCorrect = await checkClick({
 			id: character.id,
 			x: normX,
