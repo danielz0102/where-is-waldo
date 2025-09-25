@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import CanvasItem from '~components/canvas-item'
+import CanvasItem from '~/components/canvas-item'
 
 test('does not display children if "hidden" is true', () => {
 	render(
