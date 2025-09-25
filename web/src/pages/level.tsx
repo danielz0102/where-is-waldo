@@ -1,6 +1,7 @@
 import CharacterMenu from '~/components/character-menu'
 import Scenario from '~/components/scenario'
 import TargetBox from '~/components/target-box'
+import MarkerStack from '~components/marker-stack'
 import { useScenarioQuery } from '~hooks/use-scenario-query'
 
 export default function Level({ name }: { name: string }) {
@@ -15,6 +16,7 @@ export default function Level({ name }: { name: string }) {
 			<Scenario data={data}>
 				<TargetBox />
 				<CharacterMenu characters={data.characters} />
+				<MarkerStack />
 			</Scenario>
 		)
 	}
