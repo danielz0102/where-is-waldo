@@ -14,11 +14,11 @@ export default function Scenario({ data, children }: ScenarioProps) {
 	}
 
 	return (
-		<div className="relative size-full">
+		<div className="absolute inset-0">
 			<canvas
 				role="img"
 				aria-label={data.name}
-				className="mx-auto size-full cursor-crosshair bg-cover"
+				className="size-full cursor-crosshair bg-cover"
 				onClick={handleClick}
 				style={{
 					backgroundImage: `url(${data.imgUrl})`,

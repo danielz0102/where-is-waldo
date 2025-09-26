@@ -16,7 +16,7 @@ export default function CharacterMenu({ characters }: CharacterMenuProps) {
 	const y = useCanvasClickStore((state) => state.y)
 
 	return (
-		<CanvasItem x={x + 100} y={y} hidden={hidden}>
+		<CanvasItem x={x + 100} y={y} hidden={hidden} className="z-10">
 			<div role="menu" className="flex flex-col rounded bg-neutral-700/70">
 				{activeCharacters.map((char) => (
 					<CharacterButton key={char.id} character={char} />
