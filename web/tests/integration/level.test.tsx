@@ -89,6 +89,31 @@ test('removes the character button from the menu when the user selects it on the
 	await waitFor(() => expect(btn).not.toBeInTheDocument())
 })
 
+test('displays a timer', async () => {
+	renderLevel()
+
+	const timer = await screen.findByText('00:00')
+
+	expect(timer).toBeInTheDocument()
+})
+
+test.todo('shows a modal when all characters are found', async () => {
+	const user = userEvent.setup()
+	renderLevel(scenario.name)
+	const image = await screen.findByRole('img', { name: scenario.name })
+
+	for (const character of scenarioCharacters) {
+		const x = (character.minX + character.maxX) / 2
+		const y = (character.minY + character.maxY) / 2
+
+		await clickOn({ x, y, element: image })
+		const btn = screen.getByRole('button', { name: character.name })
+		await user.click(btn)
+	}
+
+	expect(await screen.findByRole('dialog')).toBeVisible()
+})
+
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {

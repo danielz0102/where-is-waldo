@@ -31,8 +31,8 @@ test('increases by default', () => {
 	expect(screen.getByText('01:00')).toBeInTheDocument()
 })
 
-test('does not increase when paused', () => {
-	render(<ScoreTimer paused />)
+test('stop increasing when ended', () => {
+	render(<ScoreTimer end />)
 	expect(screen.getByText('00:00')).toBeInTheDocument()
 
 	act(() => {

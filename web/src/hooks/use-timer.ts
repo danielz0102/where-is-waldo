@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { formatSeconds } from '~/lib/format-seconds'
 
 export function useTimer(paused: boolean) {
 	const [seconds, setSeconds] = useState(0)
@@ -13,11 +14,5 @@ export function useTimer(paused: boolean) {
 		return () => clearInterval(interval)
 	}, [paused])
 
-	const minutes = Math.floor(seconds / 60)
-		.toString()
-		.padStart(2, '0')
-	const remainingSeconds = (seconds % 60).toString().padStart(2, '0')
-	const timeDisplay = `${minutes}:${remainingSeconds}`
-
-	return { seconds, timeDisplay }
+	return { seconds, timeDisplay: formatSeconds(seconds) }
 }
