@@ -1,4 +1,4 @@
-import { useCanvasClickStore } from '~/stores/use-canvas-click-store'
+import { canvasClickStore } from '~/stores/canvas-click-store'
 import type { Scenario as ScenarioType } from '~/types'
 
 interface ScenarioProps {
@@ -7,14 +7,14 @@ interface ScenarioProps {
 }
 
 export default function Scenario({ data, children }: ScenarioProps) {
-	const click = useCanvasClickStore((state) => state.click)
+	const click = canvasClickStore((state) => state.click)
 
 	const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
 		click(e)
 	}
 
 	return (
-		<div className="absolute inset-0">
+		<div className="relative overflow-auto">
 			<canvas
 				role="img"
 				aria-label={data.name}

@@ -1,8 +1,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, renderHook, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { useCanvasClickStore } from '~/stores/use-canvas-click-store'
-import { useCharacterSelectionStore } from '~/stores/use-character-selection-store'
+import { canvasClickStore } from '~/stores/canvas-click-store'
+import { characterStore } from '~/stores/character-store'
 import Level from '~pages/level'
 import characters from '~tests/mocks/characters'
 import scenarios from '~tests/mocks/scenarios'
@@ -14,10 +14,10 @@ const scenarioCharacters = characters.filter(
 
 beforeEach(() => {
 	renderHook(() => {
-		const resetClick = useCanvasClickStore((state) => state.reset)
-		const restSelection = useCharacterSelectionStore((state) => state.reset)
+		const resetClick = canvasClickStore((state) => state.reset)
+		const resetSelection = characterStore((state) => state.reset)
 		resetClick()
-		restSelection()
+		resetSelection()
 	})
 })
 

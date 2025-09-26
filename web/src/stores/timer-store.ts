@@ -7,7 +7,7 @@ interface TimerState {
 	setSeconds: (seconds: number) => void
 }
 
-export const useTimerStore = create<TimerState>((set) => ({
+export const timerStore = create<TimerState>((set) => ({
 	seconds: 0,
 	secondsFormatted: '00:00',
 	setSeconds: (seconds) => {

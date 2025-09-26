@@ -1,5 +1,5 @@
+import { canvasClickStore } from '~/stores/canvas-click-store'
 import { characterStore } from '~/stores/character-store'
-import { useCanvasClickStore } from '~/stores/use-canvas-click-store'
 import type { Character } from '~/types'
 
 interface CharacterButtonProps {
@@ -7,8 +7,8 @@ interface CharacterButtonProps {
 }
 
 export default function CharacterButton({ character }: CharacterButtonProps) {
-	const normX = useCanvasClickStore((state) => state.normX)
-	const normY = useCanvasClickStore((state) => state.normY)
+	const normX = canvasClickStore((state) => state.normX)
+	const normY = canvasClickStore((state) => state.normY)
 	const select = characterStore((state) => state.select)
 
 	const handleClick = async () => {

@@ -11,7 +11,7 @@ export interface CanvasClick {
 	reset: () => void
 }
 
-export const useCanvasClickStore = create<CanvasClick>((set, _, store) => ({
+export const canvasClickStore = create<CanvasClick>((set, _, store) => ({
 	x: 0,
 	y: 0,
 	normX: 0,

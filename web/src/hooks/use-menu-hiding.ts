@@ -1,9 +1,9 @@
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { characterStore } from '~/stores/character-store'
-import { useCanvasClickStore } from '../stores/use-canvas-click-store'
+import { canvasClickStore } from '../stores/canvas-click-store'
 
 export function useMenuHiding() {
-	const clickCount = useCanvasClickStore((state) => state.clickCount)
+	const clickCount = canvasClickStore((state) => state.clickCount)
 	const lastOne = characterStore((state) => state.lastOne)
 	const [hidden, setHidden] = useState(true)
 

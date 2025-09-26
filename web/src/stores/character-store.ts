@@ -10,9 +10,10 @@ interface CharacterState {
 	}
 	update: (characters: Character[]) => void
 	select: (params: { character: Character; x: number; y: number }) => void
+	reset: () => void
 }
 
-export const characterStore = create<CharacterState>((set) => ({
+export const characterStore = create<CharacterState>((set, _, store) => ({
 	characters: [],
 	lastOne: {
 		successful: false,
@@ -36,5 +37,8 @@ export const characterStore = create<CharacterState>((set) => ({
 				characters: state.characters.filter((c) => c.id !== character.id),
 			}))
 		}
+	},
+	reset: () => {
+		set(store.getInitialState())
 	},
 }))

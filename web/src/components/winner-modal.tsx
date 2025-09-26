@@ -1,4 +1,4 @@
-import { useTimerStore } from '~/stores/use-timer-store'
+import { useTimerStore } from '~/stores/timer-store'
 
 export default function WinnerModal() {
 	const time = useTimerStore((state) => state.secondsFormatted)

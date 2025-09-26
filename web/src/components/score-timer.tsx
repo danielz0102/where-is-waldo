@@ -1,4 +1,4 @@
-import { useTimerStore } from '~/stores/use-timer-store'
+import { timerStore } from '~/stores/timer-store'
 import { useTimer } from '~hooks/use-timer'
 
 export interface TimerProps {
@@ -7,7 +7,7 @@ export interface TimerProps {
 
 export default function ScoreTimer({ end = false }: TimerProps) {
 	const { timeDisplay, seconds } = useTimer(end)
-	const save = useTimerStore((state) => state.setSeconds)
+	const save = timerStore((state) => state.setSeconds)
 
 	if (end) {
 		save(seconds)

@@ -1,5 +1,5 @@
+import { canvasClickStore } from '~/stores/canvas-click-store'
 import { characterStore } from '~/stores/character-store'
-import { useCanvasClickStore } from '~/stores/use-canvas-click-store'
 import { useMenuHiding } from '~hooks/use-menu-hiding'
 import CanvasItem from './canvas-item'
 import CharacterButton from './character-button'
@@ -7,8 +7,8 @@ import CharacterButton from './character-button'
 export default function CharacterMenu() {
 	const characters = characterStore((state) => state.characters)
 	const hidden = useMenuHiding()
-	const x = useCanvasClickStore((state) => state.x)
-	const y = useCanvasClickStore((state) => state.y)
+	const x = canvasClickStore((state) => state.x)
+	const y = canvasClickStore((state) => state.y)
 
 	return (
 		<CanvasItem x={x + 100} y={y} hidden={hidden} className="z-10">
