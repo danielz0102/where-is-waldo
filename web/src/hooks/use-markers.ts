@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
+import { characterStore } from '~/stores/character-store'
 import { useCanvasClickStore } from '~/stores/use-canvas-click-store'
-import { useCharacterSelectionStore } from '~/stores/use-character-selection-store'
 
 interface MarkerState {
 	x: number
@@ -10,18 +10,16 @@ interface MarkerState {
 
 export function useMarkers() {
 	const [markers, setMarkers] = useState<MarkerState[]>([])
-	const selectionCount = useCharacterSelectionStore(
-		(state) => state.selectionCount
-	)
-	const success = useCharacterSelectionStore((state) => state.success)
+	const lastOne = characterStore((state) => state.lastOne)
+	const success = characterStore((state) => state.lastOne.successful)
 	const x = useCanvasClickStore((state) => state.x)
 	const y = useCanvasClickStore((state) => state.y)
 
 	useEffect(() => {
-		if (selectionCount === 0) return
+		if (!lastOne.character) return
 
 		setMarkers((prev) => [...prev, { x, y, ok: success }])
-	}, [selectionCount])
+	}, [lastOne])
 
 	return markers
 }

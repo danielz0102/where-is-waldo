@@ -1,12 +1,10 @@
 import { useEffect, useLayoutEffect, useState } from 'react'
+import { characterStore } from '~/stores/character-store'
 import { useCanvasClickStore } from '../stores/use-canvas-click-store'
-import { useCharacterSelectionStore } from '../stores/use-character-selection-store'
 
 export function useMenuHiding() {
 	const clickCount = useCanvasClickStore((state) => state.clickCount)
-	const selectionCount = useCharacterSelectionStore(
-		(state) => state.selectionCount
-	)
+	const lastOne = characterStore((state) => state.lastOne)
 	const [hidden, setHidden] = useState(true)
 
 	// Regular useEffect causes a flicker because it runs after paint
@@ -16,7 +14,7 @@ export function useMenuHiding() {
 
 	useEffect(() => {
 		setHidden(true)
-	}, [selectionCount])
+	}, [lastOne])
 
 	return hidden
 }

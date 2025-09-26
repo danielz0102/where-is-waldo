@@ -1,17 +1,13 @@
 import { useEffect, useState } from 'react'
+import { characterStore } from '~/stores/character-store'
 import type { Character } from '~/types'
-import { useCharacterSelectionStore } from '../stores/use-character-selection-store'
 
 export function useActiveCharacters(
 	characters: Character[] | null | undefined
 ) {
-	const selectionCount = useCharacterSelectionStore(
-		(state) => state.selectionCount
-	)
-	const success = useCharacterSelectionStore((state) => state.success)
-	const characterSelected = useCharacterSelectionStore(
-		(state) => state.characterSelected
-	)
+	const selections = characterStore((state) => state.selections)
+	const success = characterStore((state) => state.lastOne.successful)
+	const characterSelected = characterStore((state) => state.lastOne.character)
 	const [activeCharacters, setActiveCharacters] = useState<Character[]>(
 		characters || []
 	)
@@ -22,7 +18,7 @@ export function useActiveCharacters(
 				chars.filter((c) => c.id !== characterSelected.id)
 			)
 		}
-	}, [selectionCount])
+	}, [selections])
 
 	return { activeCharacters, setActiveCharacters }
 }
