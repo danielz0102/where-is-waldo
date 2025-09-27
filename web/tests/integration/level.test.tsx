@@ -97,7 +97,7 @@ test('displays a timer', async () => {
 	expect(timer).toBeInTheDocument()
 })
 
-test.todo('shows a modal when all characters are found', async () => {
+test('shows a modal when all characters are found', async () => {
 	const user = userEvent.setup()
 	renderLevel(scenario.name)
 	const image = await screen.findByRole('img', { name: scenario.name })
