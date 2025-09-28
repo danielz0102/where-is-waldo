@@ -14,7 +14,7 @@ export default function ScoreTimer({ end = false }: TimerProps) {
 	}
 
 	return (
-		<div className="absolute top-4 left-4 rounded bg-neutral-600 px-4 py-2 text-neutral-50">
+		<div className="absolute top-4 left-4 rounded bg-red-950 px-4 py-2 font-mono text-2xl text-neutral-50 shadow-lg shadow-red-200">
 			{timeDisplay}
 		</div>
 	)
