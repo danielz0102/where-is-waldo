@@ -1,4 +1,3 @@
-import { canvasClickStore } from '~/stores/canvas-click-store'
 import type { Scenario as ScenarioType } from '~/types'
 
 interface ScenarioProps {
@@ -7,22 +6,19 @@ interface ScenarioProps {
 }
 
 export default function Scenario({ data, children }: ScenarioProps) {
-	const click = canvasClickStore((state) => state.click)
-
-	const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
-		click(e)
-	}
+	const handleClick = () => {}
 
 	return (
-		<div className="relative overflow-auto">
-			<canvas
-				role="img"
-				aria-label={data.name}
-				className="size-full cursor-crosshair bg-cover"
-				onClick={handleClick}
-				style={{
-					backgroundImage: `url(${data.imgUrl})`,
-				}}
+		/* biome-ignore lint/a11y/useKeyWithClickEvents: This is a game canvas where precise mouse coordinates are needed */
+		/* biome-ignore lint/a11y/noStaticElementInteractions: Game area requires click interaction at specific coordinates */
+		<div
+			className="relative cursor-crosshair overflow-auto"
+			onClick={handleClick}
+		>
+			<img
+				src={data.imgUrl}
+				alt={data.name}
+				className="min-h-screen min-w-screen max-w-none"
 			/>
 			{children}
 		</div>
