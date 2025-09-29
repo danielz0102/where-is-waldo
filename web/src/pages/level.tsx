@@ -1,11 +1,8 @@
 import { useEffect } from 'react'
-import CharacterMenu from '~/components/character-menu'
 import Scenario from '~/components/scenario'
 import TargetBox from '~/components/target-box'
 import { characterStore } from '~/stores/character-store'
-import MarkerStack from '~components/marker-stack'
-import ScoreTimer from '~components/score-timer'
-import WinnerModal from '~components/winner-modal'
+import CanvasItem from '~components/canvas-item'
 import { useScenarioQuery } from '~hooks/use-scenario-query'
 
 export default function Level({ name }: { name: string }) {
@@ -27,11 +24,11 @@ export default function Level({ name }: { name: string }) {
 	if (data) {
 		return (
 			<Scenario data={data}>
-				<TargetBox />
-				<CharacterMenu />
-				<MarkerStack />
-				<ScoreTimer end={win} />
-				{win && <WinnerModal />}
+				{({ x, y, toggle }) => (
+					<CanvasItem x={x} y={y} hidden={!toggle}>
+						<TargetBox />
+					</CanvasItem>
+				)}
 			</Scenario>
 		)
 	}
