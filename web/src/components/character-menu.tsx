@@ -1,22 +1,42 @@
-import { canvasClickStore } from '~/stores/canvas-click-store'
-import { characterStore } from '~/stores/character-store'
-import { useMenuHiding } from '~hooks/use-menu-hiding'
-import CanvasItem from './canvas-item'
-import CharacterButton from './character-button'
+import type { Character } from '~/types'
 
-export default function CharacterMenu() {
-	const characters = characterStore((state) => state.characters)
-	const hidden = useMenuHiding()
-	const x = canvasClickStore((state) => state.x)
-	const y = canvasClickStore((state) => state.y)
+interface CharacterMenuProps {
+	characters: Character[]
+	onSelect: (character: Character) => void
+}
 
+export default function CharacterMenu({
+	characters,
+	onSelect,
+}: CharacterMenuProps) {
 	return (
-		<CanvasItem x={x + 100} y={y} hidden={hidden} className="z-10">
-			<div role="menu" className="flex flex-col rounded bg-neutral-700/70">
-				{characters.map((char) => (
-					<CharacterButton key={char.id} character={char} />
-				))}
-			</div>
-		</CanvasItem>
+		<div role="menu" className="flex flex-col rounded bg-neutral-700/70">
+			{characters.map((char) => (
+				<CharacterButton key={char.id} character={char} onClick={onSelect} />
+			))}
+		</div>
+	)
+}
+
+interface CharacterButtonProps {
+	character: Character
+	onClick: (character: Character) => void
+}
+
+function CharacterButton({ character, onClick }: CharacterButtonProps) {
+	return (
+		<button
+			key={character.id}
+			type="button"
+			onClick={() => onClick(character)}
+			className="flex min-w-[100px] cursor-pointer items-center justify-center gap-2 p-2 font-medium text-neutral-100 hover:bg-neutral-300/70"
+		>
+			<img
+				className="size-10 object-cover object-top"
+				src={character.imgUrl}
+				alt=""
+			/>
+			<span>{character.name}</span>
+		</button>
 	)
 }

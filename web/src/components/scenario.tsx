@@ -3,7 +3,7 @@ import type { Scenario as ScenarioType } from '~/types'
 
 interface ScenarioProps {
 	data: ScenarioType
-	children: (click: ClickState) => React.ReactNode
+	children: (click: ClickState) => React.ReactNode[]
 }
 
 interface ClickState {
