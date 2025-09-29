@@ -14,7 +14,7 @@ interface ClickState {
 	toggle: boolean
 }
 
-export default function Scenario({ data, children }: ScenarioProps) {
+function Scenario({ data, children }: ScenarioProps) {
 	const [click, setClick] = useState<ClickState>({
 		x: 0,
 		y: 0,
@@ -46,4 +46,32 @@ export default function Scenario({ data, children }: ScenarioProps) {
 			{children(click)}
 		</main>
 	)
+}
+
+interface ScenarioItemProps {
+	x: number
+	y: number
+	hidden?: boolean
+	children: React.ReactNode
+}
+
+function ScenarioItem(props: ScenarioItemProps) {
+	return (
+		<div
+			className="-translate-x-1/2 -translate-y-1/2 transform"
+			hidden={props.hidden}
+			style={{
+				position: 'absolute',
+				top: `${props.y}px`,
+				left: `${props.x}px`,
+			}}
+		>
+			{props.children}
+		</div>
+	)
+}
+
+export default {
+	Root: Scenario,
+	Item: ScenarioItem,
 }
