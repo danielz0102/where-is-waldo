@@ -29,7 +29,7 @@ function CharacterButton({ character, onClick }: CharacterButtonProps) {
 			key={character.id}
 			type="button"
 			onClick={() => onClick(character)}
-			className="flex min-w-[100px] cursor-pointer items-center justify-center gap-2 p-2 font-medium text-neutral-100 hover:bg-neutral-300/70"
+			className="flex cursor-pointer items-center justify-center gap-2 p-2 font-medium text-neutral-100 hover:bg-neutral-300/70"
 		>
 			<img
 				className="size-10 object-cover object-top"

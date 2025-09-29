@@ -35,15 +35,17 @@ function Scenario({ data, children }: ScenarioProps) {
 	}
 
 	return (
-		<main className="relative cursor-crosshair select-none overflow-auto md:overflow-visible">
-			{/** biome-ignore lint/a11y/useKeyWithClickEvents: Precise mouse coordinates are needed */}
-			<img
-				src={data.imgUrl}
-				alt={data.name}
-				onClick={handleClick}
-				className="max-w-none lg:max-w-full"
-			/>
-			{children(click)}
+		<main className="overflow-auto">
+			<div className="relative size-fit overflow-hidden">
+				{/** biome-ignore lint/a11y/useKeyWithClickEvents: Precise mouse coordinates are needed */}
+				<img
+					src={data.imgUrl}
+					alt={data.name}
+					onClick={handleClick}
+					className="max-w-none cursor-crosshair md:max-w-full"
+				/>
+				{children(click)}
+			</div>
 		</main>
 	)
 }
