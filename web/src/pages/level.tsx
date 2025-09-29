@@ -23,14 +23,12 @@ export default function Level({ name }: { name: string }) {
 	if (data) {
 		return (
 			<Scenario.Root data={data}>
-				{({ x, y, toggle }) => [
-					<Scenario.Item key="target" x={x} y={y} hidden={!toggle}>
-						<TargetBox />
-					</Scenario.Item>,
-					<Scenario.Item key="menu" x={x + 100} y={y} hidden={!toggle}>
-						<CharacterMenu characters={charactersLeft} onSelect={() => {}} />
-					</Scenario.Item>,
-				]}
+				<Scenario.Item hiddenOnToggle>
+					<TargetBox />
+				</Scenario.Item>
+				<Scenario.Item x={100} hiddenOnToggle>
+					<CharacterMenu characters={charactersLeft} onSelect={() => {}} />
+				</Scenario.Item>
 			</Scenario.Root>
 		)
 	}

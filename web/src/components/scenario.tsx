@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { createContext, use, useState } from 'react'
 import type { Scenario as ScenarioType } from '~/types'
 
 interface ScenarioProps {
 	data: ScenarioType
-	children: (click: ClickState) => React.ReactNode[]
+	children: React.ReactNode[]
 }
 
 interface ClickState {
@@ -13,6 +13,14 @@ interface ClickState {
 	normY: number
 	toggle: boolean
 }
+
+const ClickContext = createContext<ClickState>({
+	x: 0,
+	y: 0,
+	normX: 0,
+	normY: 0,
+	toggle: false,
+})
 
 function Scenario({ data, children }: ScenarioProps) {
 	const [click, setClick] = useState<ClickState>({
@@ -42,33 +50,40 @@ function Scenario({ data, children }: ScenarioProps) {
 					src={data.imgUrl}
 					alt={data.name}
 					onClick={handleClick}
-					className="max-w-none cursor-crosshair md:max-w-full"
+					className="max-w-none cursor-crosshair select-none md:max-w-full"
 				/>
-				{children(click)}
+				<ClickContext value={click}>{children}</ClickContext>
 			</div>
 		</main>
 	)
 }
 
 interface ScenarioItemProps {
-	x: number
-	y: number
-	hidden?: boolean
+	x?: number
+	y?: number
+	hiddenOnToggle?: boolean
 	children: React.ReactNode
 }
 
-function ScenarioItem(props: ScenarioItemProps) {
+function ScenarioItem({
+	x = 0,
+	y = 0,
+	hiddenOnToggle = false,
+	children,
+}: ScenarioItemProps) {
+	const click = use(ClickContext)
+
 	return (
 		<div
 			className="-translate-x-1/2 -translate-y-1/2 transform"
-			hidden={props.hidden}
+			hidden={hiddenOnToggle && !click.toggle}
 			style={{
 				position: 'absolute',
-				top: `${props.y}px`,
-				left: `${props.x}px`,
+				top: `${click.y + y}px`,
+				left: `${click.x + x}px`,
 			}}
 		>
-			{props.children}
+			{children}
 		</div>
 	)
 }
