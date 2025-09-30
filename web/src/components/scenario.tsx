@@ -1,4 +1,4 @@
-import { createContext, use, useState } from 'react'
+import { useLevelStore } from '~/stores/levelStore'
 import type { Scenario as ScenarioType } from '~/types'
 
 interface ScenarioProps {
@@ -6,45 +6,8 @@ interface ScenarioProps {
 	children: React.ReactNode[]
 }
 
-interface ClickState {
-	x: number
-	y: number
-	normX: number
-	normY: number
-	toggle: boolean
-}
-
-const ClickContext = createContext<ClickState | null>(null)
-
-function useClick() {
-	const context = use(ClickContext)
-
-	if (!context) {
-		throw new Error('ClickContext value has not been provided')
-	}
-
-	return context
-}
-
 function Scenario({ data, children }: ScenarioProps) {
-	const [click, setClick] = useState<ClickState>({
-		x: 0,
-		y: 0,
-		normX: 0,
-		normY: 0,
-		toggle: false,
-	})
-
-	const handleClick = (e: React.MouseEvent<HTMLImageElement>) => {
-		const rect = e.currentTarget.getBoundingClientRect()
-		const x = e.clientX - rect.left
-		const y = e.clientY - rect.top
-
-		const normX = (x / rect.width) * 100
-		const normY = (y / rect.height) * 100
-
-		setClick((prev) => ({ x, y, normX, normY, toggle: !prev.toggle }))
-	}
+	const handleClick = useLevelStore((state) => state.handleClick)
 
 	return (
 		<main className="overflow-auto">
@@ -56,7 +19,7 @@ function Scenario({ data, children }: ScenarioProps) {
 					onClick={handleClick}
 					className="max-w-none cursor-crosshair select-none md:max-w-full"
 				/>
-				<ClickContext value={click}>{children}</ClickContext>
+				{children}
 			</div>
 		</main>
 	)
@@ -75,16 +38,18 @@ function ScenarioClickItem({
 	hiddenOnToggle = false,
 	children,
 }: ScenarioClickItemProps) {
-	const click = useClick()
+	const x = useLevelStore((state) => state.x)
+	const y = useLevelStore((state) => state.y)
+	const toggle = useLevelStore((state) => state.toggle)
 
 	return (
 		<div
 			className="-translate-x-1/2 -translate-y-1/2 transform"
-			hidden={hiddenOnToggle && !click.toggle}
+			hidden={hiddenOnToggle && !toggle}
 			style={{
 				position: 'absolute',
-				top: `${click.y + yOffset}px`,
-				left: `${click.x + xOffset}px`,
+				top: `${y + yOffset}px`,
+				left: `${x + xOffset}px`,
 			}}
 		>
 			{children}
