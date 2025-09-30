@@ -14,13 +14,17 @@ interface ClickState {
 	toggle: boolean
 }
 
-const ClickContext = createContext<ClickState>({
-	x: 0,
-	y: 0,
-	normX: 0,
-	normY: 0,
-	toggle: false,
-})
+const ClickContext = createContext<ClickState | null>(null)
+
+function useClick() {
+	const context = use(ClickContext)
+
+	if (!context) {
+		throw new Error('ClickContext value has not been provided')
+	}
+
+	return context
+}
 
 function Scenario({ data, children }: ScenarioProps) {
 	const [click, setClick] = useState<ClickState>({
@@ -71,7 +75,7 @@ function ScenarioClickItem({
 	hiddenOnToggle = false,
 	children,
 }: ScenarioClickItemProps) {
-	const click = use(ClickContext)
+	const click = useClick()
 
 	return (
 		<div
