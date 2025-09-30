@@ -39,7 +39,7 @@ function Scenario({ data, children }: ScenarioProps) {
 		const normX = (x / rect.width) * 100
 		const normY = (y / rect.height) * 100
 
-		setClick({ x, y, normX, normY, toggle: !click.toggle })
+		setClick((prev) => ({ x, y, normX, normY, toggle: !prev.toggle }))
 	}
 
 	return (
@@ -58,19 +58,19 @@ function Scenario({ data, children }: ScenarioProps) {
 	)
 }
 
-interface ScenarioItemProps {
-	x?: number
-	y?: number
+interface ScenarioClickItemProps {
+	xOffset?: number
+	yOffset?: number
 	hiddenOnToggle?: boolean
 	children: React.ReactNode
 }
 
-function ScenarioItem({
-	x = 0,
-	y = 0,
+function ScenarioClickItem({
+	xOffset = 0,
+	yOffset = 0,
 	hiddenOnToggle = false,
 	children,
-}: ScenarioItemProps) {
+}: ScenarioClickItemProps) {
 	const click = use(ClickContext)
 
 	return (
@@ -79,8 +79,8 @@ function ScenarioItem({
 			hidden={hiddenOnToggle && !click.toggle}
 			style={{
 				position: 'absolute',
-				top: `${click.y + y}px`,
-				left: `${click.x + x}px`,
+				top: `${click.y + yOffset}px`,
+				left: `${click.x + xOffset}px`,
 			}}
 		>
 			{children}
@@ -90,5 +90,5 @@ function ScenarioItem({
 
 export default {
 	Root: Scenario,
-	Item: ScenarioItem,
+	ClickItem: ScenarioClickItem,
 }

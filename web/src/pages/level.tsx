@@ -23,12 +23,12 @@ export default function Level({ name }: { name: string }) {
 	if (data) {
 		return (
 			<Scenario.Root data={data}>
-				<Scenario.Item hiddenOnToggle>
+				<Scenario.ClickItem hiddenOnToggle>
 					<TargetBox />
-				</Scenario.Item>
-				<Scenario.Item x={100} hiddenOnToggle>
+				</Scenario.ClickItem>
+				<Scenario.ClickItem xOffset={100} hiddenOnToggle>
 					<CharacterMenu characters={charactersLeft} onSelect={() => {}} />
-				</Scenario.Item>
+				</Scenario.ClickItem>
 			</Scenario.Root>
 		)
 	}
