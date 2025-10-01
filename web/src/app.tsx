@@ -1,8 +1,8 @@
 import '@fontsource/indie-flower'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter, Route, Routes } from 'react-router'
-import LandingPage from '~/pages/landing'
-import Level from '~/pages/level'
+import Landing from '~pages/Landing'
+import Level from '~pages/Level'
 
 const queryClient = new QueryClient()
 
@@ -11,7 +11,7 @@ function App() {
 		<QueryClientProvider client={queryClient}>
 			<BrowserRouter>
 				<Routes>
-					<Route path="/" element={<LandingPage />} />
+					<Route path="/" element={<Landing />} />
 					<Route path="/game" element={<Level name="Beach" />} />
 				</Routes>
 			</BrowserRouter>
