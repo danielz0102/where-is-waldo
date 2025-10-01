@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, renderHook, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import Level from '~/pages/Level'
 import { canvasClickStore } from '~/stores/canvas-click-store'
 import { characterStore } from '~/stores/character-store'
-import Level from '~pages/level'
 import characters from '~tests/mocks/characters'
 import scenarios from '~tests/mocks/scenarios'
 

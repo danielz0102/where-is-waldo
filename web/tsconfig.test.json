@@ -1,8 +1,10 @@
 {
-	"extends": "./tsconfig.app.json",
 	"compilerOptions": {
-		"types": ["vitest/globals"],
+		"types": ["vitest/globals", "@testing-library/jest-dom"],
 		"baseUrl": ".",
+
+		"jsx": "react-jsx",
+
 		"paths": {
 			"~ui/*": ["src/components/ui/*"],
 			"~components/*": ["src/components/*"],
@@ -14,5 +16,5 @@
 			"~/*": ["src/*"]
 		}
 	},
-	"include": ["tests/**/*"]
+	"include": ["**/*.test.*", "**/*.spec.*"]
 }

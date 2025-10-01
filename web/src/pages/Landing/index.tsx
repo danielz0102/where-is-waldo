@@ -18,7 +18,7 @@ function LandingPage() {
 				</p>
 				<div className="space-y-4">
 					<Link
-						to="/game"
+						to="/select-level"
 						className="inline-block rounded-lg bg-red-600 px-8 py-4 font-bold text-lg text-white shadow-lg transition-colors duration-200 hover:bg-red-700 hover:shadow-xl"
 					>
 						Start Playing
