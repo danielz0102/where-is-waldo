@@ -1,6 +1,7 @@
 import { QueryClient } from '@tanstack/react-query'
 import { screen } from '@testing-library/react'
 import ScenarioQueries from '~/querys/ScenarioQueries'
+import fakeScenarios from '~tests/mocks/scenarios'
 import { Renderer } from '~tests/utils/Renderer'
 
 import SelectScenario from '.'
@@ -15,15 +16,10 @@ const queryClient = new QueryClient({
 
 const renderer = new Renderer().withRouter().withQueryProvider(queryClient)
 
-const mockedScenarios = [
-	{ id: '1', name: 'Scenario 1', imgUrl: '/img1.png' },
-	{ id: '2', name: 'Scenario 2', imgUrl: '/img2.png' },
-]
-
 vi.mock('~/querys/ScenarioQueries', () => ({
 	default: {
 		useGetAllQuery: () => ({
-			data: mockedScenarios,
+			data: fakeScenarios,
 			isLoading: false,
 			isError: false,
 		}),
@@ -57,19 +53,17 @@ test('has a link to go back to the landing page', () => {
 test('displays a link and an image for each scenario', () => {
 	renderer.render(<SelectScenario />)
 
-	mockedScenarios.forEach((scn) => {
-		const scenarioLink = screen.queryByRole('link', {
+	fakeScenarios.forEach((scn) => {
+		const scenarioLink = screen.getByRole('link', {
 			name: new RegExp(scn.name, 'i'),
 		})
 
-		expect(scenarioLink).toBeInTheDocument()
 		expect(scenarioLink).toHaveAttribute('href', `/scenario/${scn.id}`)
 
-		const scenarioImage = screen.queryByRole('img', {
+		const scenarioImage = screen.getByRole('img', {
 			name: new RegExp(scn.name, 'i'),
 		})
 
-		expect(scenarioImage).toBeInTheDocument()
 		expect(scenarioImage).toHaveAttribute('src', scn.imgUrl)
 	})
 })
