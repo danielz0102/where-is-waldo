@@ -1,4 +1,3 @@
-import { QueryClient } from '@tanstack/react-query'
 import { screen } from '@testing-library/react'
 import ScenarioQueries from '~/querys/ScenarioQueries'
 import fakeScenarios from '~tests/mocks/scenarios'
@@ -6,15 +5,7 @@ import { Renderer } from '~tests/utils/Renderer'
 
 import SelectScenario from '.'
 
-const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			retry: false,
-		},
-	},
-})
-
-const renderer = new Renderer().withRouter().withQueryProvider(queryClient)
+const renderer = new Renderer().withRouter()
 
 vi.mock('~/querys/ScenarioQueries', () => ({
 	default: {

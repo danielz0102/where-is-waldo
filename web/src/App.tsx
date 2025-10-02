@@ -13,10 +13,7 @@ function App() {
 			<BrowserRouter>
 				<Routes>
 					<Route path="/" element={<Landing />} />
-					<Route
-						path="/select-scenario"
-						element={<SelectScenario scenarios={[]} />}
-					/>
+					<Route path="/select-scenario" element={<SelectScenario />} />
 					<Route path="/game" element={<Level name="Beach" />} />
 				</Routes>
 			</BrowserRouter>
