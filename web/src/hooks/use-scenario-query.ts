@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getByScenario } from '~services/characters-service'
-import { getByName } from '~services/scenarios-service'
+import { getByName } from '~services/ScenarioService'
 
 export function useScenarioQuery(name: string) {
 	return useQuery({

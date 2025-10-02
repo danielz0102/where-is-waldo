@@ -12,3 +12,8 @@ export async function getByName(name: string): Promise<Scenario | null> {
 
 	return data.length > 0 ? data[0] : null
 }
+
+export default {
+	getAll,
+	getByName,
+}

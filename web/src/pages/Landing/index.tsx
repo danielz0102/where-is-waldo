@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
+import Title from '~ui/Title'
 
-function LandingPage() {
+export default function Landing() {
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-100 to-red-100">
 			<main className="mx-auto max-w-2xl px-6 py-2 text-center">
@@ -9,16 +10,14 @@ function LandingPage() {
 					src="https://2cqqce459i.ufs.sh/f/AJOvo5K2Lyhx8fAhsCgdy2TGrODLX3m54PatAcsHqZfvBjRW"
 					alt="Waldo Illustration"
 				/>
-				<h1 className="mb-6 font-bold text-6xl text-gray-800">
-					Where is Waldo?
-				</h1>
+				<Title>Where is Waldo?</Title>
 				<p className="mb-8 text-gray-600 text-xl">
 					Find the hidden characters in the scene and test your observation
 					skills. Do it in record time to <strong>top the leaderboard</strong>!
 				</p>
 				<div className="space-y-4">
 					<Link
-						to="/select-level"
+						to="/select-scenario"
 						className="inline-block rounded-lg bg-red-600 px-8 py-4 font-bold text-lg text-white shadow-lg transition-colors duration-200 hover:bg-red-700 hover:shadow-xl"
 					>
 						Start Playing
@@ -31,5 +30,3 @@ function LandingPage() {
 		</div>
 	)
 }
-
-export default LandingPage
