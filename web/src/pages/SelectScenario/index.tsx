@@ -44,9 +44,9 @@ export default function SelectScenario() {
 						</p>
 					)}
 					{scenarios?.map((scn) => (
-						<a
+						<Link
 							key={scn.id}
-							href={`/scenario/${scn.id}`}
+							to={`/scenario/${scn.id}`}
 							className="relative overflow-hidden rounded shadow transition-transform hover:scale-105 active:scale-95"
 						>
 							<img
@@ -57,7 +57,7 @@ export default function SelectScenario() {
 							<h2 className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 text-6xl text-shadow-md/30">
 								{scn.name}
 							</h2>
-						</a>
+						</Link>
 					))}
 				</div>
 			</main>
