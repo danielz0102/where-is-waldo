@@ -1,4 +1,5 @@
-import { Undo2 } from 'lucide-react'
+import clsx from 'clsx'
+import { OctagonX, Undo2 } from 'lucide-react'
 import { Link } from 'react-router'
 import ScenarioQueries from '~/querys/ScenarioQueries'
 import Title from '~ui/Title'
@@ -23,18 +24,30 @@ export default function SelectScenario() {
 			</nav>
 			<main className="flex flex-1 flex-col items-center justify-center gap-2">
 				<Title className="text-center">Select a Scenario</Title>
-				<div className="flex flex-col gap-4">
-					{isLoading && <p>Loading...</p>}
+				<div
+					className={clsx(
+						'relative flex w-full max-w-2xl flex-1 flex-col gap-4',
+						{ 'overflow-hidden': isLoading }
+					)}
+				>
+					{isLoading && (
+						<div className="absolute flex w-full flex-col gap-4">
+							<ScenarioSkeleton />
+							<ScenarioSkeleton />
+							<p hidden>Loading scenarios...</p>
+						</div>
+					)}
 					{isError && (
-						<p className="rounded border border-red-500 bg-red-100 p-2">
-							Error loading scenarios. Try again later.
+						<p className="flex items-center justify-center gap-2 rounded border border-red-900 bg-red-300 p-4 text-red-900">
+							<OctagonX />
+							An error has occurred. Please try again later.
 						</p>
 					)}
 					{scenarios?.map((scn) => (
 						<a
 							key={scn.id}
 							href={`/scenario/${scn.id}`}
-							className="relative max-w-2xl overflow-hidden rounded shadow transition-transform hover:scale-105 active:scale-95"
+							className="relative overflow-hidden rounded shadow transition-transform hover:scale-105 active:scale-95"
 						>
 							<img
 								src={scn.imgUrl}
@@ -48,6 +61,14 @@ export default function SelectScenario() {
 					))}
 				</div>
 			</main>
+		</div>
+	)
+}
+
+function ScenarioSkeleton() {
+	return (
+		<div className="flex h-[453px] animate-pulse items-center justify-center rounded bg-gray-300">
+			...
 		</div>
 	)
 }
