@@ -1,12 +1,20 @@
 import { useQuery } from '@tanstack/react-query'
 import ScenarioService from '~services/ScenarioService'
 
-export default { useGetAllQuery, useGetByNameQuery }
+export default { useGetAllQuery, useGetByIdQuery, useGetByNameQuery }
 
 function useGetAllQuery() {
 	return useQuery({
 		queryKey: ['scenarios'],
 		queryFn: ScenarioService.getAll,
+		refetchOnWindowFocus: false,
+	})
+}
+
+function useGetByIdQuery(id: number) {
+	return useQuery({
+		queryKey: ['scenario', id],
+		queryFn: () => ScenarioService.getById(id),
 		refetchOnWindowFocus: false,
 	})
 }
