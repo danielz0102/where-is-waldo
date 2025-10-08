@@ -70,4 +70,15 @@ test('shows loading state', () => {
 	expect(screen.queryByText(/loading/i)).toBeInTheDocument()
 })
 
-test.todo('shows error state')
+test('shows error state', () => {
+	mockUseGetAllQuery.mockReturnValue({
+		data: undefined,
+		isLoading: false,
+		isError: true,
+		error: new Error('Failed to fetch'),
+	} as ReturnType<typeof ScenarioQueries.useGetAllQuery>)
+
+	renderer.render(<SelectScenario />)
+
+	expect(screen.queryByText(/error/i)).toBeInTheDocument()
+})

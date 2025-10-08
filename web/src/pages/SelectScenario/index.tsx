@@ -4,7 +4,11 @@ import ScenarioQueries from '~/querys/ScenarioQueries'
 import Title from '~ui/Title'
 
 export default function SelectScenario() {
-	const { data: scenarios, isLoading } = ScenarioQueries.useGetAllQuery()
+	const {
+		data: scenarios,
+		isLoading,
+		isError,
+	} = ScenarioQueries.useGetAllQuery()
 
 	return (
 		<div className="flex min-h-screen flex-col bg-gradient-to-br from-blue-100 to-red-100 p-4">
@@ -21,6 +25,11 @@ export default function SelectScenario() {
 				<Title className="text-center">Select a Scenario</Title>
 				<div className="flex flex-col gap-4">
 					{isLoading && <p>Loading...</p>}
+					{isError && (
+						<p className="rounded border border-red-500 bg-red-100 p-2">
+							Error loading scenarios. Try again later.
+						</p>
+					)}
 					{scenarios?.map((scn) => (
 						<a
 							key={scn.id}
