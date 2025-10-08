@@ -3,7 +3,7 @@
 - [ ] Add loading, error, and success states to character buttons
 - [ ] Close character menu after animation
 
-# Fixes
+# Tasks
 
 - [x] Fix character coordinates on DB
-- [ ] Remove camelCase file names
+- [ ] Remove kebab-case file names

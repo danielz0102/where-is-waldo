@@ -2,22 +2,21 @@ import { screen } from '@testing-library/react'
 import ScenarioQueries from '~/querys/ScenarioQueries'
 import fakeScenarios from '~tests/mocks/scenarios'
 import { Renderer } from '~tests/utils/Renderer'
-
 import SelectScenario from '.'
 
 const renderer = new Renderer().withRouter()
 
 vi.mock('~/querys/ScenarioQueries', () => ({
 	default: {
-		useGetAllQuery: () => ({
+		useGetAllQuery: vi.fn(() => ({
 			data: fakeScenarios,
 			isLoading: false,
 			isError: false,
-		}),
+		})),
 	},
 }))
 
-const ScenariosQueriesMock = vi.mocked(ScenarioQueries)
+const mockUseGetAllQuery = vi.mocked(ScenarioQueries.useGetAllQuery)
 
 test('has a title', () => {
 	renderer.render(<SelectScenario />)
@@ -59,5 +58,16 @@ test('displays a link and an image for each scenario', () => {
 	})
 })
 
-test.todo('shows loading state')
+test('shows loading state', () => {
+	mockUseGetAllQuery.mockReturnValue({
+		data: undefined,
+		isLoading: true,
+		isError: false,
+	} as ReturnType<typeof ScenarioQueries.useGetAllQuery>)
+
+	renderer.render(<SelectScenario />)
+
+	expect(screen.queryByText(/loading/i)).toBeInTheDocument()
+})
+
 test.todo('shows error state')
