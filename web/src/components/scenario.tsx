@@ -1,6 +1,11 @@
 import { useLevelStore } from '~/stores/levelStore'
 import type { Scenario as ScenarioType } from '~/types'
 
+export default {
+	Root: Scenario,
+	ClickItem: ScenarioClickItem,
+}
+
 interface ScenarioProps {
 	data: ScenarioType
 	children: React.ReactNode[]
@@ -55,9 +60,4 @@ function ScenarioClickItem({
 			{children}
 		</div>
 	)
-}
-
-export default {
-	Root: Scenario,
-	ClickItem: ScenarioClickItem,
 }

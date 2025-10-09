@@ -11,7 +11,7 @@ function useGetAllQuery() {
 	})
 }
 
-function useGetByIdQuery(id: number) {
+function useGetByIdQuery(id: string) {
 	return useQuery({
 		queryKey: ['scenario', id],
 		queryFn: () => ScenarioService.getById(id),

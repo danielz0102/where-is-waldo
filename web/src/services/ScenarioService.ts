@@ -12,7 +12,7 @@ async function getAll(): Promise<Scenario[]> {
 	return data
 }
 
-async function getById(id: number): Promise<Scenario> {
+async function getById(id: string): Promise<Scenario> {
 	const { data } = await HTTPClient.get<Scenario>(`scenarios/${id}`)
 	return data
 }

@@ -14,7 +14,7 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Landing />} />
 					<Route path="/select-scenario" element={<SelectScenario />} />
-					<Route path="/game" element={<Level name="Beach" />} />
+					<Route path="/scenario/:id" element={<Level />} />
 				</Routes>
 			</BrowserRouter>
 		</QueryClientProvider>

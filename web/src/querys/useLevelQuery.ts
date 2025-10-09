@@ -2,19 +2,13 @@ import { useQuery } from '@tanstack/react-query'
 import CharacterService from '~services/CharacterService'
 import ScenarioService from '~services/ScenarioService'
 
-export function useScenarioQuery(name: string) {
+export function useLevelQuery(id: string) {
 	return useQuery({
-		queryKey: ['scenario', name],
+		queryKey: ['level', id],
 		queryFn: async () => {
-			const scenario = await ScenarioService.getByName(name)
-
-			if (!scenario) {
-				throw new Error(`${name} scenario not found`)
-			}
-
+			const scenario = await ScenarioService.getById(id)
 			const characters = await CharacterService.getByScenario(scenario.id)
-
-			return { ...scenario, characters }
+			return { scenario, characters }
 		},
 		refetchOnWindowFocus: false,
 	})

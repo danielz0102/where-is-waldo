@@ -7,3 +7,5 @@
 
 - [x] Fix character coordinates on DB
 - [ ] Remove kebab-case file names
+- [ ] Add 404 page
+- [ ] Add 500 page
