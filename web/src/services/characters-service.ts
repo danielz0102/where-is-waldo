@@ -1,5 +1,5 @@
 import type { Character } from '~/types'
-import { httpClient } from './http-client'
+import HTTPClient from './HTTPClient'
 
 interface CheckClickParams {
 	id: string
@@ -8,7 +8,7 @@ interface CheckClickParams {
 }
 
 export async function checkClick(params: CheckClickParams): Promise<boolean> {
-	const { data } = await httpClient.get<boolean>(
+	const { data } = await HTTPClient.get<boolean>(
 		`characters/${params.id}/click?x=${params.x}&y=${params.y}`
 	)
 
@@ -16,7 +16,7 @@ export async function checkClick(params: CheckClickParams): Promise<boolean> {
 }
 
 export async function getByScenario(id: string): Promise<Character[]> {
-	const { data } = await httpClient.get<Character[]>(
+	const { data } = await HTTPClient.get<Character[]>(
 		`characters?scenarioId=${id}`
 	)
 

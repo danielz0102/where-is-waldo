@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { API_URL } from '~/config'
 
-export const httpClient = axios.create({
+export default axios.create({
 	baseURL: `${API_URL}/api/`,
 })
