@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import type { Character } from '~/types'
-import { checkClick } from '~services/characters-service'
+import CharacterService from '~services/CharacterService'
 
 interface CharacterState {
 	characters: Character[]
@@ -22,7 +22,7 @@ export const characterStore = create<CharacterState>((set, _, store) => ({
 	selections: 0,
 	update: (characters) => set({ characters }),
 	select: async ({ character, x, y }) => {
-		const isCorrect = await checkClick({
+		const isCorrect = await CharacterService.checkClick({
 			id: character.id,
 			x,
 			y,

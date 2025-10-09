@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { getByScenario } from '~services/characters-service'
+import CharacterService from '~services/CharacterService'
 import ScenarioService from '~services/ScenarioService'
 
 export function useScenarioQuery(name: string) {
@@ -12,7 +12,7 @@ export function useScenarioQuery(name: string) {
 				throw new Error(`${name} scenario not found`)
 			}
 
-			const characters = await getByScenario(scenario.id)
+			const characters = await CharacterService.getByScenario(scenario.id)
 
 			return { ...scenario, characters }
 		},
