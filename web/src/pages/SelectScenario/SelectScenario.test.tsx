@@ -59,7 +59,7 @@ test('displays a link and an image for each scenario', () => {
 })
 
 test('shows loading state', () => {
-	mockUseGetAllQuery.mockReturnValue({
+	mockUseGetAllQuery.mockReturnValueOnce({
 		data: undefined,
 		isLoading: true,
 		isError: false,
@@ -71,7 +71,7 @@ test('shows loading state', () => {
 })
 
 test('shows error state', () => {
-	mockUseGetAllQuery.mockReturnValue({
+	mockUseGetAllQuery.mockReturnValueOnce({
 		data: undefined,
 		isLoading: false,
 		isError: true,
