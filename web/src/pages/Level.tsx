@@ -1,6 +1,6 @@
 import { useParams } from 'react-router'
 import { useLevelQuery } from '~/querys/useLevelQuery'
-import CharacterMenu from '~components/character-menu'
+import CharacterMenu from '~components/CharacterMenu'
 import Scenario from '~components/scenario'
 import TargetBox from '~components/target-box'
 
@@ -24,7 +24,7 @@ export default function Level() {
 					<TargetBox />
 				</Scenario.ClickItem>
 				<Scenario.ClickItem xOffset={100} hiddenOnToggle>
-					<CharacterMenu characters={data.characters} onSelect={() => {}} />
+					<CharacterMenu characters={data.characters} />
 				</Scenario.ClickItem>
 			</Scenario.Root>
 		)
