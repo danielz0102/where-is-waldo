@@ -11,7 +11,7 @@ const configSchema = z.object({
 	PORT: z.coerce.number().default(3000),
 	NODE_ENV: envSchema,
 	DB_URL: z.url(),
-	CLIENT_ORIGIN: z.string().optional(),
+	CLIENT_ORIGIN: z.string(),
 })
 
 const nodeEnv = envSchema.parse(process.env.NODE_ENV)
