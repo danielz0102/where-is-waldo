@@ -1,5 +1,6 @@
 import clsx from 'clsx'
-import { CircleOff } from 'lucide-react'
+import { Check, CircleOff, LoaderCircle } from 'lucide-react'
+import { useState } from 'react'
 import CharacterQueries from '~/querys/CharacterQueries'
 import { useLevelStore } from '~/stores/levelStore'
 import type { Character } from '~/types'
@@ -25,9 +26,12 @@ interface CharacterButtonProps {
 	character: Character
 }
 
+type FeedbackState = 'idle' | 'loading' | 'success' | 'error'
+
 function CharacterButton({ character }: CharacterButtonProps) {
 	const x = useLevelStore((state) => state.normX)
 	const y = useLevelStore((state) => state.normY)
+	const [feedback, setFeedback] = useState<FeedbackState>('idle')
 	const click = CharacterQueries.useClickCallback()
 
 	if (click.error) {
@@ -41,8 +45,16 @@ function CharacterButton({ character }: CharacterButtonProps) {
 		return character.name
 	})()
 
-	const handleClick = () => {
-		click.execute({ x, y, id: character.id })
+	const handleClick = async () => {
+		setFeedback('loading')
+		const result = await click.execute({ x, y, id: character.id })
+
+		if (!result) {
+			setFeedback('error')
+			return setTimeout(() => setFeedback('idle'), 1000)
+		}
+
+		return setFeedback('success')
 	}
 
 	return (
@@ -51,18 +63,20 @@ function CharacterButton({ character }: CharacterButtonProps) {
 			type="button"
 			onClick={handleClick}
 			className={clsx(
-				'flex min-h-16 cursor-pointer select-none items-center gap-2 p-2 font-medium text-neutral-100 transition-colors hover:bg-neutral-300/70',
-				{ 'bg-red-900/70': click.result === false },
-				{ 'bg-green-500/70': click.result }
+				'flex min-h-16 cursor-pointer select-none items-center gap-2 p-2 font-medium text-neutral-100 transition-colors hover:bg-neutral-300/70 disabled:cursor-not-allowed',
+				{
+					'bg-red-900/70': feedback === 'error',
+					'bg-green-500/70': feedback === 'success',
+					'animate-pulse bg-neutral-400/70': feedback === 'loading',
+				}
 			)}
-			disabled={click.loading || click.result}
-			onTransitionEnd={() => {
-				click.reset()
-			}}
+			disabled={feedback === 'loading' || feedback === 'success'}
 		>
 			<div className="flex basis-10 items-center justify-center">
-				{click.result === false && <CircleOff className="text-red-400" />}
-				{click.status === 'not-requested' && (
+				{feedback === 'error' && <CircleOff className="text-red-400" />}
+				{feedback === 'loading' && <LoaderCircle className="animate-spin" />}
+				{feedback === 'success' && <Check className="text-green-300" />}
+				{feedback === 'idle' && (
 					<img
 						className="size-10 object-cover object-top"
 						src={character.imgUrl}
