@@ -1,9 +1,10 @@
 import { Link } from 'react-router'
+import MainLayout from '~components/layouts/MainLayout'
 import Title from '~ui/Title'
 
 export default function Landing() {
 	return (
-		<div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-100 to-red-100">
+		<MainLayout>
 			<main className="mx-auto max-w-2xl px-6 py-2 text-center">
 				<img
 					className="mx-auto mb-6 size-75 object-contain"
@@ -27,6 +28,6 @@ export default function Landing() {
 					</div>
 				</div>
 			</main>
-		</div>
+		</MainLayout>
 	)
 }
