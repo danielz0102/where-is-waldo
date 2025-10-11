@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { useAsyncCallback } from 'react-async-hook'
 import CharacterService from '~services/CharacterService'
 
-export default { useGetByScenarioQuery, useClickCallback }
+export default { useGetByScenarioQuery }
 
 function useGetByScenarioQuery(scenarioId: string) {
 	return useQuery({
@@ -10,8 +9,4 @@ function useGetByScenarioQuery(scenarioId: string) {
 		queryFn: () => CharacterService.getByScenario(scenarioId),
 		refetchOnWindowFocus: false,
 	})
-}
-
-function useClickCallback() {
-	return useAsyncCallback(CharacterService.checkClick)
 }

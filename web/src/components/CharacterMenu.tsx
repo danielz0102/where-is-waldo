@@ -1,9 +1,9 @@
 import clsx from 'clsx'
 import { Check, CircleOff, LoaderCircle } from 'lucide-react'
 import { useState } from 'react'
-import CharacterQueries from '~/querys/CharacterQueries'
 import { useLevelStore } from '~/stores/levelStore'
 import type { Character } from '~/types'
+import CharacterService from '~services/CharacterService'
 
 interface CharacterMenuProps {
 	characters: Character[]
@@ -26,28 +26,23 @@ interface CharacterButtonProps {
 	character: Character
 }
 
-type FeedbackState = 'idle' | 'loading' | 'success' | 'error'
+type Feedback = 'idle' | 'loading' | 'success' | 'error'
 
 function CharacterButton({ character }: CharacterButtonProps) {
 	const x = useLevelStore((state) => state.normX)
 	const y = useLevelStore((state) => state.normY)
-	const [feedback, setFeedback] = useState<FeedbackState>('idle')
-	const click = CharacterQueries.useClickCallback()
-
-	if (click.error) {
-		throw new Error('An unexpected error occurred')
-	}
+	const [feedback, setFeedback] = useState<Feedback>('idle')
 
 	const text = (() => {
-		if (click.loading) return 'Loading...'
-		if (click.result === false) return 'Wrong'
-		if (click.result === true) return 'Success!'
+		if (feedback === 'loading') return 'Loading...'
+		if (feedback === 'error') return 'Wrong'
+		if (feedback === 'success') return 'Success!'
 		return character.name
 	})()
 
 	const handleClick = async () => {
 		setFeedback('loading')
-		const result = await click.execute({ x, y, id: character.id })
+		const result = await CharacterService.checkClick({ x, y, id: character.id })
 
 		if (!result) {
 			setFeedback('error')
