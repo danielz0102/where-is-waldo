@@ -36,7 +36,7 @@ function CharacterButton({ character }: CharacterButtonProps) {
 	const text = (() => {
 		if (feedback === 'loading') return 'Loading...'
 		if (feedback === 'error') return 'Wrong'
-		if (feedback === 'success') return 'Success!'
+		if (feedback === 'success') return 'Correct!'
 		return character.name
 	})()
 
@@ -61,7 +61,7 @@ function CharacterButton({ character }: CharacterButtonProps) {
 				'flex min-h-16 cursor-pointer select-none items-center gap-2 p-2 font-medium text-neutral-100 transition-colors hover:bg-neutral-300/70 disabled:cursor-not-allowed',
 				{
 					'bg-red-900/70': feedback === 'error',
-					'bg-green-500/70': feedback === 'success',
+					'bg-green-900/70': feedback === 'success',
 					'animate-pulse bg-neutral-400/70': feedback === 'loading',
 				}
 			)}
