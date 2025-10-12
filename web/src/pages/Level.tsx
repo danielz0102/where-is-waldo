@@ -1,8 +1,9 @@
 import { useParams } from 'react-router'
 import { useLevelQuery } from '~/querys/useLevelQuery'
 import CharacterMenu from '~components/CharacterMenu'
-import Scenario from '~components/scenario'
-import TargetBox from '~components/target-box'
+import Scenario from '~components/Scenario'
+import ScoreTimer from '~components/ScoreTimer'
+import TargetBox from '~components/TargetBox'
 
 export default function Level() {
 	const { id } = useParams<{ id: string }>()
@@ -26,6 +27,7 @@ export default function Level() {
 				<Scenario.ClickItem xOffset={100} hiddenOnToggle>
 					<CharacterMenu characters={data.characters} />
 				</Scenario.ClickItem>
+				<ScoreTimer />
 			</Scenario.Root>
 		)
 	}
