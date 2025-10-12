@@ -4,6 +4,7 @@ import CharacterMenu from '~components/CharacterMenu'
 import Scenario from '~components/Scenario'
 import ScoreTimer from '~components/ScoreTimer'
 import TargetBox from '~components/TargetBox'
+import WinnerModal from '~components/WinnerModal'
 
 export default function Level() {
 	const { id } = useParams<{ id: string }>()
@@ -28,6 +29,7 @@ export default function Level() {
 					<CharacterMenu characters={data.characters} />
 				</Scenario.ClickItem>
 				<ScoreTimer />
+				<WinnerModal />
 			</Scenario.Root>
 		)
 	}

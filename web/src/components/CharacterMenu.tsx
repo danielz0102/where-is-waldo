@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { Check, CircleOff, LoaderCircle } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useLevelStore } from '~/stores/levelStore'
 import type { Character } from '~/types'
 import CharacterService from '~services/CharacterService'
@@ -10,13 +10,33 @@ interface CharacterMenuProps {
 }
 
 export default function CharacterMenu({ characters }: CharacterMenuProps) {
+	const setWin = useLevelStore((state) => state.setWin)
+	const charactersRef = useRef(
+		characters.map((c) => ({ id: c.id, found: false }))
+	)
+
+	const handleSuccess = (id: string) => {
+		const char = charactersRef.current.find((c) => c.id === id)
+		if (char) char.found = true
+
+		const allFound = charactersRef.current.every((c) => c.found)
+
+		if (allFound) {
+			setWin(true)
+		}
+	}
+
 	return (
 		<div
 			role="menu"
 			className="flex min-w-32 flex-col rounded bg-neutral-700/70"
 		>
 			{characters.map((char) => (
-				<CharacterButton key={char.id} character={char} />
+				<CharacterButton
+					key={char.id}
+					character={char}
+					onSuccess={handleSuccess}
+				/>
 			))}
 		</div>
 	)
@@ -24,11 +44,12 @@ export default function CharacterMenu({ characters }: CharacterMenuProps) {
 
 interface CharacterButtonProps {
 	character: Character
+	onSuccess: (id: string) => void
 }
 
 type Feedback = 'idle' | 'loading' | 'success' | 'error'
 
-function CharacterButton({ character }: CharacterButtonProps) {
+function CharacterButton({ character, onSuccess }: CharacterButtonProps) {
 	const x = useLevelStore((state) => state.normX)
 	const y = useLevelStore((state) => state.normY)
 	const [feedback, setFeedback] = useState<Feedback>('idle')
@@ -49,7 +70,8 @@ function CharacterButton({ character }: CharacterButtonProps) {
 			return setTimeout(() => setFeedback('idle'), 1000)
 		}
 
-		return setFeedback('success')
+		setFeedback('success')
+		onSuccess(character.id)
 	}
 
 	return (
