@@ -13,6 +13,7 @@ interface ScenarioProps {
 
 function Scenario({ data, children }: ScenarioProps) {
 	const handleClick = useLevelStore((state) => state.handleClick)
+	const startTimer = useLevelStore((state) => state.init)
 
 	return (
 		<main className="overflow-auto">
@@ -23,6 +24,7 @@ function Scenario({ data, children }: ScenarioProps) {
 					alt={data.name}
 					onClick={handleClick}
 					className="max-w-none cursor-crosshair select-none md:max-w-full"
+					onLoad={() => startTimer()}
 				/>
 				{children}
 			</div>
