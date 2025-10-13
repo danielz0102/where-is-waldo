@@ -1,4 +1,4 @@
-import { useParams } from 'react-router'
+import { Link, useParams } from 'react-router'
 import { useLevelQuery } from '~/querys/useLevelQuery'
 import CharacterMenu from '~components/CharacterMenu'
 import Scenario from '~components/Scenario'
@@ -30,6 +30,12 @@ export default function Level() {
 				</Scenario.ClickItem>
 				<Scenario.Header>
 					<ScoreTimer />
+					<Link
+						to="/"
+						className="text-blue-700 text-shadow-blue-100 text-shadow-lg underline"
+					>
+						Back to Home
+					</Link>
 				</Scenario.Header>
 				<WinnerModal />
 			</Scenario.Root>

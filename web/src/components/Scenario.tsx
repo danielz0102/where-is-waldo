@@ -66,5 +66,7 @@ function ScenarioClickItem({
 }
 
 function ScenarioHeader({ children }: { children: React.ReactNode }) {
-	return <div className="fixed top-4 left-4 flex gap-4">{children}</div>
+	return (
+		<div className="fixed top-4 left-4 flex items-center gap-4">{children}</div>
+	)
 }
