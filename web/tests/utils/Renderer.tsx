@@ -1,37 +1,48 @@
 import { type QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { type RenderResult, render } from '@testing-library/react'
-import type { ReactElement } from 'react'
 import { MemoryRouter } from 'react-router'
 
+type Wrapper = ({
+	children,
+}: {
+	children: React.ReactNode
+}) => React.ReactElement
+
 export class Renderer {
-	private useRouter = false
-	private queryClient: QueryClient | undefined
+	private Wrapper: Wrapper | null = null
 
 	withRouter(): Renderer {
-		this.useRouter = true
+		this.setNewWrapper(({ children }) => (
+			<MemoryRouter>{children}</MemoryRouter>
+		))
 		return this
 	}
 
 	withQueryProvider(queryClient: QueryClient): Renderer {
-		this.queryClient = queryClient
+		this.setNewWrapper(({ children }) => (
+			<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+		))
 		return this
 	}
 
-	render(component: ReactElement): RenderResult {
-		let wrappedComponent = component
-
-		if (this.useRouter) {
-			wrappedComponent = <MemoryRouter>{wrappedComponent}</MemoryRouter>
+	render(component: React.ReactElement): RenderResult {
+		if (!this.Wrapper) {
+			return render(component)
 		}
 
-		if (this.queryClient) {
-			wrappedComponent = (
-				<QueryClientProvider client={this.queryClient}>
-					{wrappedComponent}
-				</QueryClientProvider>
-			)
+		return render(<this.Wrapper>{component}</this.Wrapper>)
+	}
+
+	private setNewWrapper(NewWrapper: Wrapper): void {
+		if (!this.Wrapper) {
+			this.Wrapper = NewWrapper
+			return
 		}
 
-		return render(wrappedComponent)
+		const PreviousWrapper = this.Wrapper
+
+		this.Wrapper = ({ children }) => {
+			return <NewWrapper>{PreviousWrapper({ children })}</NewWrapper>
+		}
 	}
 }
