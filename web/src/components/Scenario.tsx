@@ -4,6 +4,7 @@ import type { Scenario as ScenarioType } from '~/types'
 export default {
 	Root: Scenario,
 	ClickItem: ScenarioClickItem,
+	Header: ScenarioHeader,
 }
 
 interface ScenarioProps {
@@ -62,4 +63,8 @@ function ScenarioClickItem({
 			{children}
 		</div>
 	)
+}
+
+function ScenarioHeader({ children }: { children: React.ReactNode }) {
+	return <div className="fixed top-4 left-4 flex gap-4">{children}</div>
 }

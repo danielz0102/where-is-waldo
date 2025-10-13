@@ -28,7 +28,9 @@ export default function Level() {
 				<Scenario.ClickItem xOffset={100} hiddenOnToggle>
 					<CharacterMenu characters={data.characters} />
 				</Scenario.ClickItem>
-				<ScoreTimer />
+				<Scenario.Header>
+					<ScoreTimer />
+				</Scenario.Header>
 				<WinnerModal />
 			</Scenario.Root>
 		)
