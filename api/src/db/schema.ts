@@ -1,5 +1,5 @@
 import type { InferSelectModel } from 'drizzle-orm'
-import { pgTable, real, uuid, varchar } from 'drizzle-orm/pg-core'
+import { pgTable, real, time, uuid, varchar } from 'drizzle-orm/pg-core'
 
 export const scenarios = pgTable('scenarios', {
 	id: uuid().primaryKey().defaultRandom(),
@@ -20,5 +20,15 @@ export const characters = pgTable('characters', {
 		.notNull(),
 })
 
+export const scores = pgTable('scores', {
+	id: uuid().primaryKey().defaultRandom(),
+	username: varchar({ length: 255 }).unique().notNull(),
+	time: time().notNull(),
+	scenarioId: uuid('scenario_id')
+		.references(() => scenarios.id)
+		.notNull(),
+})
+
 export type Scenario = InferSelectModel<typeof scenarios>
 export type Character = InferSelectModel<typeof characters>
+export type Score = InferSelectModel<typeof scores>
