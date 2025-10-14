@@ -33,7 +33,7 @@ describe('getAllFromScenario', async () => {
 	})
 })
 
-describe('create', () => {
+describe('new', () => {
 	const newScore = {
 		username: 'test_user',
 		time: '00:02:30',
@@ -47,7 +47,38 @@ describe('create', () => {
 	})
 
 	it('inserts a new score', async () => {
-		await ScoresModel.create(newScore)
+		await ScoresModel.new(newScore)
+
+		const scores = await db
+			.select()
+			.from(scoresSchema)
+			.where(eq(scoresSchema.username, newScore.username))
+
+		expect(scores.length).toBe(1)
+		expect(scores[0]).toMatchObject(newScore)
+	})
+
+	it('updates an existing score if the new score is better', async () => {
+		await ScoresModel.new(newScore)
+		const betterTime = '00:02:00'
+		const betterScore = { ...newScore, time: betterTime }
+
+		await ScoresModel.new(betterScore)
+
+		const scores = await db
+			.select()
+			.from(scoresSchema)
+			.where(eq(scoresSchema.username, newScore.username))
+
+		expect(scores.length).toBe(1)
+		expect(scores[0]).toMatchObject(betterScore)
+	})
+
+	it('does not update an existing score if the new score is worse', async () => {
+		await ScoresModel.new(newScore)
+		const worseScore = { ...newScore, time: '00:03:00' }
+
+		await ScoresModel.new(worseScore)
 
 		const scores = await db
 			.select()

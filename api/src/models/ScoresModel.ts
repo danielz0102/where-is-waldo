@@ -5,7 +5,7 @@ import { timeToMs } from '~/lib/timeUtils'
 
 export const ScoresModel = {
 	getAllFromScenario,
-	create,
+	new: newScore,
 	isTop10,
 }
 
@@ -18,8 +18,30 @@ async function getAllFromScenario(id: string, limit = 10) {
 		.orderBy(scores.time)
 }
 
-async function create(score: Omit<Score, 'id'>) {
-	return db.insert(scores).values(score)
+async function newScore(score: Omit<Score, 'id'>) {
+	const existingScores = await db
+		.select()
+		.from(scores)
+		.where(eq(scores.username, score.username))
+
+	if (existingScores.length === 0) {
+		return db.insert(scores).values(score)
+	}
+
+	const existingScore = existingScores[0]
+
+	if (!existingScore) {
+		throw new Error('Could not find existing score')
+	}
+
+	if (timeToMs(score.time) >= timeToMs(existingScore.time)) {
+		return
+	}
+
+	return db
+		.update(scores)
+		.set({ time: score.time })
+		.where(eq(scores.id, existingScore.id))
 }
 
 async function isTop10(time: string, scenarioId: string) {
