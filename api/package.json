@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "",
 	"scripts": {
-		"build": "tsc --project tsconfig.app.json",
+		"build": "tsc --project tsconfig.app.json --noEmitOnError",
 		"start": "node dist/app.js",
 		"dev": "tsx --watch --tsconfig ./tsconfig.app.json src/app.ts",
 		"test": "NODE_ENV=testing vitest",
