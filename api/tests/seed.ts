@@ -1,12 +1,12 @@
 import { reset, seed } from 'drizzle-seed'
 import db from '~/db'
-import { characters, scenarios } from '~/db/schema'
+import { characters, scenarios, scores } from '~/db/schema'
 
 async function main() {
 	console.log('🌱 Seeding database...')
 
-	await reset(db, { characters, scenarios })
-	await seed(db, { scenarios, characters }).refine((f) => ({
+	await reset(db, { characters, scenarios, scores })
+	await seed(db, { scenarios, characters, scores }).refine((f) => ({
 		characters: {
 			columns: {
 				minX: f.int({ minValue: 50, maxValue: 100 }),
