@@ -4,6 +4,8 @@
 		"types": ["vitest/globals"],
 		"module": "es2022",
 		"moduleResolution": "bundler",
+		"noUncheckedIndexedAccess": true,
+		"lib": ["es2022"],
 		"paths": {
 			"~controllers/*": ["src/controllers/*"],
 			"~models/*": ["src/models/*"],

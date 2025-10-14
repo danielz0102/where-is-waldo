@@ -7,6 +7,9 @@ async function main() {
 
 	await reset(db, { characters, scenarios, scores })
 	await seed(db, { scenarios, characters, scores }).refine((f) => ({
+		scenarios: {
+			count: 3,
+		},
 		characters: {
 			columns: {
 				minX: f.int({ minValue: 50, maxValue: 100 }),
@@ -14,6 +17,9 @@ async function main() {
 				minY: f.int({ minValue: 50, maxValue: 100 }),
 				maxY: f.int({ minValue: 101, maxValue: 550 }),
 			},
+		},
+		scores: {
+			count: 30,
 		},
 	}))
 
