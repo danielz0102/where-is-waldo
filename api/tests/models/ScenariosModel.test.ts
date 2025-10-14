@@ -8,13 +8,18 @@ describe('get', () => {
 
 	it('returns the scenario found by the filters', async () => {
 		const scenarios = await ScenariosModel.get()
+		const first = scenarios[0]
+
+		if (first === undefined) {
+			throw new Error('No scenarios found in the database')
+		}
 
 		const result = await ScenariosModel.get({
-			id: scenarios[0].id,
-			name: scenarios[0].name,
+			id: first.id,
+			name: first.name,
 		})
 
-		expect(result).toEqual([scenarios[0]])
+		expect(result).toEqual([first])
 	})
 
 	it('returns an empty array if the scenario does not exists', async () => {

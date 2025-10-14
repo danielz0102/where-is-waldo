@@ -1,4 +1,5 @@
 import request from 'supertest'
+import type { Character } from '~/db/schema'
 import { CharactersModel } from '~models/CharactersModel'
 import { app } from '~tests/app'
 import charactersCollection from '~tests/mocks/charactersCollection'
@@ -33,10 +34,21 @@ describe('GET /api/characters', () => {
 
 describe('GET /api/characters/:id', () => {
 	it('responds with the character with the given ID', async () => {
-		const character = charactersCollection[0]
+		const character: Character = {
+			id: '1',
+			name: 'Test Character',
+			imgUrl: 'http://example.com/image.jpg',
+			scenarioId: '1',
+			maxX: 200,
+			maxY: 200,
+			minX: 100,
+			minY: 100,
+		}
 		CharactersModelMock.get.mockResolvedValueOnce(character)
 
-		const response = await request(app).get('/api/characters/1').expect(200)
+		const response = await request(app)
+			.get(`/api/characters/${character.id}`)
+			.expect(200)
 
 		expect(response.body).toEqual(character)
 	})

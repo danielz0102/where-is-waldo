@@ -1,4 +1,5 @@
 import request from 'supertest'
+import type { Scenario } from '~/db/schema'
 import { ScenariosModel } from '~models/ScenariosModel'
 import { app } from '~tests/app'
 import scenariosCollection from '~tests/mocks/scenariosCollection'
@@ -11,6 +12,12 @@ beforeEach(() => {
 	vi.clearAllMocks()
 })
 
+const fakeScenario: Scenario = {
+	id: '1',
+	name: 'Test Scenario',
+	imgUrl: 'http://example.com/image.jpg',
+}
+
 describe('GET /api/scenarios', () => {
 	it('responds with all scenarios', async () => {
 		ScenariosModelMock.get.mockResolvedValueOnce(scenariosCollection)
@@ -21,15 +28,17 @@ describe('GET /api/scenarios', () => {
 	})
 
 	it('allows get by name', async () => {
-		ScenariosModelMock.get.mockResolvedValueOnce([scenariosCollection[1]])
+		ScenariosModelMock.get.mockResolvedValueOnce([fakeScenario])
 
 		const response = await request(app)
 			.get('/api/scenarios')
-			.query({ name: 'Beach' })
+			.query({ name: fakeScenario.name })
 			.expect(200)
 
-		expect(ScenariosModelMock.get).toHaveBeenCalledWith({ name: 'Beach' })
-		expect(response.body).toEqual([scenariosCollection[1]])
+		expect(ScenariosModelMock.get).toHaveBeenCalledWith({
+			name: fakeScenario.name,
+		})
+		expect(response.body).toEqual([fakeScenario])
 	})
 
 	it('ignores unknown query params', async () => {
@@ -46,11 +55,13 @@ describe('GET /api/scenarios', () => {
 
 describe('GET /api/scenarios/:id', () => {
 	it('responds with the scenario found', async () => {
-		ScenariosModelMock.get.mockResolvedValueOnce([scenariosCollection[0]])
+		ScenariosModelMock.get.mockResolvedValueOnce([fakeScenario])
 
-		const response = await request(app).get('/api/scenarios/1').expect(200)
+		const response = await request(app)
+			.get(`/api/scenarios/${fakeScenario.id}`)
+			.expect(200)
 
-		expect(response.body).toEqual(scenariosCollection[0])
+		expect(response.body).toEqual(fakeScenario)
 	})
 
 	it('responds with an error if the scenario does not exist', async () => {

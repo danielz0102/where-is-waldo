@@ -25,6 +25,11 @@ async function getAll(
 
 async function get(req: Request, res: Response) {
 	const { id } = req.params
+
+	if (!id) {
+		return res.status(400).json({ error: 'Character ID is required' })
+	}
+
 	const character = await CharactersModel.get(id)
 
 	if (!character) {
@@ -37,6 +42,10 @@ async function get(req: Request, res: Response) {
 async function checkClick(req: Request, res: Response) {
 	const { x, y } = req.query
 	const { id } = req.params
+
+	if (!id) {
+		return res.status(400).json({ error: 'Character ID is required' })
+	}
 
 	const hasBeenClicked = await CharactersModel.hasBeenClicked(id, {
 		x: Number(x),

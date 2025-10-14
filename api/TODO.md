@@ -1,4 +1,4 @@
 # TODO
 
 - [ ] Add ScoreController
-- [ ] Fix TypeScript errors
+- [x] Fix TypeScript errors

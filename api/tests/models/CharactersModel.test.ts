@@ -1,6 +1,5 @@
 import type { Character } from '~/db/schema'
 import { CharactersModel } from '~models/CharactersModel'
-import { ScenariosModel } from '~models/ScenariosModel'
 
 describe('getAll', () => {
 	it('returns an array', async () => {
@@ -11,11 +10,11 @@ describe('getAll', () => {
 
 describe('get', () => {
 	it('returns the character with the given id', async () => {
-		const characters = await CharactersModel.getAll()
+		const char = await getFirstCharacter()
 
-		const character = await CharactersModel.get(characters[0].id)
+		const result = await CharactersModel.get(char.id)
 
-		expect(character).toEqual(characters[0])
+		expect(result).toEqual(char)
 	})
 
 	it('returns null if the character does not exist', async () => {
@@ -33,9 +32,9 @@ describe('get', () => {
 
 describe('getAllFromScenario', () => {
 	it('returns an array', async () => {
-		const scenarios = await ScenariosModel.get()
+		const char = await getFirstCharacter()
 
-		const characters = await CharactersModel.getAllFromScenario(scenarios[0].id)
+		const characters = await CharactersModel.getAllFromScenario(char.id)
 
 		expect(characters).toBeInstanceOf(Array)
 	})
@@ -83,5 +82,12 @@ describe('hasBeenClicked', () => {
 
 async function getFirstCharacter(): Promise<Character> {
 	const characters = await CharactersModel.getAll()
-	return characters[0]
+
+	const char = characters[0]
+
+	if (char === undefined) {
+		throw new Error('No characters found in the database')
+	}
+
+	return char
 }
