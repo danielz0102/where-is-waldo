@@ -49,7 +49,7 @@ async function isTop10(time: string, scenarioId: string) {
 
 	if (scores.length < 10) return true
 
-	const worstTop10 = scores[scores.length - 1]
+	const worstTop10 = scores.at(-1)
 
 	if (worstTop10 === undefined) {
 		throw new Error('Could not determine the worst top 10 score')
