@@ -1,17 +1,16 @@
-import { and, eq, gte, lte } from 'drizzle-orm'
-import db from '~/db'
-import { type Character, characters } from '~/db/schema'
+import type { Character } from '~/db/schema'
 import { uuidIsValid } from '~/lib/uuidIsValid'
+import { CharacterRepository as repo } from '~/repositories/CharacterRepository'
 
 export const CharactersModel = {
 	getAll,
 	get,
 	getAllFromScenario,
-	hasBeenClicked,
+	click,
 }
 
 function getAll(): Promise<Character[]> {
-	return db.select().from(characters)
+	return repo.getAll()
 }
 
 async function get(id: string): Promise<Character | null> {
@@ -19,34 +18,26 @@ async function get(id: string): Promise<Character | null> {
 		return null
 	}
 
-	const result = await db.select().from(characters).where(eq(characters.id, id))
-	return result[0] ?? null
+	return repo.getById(id)
 }
 
 function getAllFromScenario(id: string): Promise<Character[]> {
-	return db.select().from(characters).where(eq(characters.scenarioId, id))
+	return repo.getByScenarioId(id)
 }
 
-async function hasBeenClicked(
-	id: string,
-	{ x, y }: { x: number; y: number }
-): Promise<boolean> {
+async function click({
+	id,
+	x,
+	y,
+}: {
+	id: string
+	x: number
+	y: number
+}): Promise<boolean> {
 	if (!uuidIsValid(id)) {
 		return false
 	}
 
-	const result = await db
-		.select()
-		.from(characters)
-		.where(
-			and(
-				eq(characters.id, id),
-				lte(characters.minX, x),
-				gte(characters.maxX, x),
-				lte(characters.minY, y),
-				gte(characters.maxY, y)
-			)
-		)
-
+	const result = await repo.getByCoordinates({ id, x, y })
 	return result.length > 0
 }
