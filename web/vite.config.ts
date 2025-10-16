@@ -2,21 +2,10 @@
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
-	plugins: [react(), tailwindcss()],
-	resolve: {
-		alias: {
-			'~ui': '/src/components/ui',
-			'~components': '/src/components',
-			'~services': '/src/services',
-			'~assets': '/src/assets',
-			'~hooks': '/src/hooks',
-			'~pages': '/src/pages',
-			'~tests': '/tests',
-			'~': '/src',
-		},
-	},
+	plugins: [react(), tailwindcss(), tsconfigPaths()],
 	test: {
 		globals: true,
 		environment: 'happy-dom',
