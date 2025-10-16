@@ -2,4 +2,5 @@
 
 - [x] Add ScoreController
 - [x] Fix TypeScript errors
-- [ ] Inject dependencies to controllers and routers
+- [ ] Extract DB access from models
+- [ ] Add validation
