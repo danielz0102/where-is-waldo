@@ -1,6 +1,6 @@
 import request from 'supertest'
 import type { Scenario } from '~/db/schema'
-import { ScenariosModel } from '~models/ScenariosModel'
+import { ScenariosModel } from '~/models/ScenariosModel'
 import { app } from '~tests/app'
 import scenariosCollection from '~tests/mocks/scenariosCollection'
 

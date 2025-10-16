@@ -17,5 +17,5 @@
 			"~tests/*": ["tests/*"]
 		}
 	},
-	"include": ["**/*.test.ts"]
+	"include": ["**/*.test.ts", "tests/**/*"]
 }
