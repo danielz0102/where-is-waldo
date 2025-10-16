@@ -1,7 +1,6 @@
-import { eq } from 'drizzle-orm'
-import db from '~/db'
-import { type Score, scores } from '~/db/schema'
+import type { Score } from '~/db/schema'
 import { timeToMs } from '~/lib/timeUtils'
+import { ScoreRepository as repo } from '~/repositories/ScoreRepository'
 
 export const ScoresModel = {
 	getAllFromScenario,
@@ -9,39 +8,24 @@ export const ScoresModel = {
 	isTop10,
 }
 
-async function getAllFromScenario(id: string, limit = 10) {
-	return db
-		.select()
-		.from(scores)
-		.where(eq(scores.scenarioId, id))
-		.limit(limit)
-		.orderBy(scores.time)
+async function getAllFromScenario(id: string, limit = 10): Promise<Score[]> {
+	return repo.getByScenario(id, limit)
 }
 
-async function newScore(score: Omit<Score, 'id'>) {
-	const existingScores = await db
-		.select()
-		.from(scores)
-		.where(eq(scores.username, score.username))
-
-	if (existingScores.length === 0) {
-		return db.insert(scores).values(score)
-	}
-
-	const existingScore = existingScores[0]
+async function newScore(score: Omit<Score, 'id'>): Promise<Score | null> {
+	const existingScore = await repo.getByUsername(score.username)
 
 	if (!existingScore) {
-		throw new Error('Could not find existing score')
+		return repo.create(score)
 	}
 
-	if (timeToMs(score.time) >= timeToMs(existingScore.time)) {
-		return
+	const isBetter = timeToMs(score.time) < timeToMs(existingScore.time)
+
+	if (!isBetter) {
+		return null
 	}
 
-	return db
-		.update(scores)
-		.set({ time: score.time })
-		.where(eq(scores.id, existingScore.id))
+	return repo.update({ ...existingScore, ...score })
 }
 
 async function isTop10(time: string, scenarioId: string) {
@@ -52,7 +36,9 @@ async function isTop10(time: string, scenarioId: string) {
 	const worstTop10 = scores.at(-1)
 
 	if (worstTop10 === undefined) {
-		throw new Error('Could not determine the worst top 10 score')
+		throw new Error('Could not determine the worst top 10 score', {
+			cause: scores,
+		})
 	}
 
 	return timeToMs(time) < timeToMs(worstTop10.time)
