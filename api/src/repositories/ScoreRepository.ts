@@ -1,6 +1,7 @@
 import { eq } from 'drizzle-orm'
 import db from '~/db'
 import { type Score, scores } from '~/db/schema'
+import { UnexpectedError } from '~/errors'
 
 export const ScoreRepository = {
 	getByScenario,
@@ -32,7 +33,7 @@ async function create(score: Omit<Score, 'id'>): Promise<Score> {
 	const inserted = result[0]
 
 	if (!inserted) {
-		throw new Error('Failed to insert score', { cause: score })
+		throw new UnexpectedError('Failed to insert score', { cause: score })
 	}
 
 	return inserted
@@ -48,7 +49,7 @@ async function update(score: Score): Promise<Score> {
 	const updated = result[0]
 
 	if (!updated) {
-		throw new Error('Failed to update score', { cause: score })
+		throw new UnexpectedError('Failed to update score', { cause: score })
 	}
 
 	return updated
