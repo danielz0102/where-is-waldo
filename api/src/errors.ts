@@ -1,13 +1,12 @@
-export class ValidationError extends Error {
-	constructor(message: string, options?: ErrorOptions) {
-		super(message, options)
-		this.name = 'ValidationError'
-	}
-}
+export const ValidationError = createCustomError('ValidationError')
+export const UnexpectedError = createCustomError('UnexpectedError')
+export const BusinessError = createCustomError('BusinessError')
 
-export class UnexpectedError extends Error {
-	constructor(message: string, options?: ErrorOptions) {
-		super(message, options)
-		this.name = 'UnexpectedError'
+function createCustomError(name: string) {
+	return class extends Error {
+		constructor(message: string, options?: ErrorOptions) {
+			super(message, options)
+			this.name = name
+		}
 	}
 }
