@@ -2,7 +2,7 @@ import { and, eq, gte, lte } from 'drizzle-orm'
 import db from '~/db'
 import { type Character, characters } from '~/db/schema'
 
-export const CharactersModel = {
+export const CharacterModel = {
 	getAll,
 	getById,
 	getAllFromScenario,

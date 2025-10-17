@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express'
-import { CharactersModel } from '~models/CharactersModel'
+import { CharacterModel } from '~models/CharacterModel'
 
 export const CharactersController = {
 	getAll,
@@ -15,9 +15,9 @@ async function getAll(
 
 	const characters = await (() => {
 		if (scenarioId) {
-			return CharactersModel.getAllFromScenario(scenarioId)
+			return CharacterModel.getAllFromScenario(scenarioId)
 		}
-		return CharactersModel.getAll()
+		return CharacterModel.getAll()
 	})()
 
 	res.json(characters)
@@ -30,7 +30,7 @@ async function get(req: Request, res: Response) {
 		return res.status(400).json({ error: 'Character ID is required' })
 	}
 
-	const character = await CharactersModel.getById(id)
+	const character = await CharacterModel.getById(id)
 
 	if (!character) {
 		return res.status(404).json({ error: 'Character not found' })
@@ -47,7 +47,7 @@ async function checkClick(req: Request, res: Response) {
 		return res.status(400).json({ error: 'Character ID is required' })
 	}
 
-	const hasBeenClicked = await CharactersModel.click({
+	const hasBeenClicked = await CharacterModel.click({
 		id,
 		x: Number(x),
 		y: Number(y),

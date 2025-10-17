@@ -3,7 +3,7 @@ import { BusinessError } from '~/errors'
 import { timeToMs } from '~/lib/timeUtils'
 import { ScoreRepository as repo } from '~/repositories/ScoreRepository'
 
-export const ScoresModel = {
+export const ScoreModel = {
 	getTop10,
 	new: newScore,
 	isTop10,

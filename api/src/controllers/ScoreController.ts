@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express'
 import type { Score } from '~/db/schema'
-import { ScoresModel } from '~models/ScoresModel'
+import { ScoreModel } from '~models/ScoreModel'
 
 export const ScoreController = {
 	getAllByScenarioId,
@@ -14,7 +14,7 @@ async function getAllByScenarioId(
 ) {
 	const { scenarioId } = req.params
 
-	const scores = await ScoresModel.getTop10(scenarioId)
+	const scores = await ScoreModel.getTop10(scenarioId)
 
 	res.json(scores)
 }
@@ -24,7 +24,7 @@ async function post(
 	res: Response
 ) {
 	const { username, time, scenarioId } = req.body
-	const score = await ScoresModel.new({ username, time, scenarioId })
+	const score = await ScoreModel.new({ username, time, scenarioId })
 
 	if (!score) {
 		return res
@@ -40,6 +40,6 @@ async function isInTop10(
 	res: Response<boolean>
 ) {
 	const { time, scenarioId } = req.body
-	const isTop10 = await ScoresModel.isTop10(time, scenarioId)
+	const isTop10 = await ScoreModel.isTop10(time, scenarioId)
 	res.send(isTop10)
 }
