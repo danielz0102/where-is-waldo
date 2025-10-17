@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express'
-import { ScenarioRepository } from '~/repositories/ScenarioRepository'
+import { ScenarioModel } from '~models/ScenarioModel'
 
 export const ScenariosController = {
 	getAll,
@@ -7,13 +7,13 @@ export const ScenariosController = {
 }
 
 async function getAll(_: Request, res: Response) {
-	const scenarios = await ScenarioRepository.getAll()
+	const scenarios = await ScenarioModel.getAll()
 	res.json(scenarios)
 }
 
 async function get(req: Request<{ id: string }>, res: Response) {
 	const { id } = req.params
-	const scenario = await ScenarioRepository.getById(id)
+	const scenario = await ScenarioModel.getById(id)
 
 	if (!scenario) {
 		return res.status(404).json({ error: 'Scenario not found' })

@@ -3,5 +3,5 @@ import { ScoreController } from '~controllers/ScoreController'
 
 export const scoresRouter = Router()
 
-scoresRouter.get('/:scenarioId', ScoreController.getAllFromScenario)
-scoresRouter.post('/', ScoreController.newScore)
+scoresRouter.get('/:scenarioId', ScoreController.getAllByScenarioId)
+scoresRouter.post('/', ScoreController.post)

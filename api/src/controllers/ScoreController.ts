@@ -3,27 +3,23 @@ import type { Score } from '~/db/schema'
 import { ScoresModel } from '~models/ScoresModel'
 
 export const ScoreController = {
-	getAllFromScenario,
-	newScore,
+	getAllByScenarioId,
+	post,
 	isInTop10,
 }
 
-async function getAllFromScenario(
+async function getAllByScenarioId(
 	req: Request<{ scenarioId: string }, null, null, { limit: string }>,
 	res: Response
 ) {
 	const { scenarioId } = req.params
-	const { limit } = req.query
 
-	const scores = await ScoresModel.getAllFromScenario(
-		scenarioId,
-		Number(limit) ?? undefined
-	)
+	const scores = await ScoresModel.getTop10(scenarioId)
 
 	res.json(scores)
 }
 
-async function newScore(
+async function post(
 	req: Request<null, null, Omit<Score, 'id'>>,
 	res: Response
 ) {
