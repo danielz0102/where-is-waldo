@@ -30,7 +30,7 @@ async function get(req: Request, res: Response) {
 		return res.status(400).json({ error: 'Character ID is required' })
 	}
 
-	const character = await CharactersModel.get(id)
+	const character = await CharactersModel.getById(id)
 
 	if (!character) {
 		return res.status(404).json({ error: 'Character not found' })
