@@ -1,14 +1,14 @@
 import { Router } from 'express'
 import { handle404 } from '~/middlewares/handle404'
 import { handle500 } from '~/middlewares/handle500'
-import { charactersRouter } from './charactersRouter'
-import { scenariosRouter } from './scenariosRouter'
-import { scoresRouter } from './scoresRouter'
+import { characterRouter } from './characterRouter'
+import { scenarioRouter } from './scenarioRouter'
+import { scoreRouter } from './scoreRouter'
 
 export const indexRouter = Router()
 
-indexRouter.use('/api/characters', charactersRouter)
-indexRouter.use('/api/scenarios', scenariosRouter)
-indexRouter.use('/api/scores', scoresRouter)
+indexRouter.use('/api/characters', characterRouter)
+indexRouter.use('/api/scenarios', scenarioRouter)
+indexRouter.use('/api/scores', scoreRouter)
 indexRouter.use(handle404)
 indexRouter.use(handle500)

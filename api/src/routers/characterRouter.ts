@@ -2,11 +2,11 @@ import { Router } from 'express'
 import { validateCoordinates } from '~/middlewares/validateCoordinates'
 import { CharactersController } from '~controllers/CharactersController'
 
-export const charactersRouter = Router()
+export const characterRouter = Router()
 
-charactersRouter.get('/', CharactersController.getAll)
-charactersRouter.get('/:id', CharactersController.get)
-charactersRouter.get(
+characterRouter.get('/', CharactersController.getAll)
+characterRouter.get('/:id', CharactersController.get)
+characterRouter.get(
 	'/:id/click',
 	validateCoordinates,
 	CharactersController.checkClick
