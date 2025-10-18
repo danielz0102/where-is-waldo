@@ -1,14 +1,11 @@
 import request from 'supertest'
 import { app } from '~tests/app'
+import { getRandomFrom } from '~tests/lib/getRandomFrom'
 import scenariosCollection from '~tests/mocks/scenariosCollection'
 
 vi.mock('~models/ScenarioModel', async () => {
 	const { ScenarioModelMock } = await import('~tests/mocks/ScenarioModelMock')
 	return { ScenarioModel: ScenarioModelMock }
-})
-
-beforeEach(() => {
-	vi.clearAllMocks()
 })
 
 describe('GET /api/scenarios', () => {
@@ -20,7 +17,7 @@ describe('GET /api/scenarios', () => {
 
 describe('GET /api/scenarios/:id', () => {
 	it('responds with the scenario found', async () => {
-		const fakeScenario = getFakeScenario()
+		const fakeScenario = getRandomFrom(scenariosCollection)
 
 		const response = await request(app)
 			.get(`/api/scenarios/${fakeScenario.id}`)
@@ -37,13 +34,3 @@ describe('GET /api/scenarios/:id', () => {
 		await request(app).get('/api/scenarios/invalid-uuid').expect(400)
 	})
 })
-
-function getFakeScenario() {
-	const scenario = scenariosCollection[0]
-
-	if (!scenario) {
-		throw new Error('No scenarios in the collection')
-	}
-
-	return scenario
-}

@@ -1,5 +1,6 @@
-import type { Request, Response } from 'express'
+import type { NextFunction, Request, Response } from 'express'
 import type { Score } from '~/db/schema'
+import { BusinessError } from '~/errors'
 import { ScoreModel } from '~models/ScoreModel'
 
 export const ScoreController = {
@@ -9,30 +10,32 @@ export const ScoreController = {
 }
 
 async function getAllByScenarioId(
-	req: Request<{ scenarioId: string }, null, null, { limit: string }>,
+	req: Request<{ scenarioId: string }, unknown, unknown, { limit: string }>,
 	res: Response
 ) {
 	const { scenarioId } = req.params
-
 	const scores = await ScoreModel.getTop10(scenarioId)
-
 	res.json(scores)
 }
 
 async function post(
-	req: Request<null, null, Omit<Score, 'id'>>,
-	res: Response
+	req: Request<unknown, unknown, Omit<Score, 'id'>>,
+	res: Response,
+	next: NextFunction
 ) {
 	const { username, time, scenarioId } = req.body
-	const score = await ScoreModel.new({ username, time, scenarioId })
 
-	if (!score) {
-		return res
-			.status(400)
-			.json({ message: 'The score is not better than the existing one' })
-	}
+	const score = await ScoreModel.new({ username, time, scenarioId }).catch(
+		(err) => {
+			if (err instanceof BusinessError) {
+				return res.status(409).json({ message: err.message })
+			}
 
-	res.status(200).json(score)
+			return next(err)
+		}
+	)
+
+	res.status(201).json(score)
 }
 
 async function isInTop10(
