@@ -56,36 +56,87 @@ describe('GET /api/characters/:id', () => {
 
 		expect(response.body).toEqual({ error: 'Character not found' })
 	})
+
+	it('responds with 400 if the ID is not a valid UUID', async () => {
+		await request(app).get('/api/characters/invalid-uuid').expect(400)
+	})
 })
 
 describe('GET /api/characters/:id/click', () => {
 	it('responds true if the character has been clicked', async () => {
-		CharacterModelMock.click.mockResolvedValueOnce(true)
+		const fakeCharacter = getFakeCharacter()
 
 		const response = await request(app)
-			.get('/api/characters/1/click')
-			.query({ x: 75, y: 150 })
+			.get(`/api/characters/${fakeCharacter.id}/click`)
+			.query({ x: fakeCharacter.maxX, y: fakeCharacter.maxY })
 			.expect(200)
 
 		expect(response.body).toEqual(true)
 	})
 
 	it('responds false if the character has not been clicked', async () => {
-		CharacterModelMock.click.mockResolvedValueOnce(false)
+		const fakeCharacter = getFakeCharacter()
 
 		const response = await request(app)
-			.get('/api/characters/1/click')
-			.query({ x: 75, y: 150 })
+			.get(`/api/characters/${fakeCharacter.id}/click`)
+			.query({ x: fakeCharacter.maxX + 1, y: fakeCharacter.maxY + 1 })
 			.expect(200)
 
 		expect(response.body).toEqual(false)
 	})
 
-	it('responds with 400 if x or y query params are missing', () => {
-		return request(app).get('/api/characters/1/click').expect(400)
+	it('responds false if the character does not exist', async () => {
+		const response = await request(app)
+			.get(`/api/characters/${crypto.randomUUID()}/click`)
+			.query({ x: 100, y: 100 })
+			.expect(200)
+
+		expect(response.body).toEqual(false)
 	})
 
-	//TODO: Validate id
+	it('ignores extra query parameters', async () => {
+		await request(app)
+			.get(`/api/characters/${crypto.randomUUID()}/click`)
+			.query({ x: 100, y: 100, extraParam: 'extraValue' })
+			.expect(200)
+	})
+
+	it('accepts decimal coordinates', async () => {
+		await request(app)
+			.get(`/api/characters/${crypto.randomUUID()}/click`)
+			.query({ x: 100.5, y: 200.7 })
+			.expect(200)
+	})
+
+	it('responds with 400 if the ID is not a valid UUID', async () => {
+		await request(app)
+			.get('/api/characters/invalid-uuid/click')
+			.query({ x: 100, y: 100 })
+			.expect(400)
+	})
+
+	it('responds with 400 if coordinates are missing', async () => {
+		const fakeCharacter = getFakeCharacter()
+		await request(app)
+			.get(`/api/characters/${fakeCharacter.id}/click`)
+			.expect(400)
+	})
+
+	it('responds with 400 if coordinates are not numbers', async () => {
+		const fakeCharacter = getFakeCharacter()
+		await request(app)
+			.get(`/api/characters/${fakeCharacter.id}/click`)
+			.query({ x: {}, y: '; DELETE FROM characters;' })
+			.expect(400)
+	})
+
+	it('responds with 400 if coordinates are negative', async () => {
+		const fakeCharacter = getFakeCharacter()
+		await request(app)
+			.get(`/api/characters/${fakeCharacter.id}/click`)
+			.query({ x: -10, y: -20 })
+			.expect(400)
+	})
 })
 
 function getFakeCharacter() {

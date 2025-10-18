@@ -34,19 +34,18 @@ async function get(req: Request<{ id: string }>, res: Response) {
 	res.json(character)
 }
 
-async function checkClick(req: Request, res: Response) {
+async function checkClick(
+	req: Request<{ id: string }, unknown, unknown, { x: string; y: string }>,
+	res: Response
+) {
 	const { x, y } = req.query
 	const { id } = req.params
 
-	if (!id) {
-		return res.status(400).json({ error: 'Character ID is required' })
-	}
-
-	const hasBeenClicked = await CharacterModel.click({
+	const success = await CharacterModel.click({
 		id,
 		x: Number(x),
 		y: Number(y),
 	})
 
-	res.json(hasBeenClicked)
+	res.json(success)
 }
