@@ -23,13 +23,8 @@ async function getAll(
 	res.json(characters)
 }
 
-async function get(req: Request, res: Response) {
+async function get(req: Request<{ id: string }>, res: Response) {
 	const { id } = req.params
-
-	if (!id) {
-		return res.status(400).json({ error: 'Character ID is required' })
-	}
-
 	const character = await CharacterModel.getById(id)
 
 	if (!character) {
