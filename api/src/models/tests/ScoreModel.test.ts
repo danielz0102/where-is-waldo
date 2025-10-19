@@ -3,11 +3,11 @@ import db from '~/db'
 import { scenarios, scores } from '~/db/schema'
 import { msToTime, timeToMs } from '~/lib/timeUtils'
 import { ScoreModel } from '~models/ScoreModel'
-import { getFirstRecord } from '~tests/lib/dbQueries'
+import { getRandomRecordFrom } from '~tests/lib/getRandomRecord'
 
 describe('getTop10', () => {
 	it('returns the top 10 of the given scenario', async () => {
-		const scenario = await getFirstRecord(scenarios)
+		const scenario = await getRandomRecordFrom(scenarios)
 
 		const scores = await ScoreModel.getTop10(scenario.id)
 
@@ -15,12 +15,14 @@ describe('getTop10', () => {
 		expect(scores[0]?.scenarioId).toBe(scenario.id)
 
 		scores.forEach((current, i) => {
-			if (i === 0 || i === scores.length - 1) return
+			if (i === scores.length - 1) return
 
 			const nextOne = scores[i + 1]
 
 			if (!nextOne) {
-				throw new Error('Next score is undefined', { cause: scores })
+				throw new Error(`Score with index ${i + 1} is undefined`, {
+					cause: scores,
+				})
 			}
 
 			expect(timeToMs(current.time)).toBeLessThanOrEqual(timeToMs(nextOne.time))
@@ -29,7 +31,7 @@ describe('getTop10', () => {
 })
 
 describe('new', async () => {
-	const scenario = await getFirstRecord(scenarios)
+	const scenario = await getRandomRecordFrom(scenarios)
 	const newScoreData = {
 		username: 'new_user_that_should_not_exist_01022002',
 		time: '00:02:30',
@@ -74,7 +76,7 @@ describe('new', async () => {
 })
 
 describe('isTop10', async () => {
-	const scenario = await getFirstRecord(scenarios)
+	const scenario = await getRandomRecordFrom(scenarios)
 	const scores = await ScoreModel.getTop10(scenario.id)
 	const worstTop10 = scores.at(-1)
 
