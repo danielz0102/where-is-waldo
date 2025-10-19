@@ -11,11 +11,12 @@ const ScoreModelMock = vi.mocked(ScoreModel)
 
 describe('GET /api/scores/:scenarioId', () => {
 	it('responds with an array of scores', async () => {
-		ScoreModelMock.getTop10.mockResolvedValueOnce(scoresCollection)
+		const fakeId = crypto.randomUUID()
+		ScoreModelMock.getTop10.mockImplementationOnce(async (id) => {
+			return id === fakeId ? scoresCollection : []
+		})
 
-		const response = await request(app)
-			.get(`/api/scores/${crypto.randomUUID()}`)
-			.expect(200)
+		const response = await request(app).get(`/api/scores/${fakeId}`).expect(200)
 
 		expect(response.body).toEqual(scoresCollection)
 	})
@@ -34,7 +35,18 @@ describe('POST /api/scores', () => {
 
 	it('responds with 201 when a new score is created', async () => {
 		const scoreExpected = { id: crypto.randomUUID(), ...newScore }
-		ScoreModelMock.new.mockResolvedValueOnce(scoreExpected)
+		ScoreModelMock.new.mockImplementationOnce(async (score) => {
+			const isTheSame =
+				score.username === newScore.username &&
+				score.scenarioId === newScore.scenarioId &&
+				score.time === newScore.time
+
+			if (!isTheSame) {
+				return Promise.reject(new Error('Unexpected score data'))
+			}
+
+			return scoreExpected
+		})
 
 		const response = await request(app)
 			.post('/api/scores')
