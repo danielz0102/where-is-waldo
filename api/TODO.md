@@ -2,5 +2,7 @@
 
 - [x] Add ScoreController
 - [x] Fix TypeScript errors
-- [ ] Add validation
+- [x] Add validation
 - [ ] Replace collections with fakerjs
+- [ ] Add isTop10 route
+- [ ] Check if model mocks are really necessary

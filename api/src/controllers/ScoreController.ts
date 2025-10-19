@@ -25,17 +25,16 @@ async function post(
 ) {
 	const { username, time, scenarioId } = req.body
 
-	const score = await ScoreModel.new({ username, time, scenarioId }).catch(
-		(err) => {
-			if (err instanceof BusinessError) {
-				return res.status(409).json({ message: err.message })
-			}
-
-			return next(err)
+	try {
+		const score = await ScoreModel.new({ username, time, scenarioId })
+		res.status(201).json(score)
+	} catch (error) {
+		if (error instanceof BusinessError) {
+			return res.status(409).json({ message: error.message })
 		}
-	)
 
-	res.status(201).json(score)
+		return next(error)
+	}
 }
 
 async function isInTop10(

@@ -44,7 +44,7 @@ describe('POST /api/scores', () => {
 		expect(response.body).toMatchObject(scoreExpected)
 	})
 
-	it('responds with 409 when a BusinessError is thrown', async () => {
+	it('responds with 409 when a BusinessError occurs', async () => {
 		const error = new BusinessError('Score is not in the top 10')
 		ScoreModelMock.new.mockRejectedValueOnce(error)
 
