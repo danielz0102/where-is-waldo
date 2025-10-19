@@ -1,31 +1,34 @@
 import request from 'supertest'
 import { CharacterModel } from '~models/CharacterModel'
 import { app } from '~tests/app'
-import { getRandomFrom } from '~tests/lib/getRandomFrom'
-import charactersCollection from '~tests/mocks/charactersCollection'
+import {
+	createRandomCharacter,
+	createRandomCharacters,
+} from '~tests/lib/fakeData'
 
 vi.mock('~models/CharacterModel')
 
 const CharacterModelMock = vi.mocked(CharacterModel)
+const fakeCharacters = createRandomCharacters()
 
 describe('GET /api/characters', () => {
 	it('responds with the array of characters received', async () => {
-		CharacterModelMock.getAll.mockResolvedValueOnce(charactersCollection)
+		CharacterModelMock.getAll.mockResolvedValueOnce(fakeCharacters)
 		const response = await request(app).get('/api/characters').expect(200)
-		expect(response.body).toEqual(charactersCollection)
+		expect(response.body).toEqual(fakeCharacters)
 	})
 
 	it('responds with an array of characters received when a scenarioId is provided', async () => {
 		const fakeId = crypto.randomUUID()
 		CharacterModelMock.getAllFromScenario.mockImplementationOnce(async (id) => {
-			return id === fakeId ? charactersCollection : []
+			return id === fakeId ? fakeCharacters : []
 		})
 
 		const response = await request(app)
 			.get(`/api/characters?scenarioId=${fakeId}`)
 			.expect(200)
 
-		expect(response.body).toEqual(charactersCollection)
+		expect(response.body).toEqual(fakeCharacters)
 	})
 
 	it('responds with status 400 if scenarioId is not a valid UUID', async () => {
@@ -37,7 +40,7 @@ describe('GET /api/characters', () => {
 
 describe('GET /api/characters/:id', () => {
 	it('responds with the character with the given ID', async () => {
-		const fakeCharacter = getRandomFrom(charactersCollection)
+		const fakeCharacter = createRandomCharacter()
 		CharacterModelMock.getById.mockImplementationOnce(async (id) => {
 			return id === fakeCharacter.id ? fakeCharacter : null
 		})

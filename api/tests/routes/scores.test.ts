@@ -1,24 +1,24 @@
 import request from 'supertest'
-import type { Score } from '~/db/schema'
 import { BusinessError } from '~/errors'
 import { ScoreModel } from '~models/ScoreModel'
 import { app } from '~tests/app'
-import scoresCollection from '~tests/mocks/scoresCollection'
+import { createRandomScore, createRandomScores } from '~tests/lib/fakeData'
 
 vi.mock('~models/ScoreModel')
 
 const ScoreModelMock = vi.mocked(ScoreModel)
+const fakeScores = createRandomScores()
 
 describe('GET /api/scores/:scenarioId', () => {
 	it('responds with an array of scores', async () => {
 		const fakeId = crypto.randomUUID()
 		ScoreModelMock.getTop10.mockImplementationOnce(async (id) => {
-			return id === fakeId ? scoresCollection : []
+			return id === fakeId ? fakeScores : []
 		})
 
 		const response = await request(app).get(`/api/scores/${fakeId}`).expect(200)
 
-		expect(response.body).toEqual(scoresCollection)
+		expect(response.body).toEqual(fakeScores)
 	})
 
 	it('responds with 400 if scenarioId is invalid', async () => {
@@ -27,22 +27,17 @@ describe('GET /api/scores/:scenarioId', () => {
 })
 
 describe('POST /api/scores', () => {
-	const newScore: Omit<Score, 'id'> = {
-		username: 'newTopPlayer',
-		scenarioId: crypto.randomUUID(),
-		time: '00:45:45',
-	}
-
 	it('responds with 201 when a new score is created', async () => {
-		const scoreExpected = { id: crypto.randomUUID(), ...newScore }
+		const scoreExpected = createRandomScore()
+		const { id: _, ...scoreToSend } = scoreExpected
 		ScoreModelMock.new.mockImplementationOnce(async (score) => {
 			const isTheSame =
-				score.username === newScore.username &&
-				score.scenarioId === newScore.scenarioId &&
-				score.time === newScore.time
+				score.username === scoreExpected.username &&
+				score.scenarioId === scoreExpected.scenarioId &&
+				score.time === scoreExpected.time
 
 			if (!isTheSame) {
-				return Promise.reject(new Error('Unexpected score data'))
+				return Promise.reject('Score data is not being passed correctly')
 			}
 
 			return scoreExpected
@@ -50,7 +45,7 @@ describe('POST /api/scores', () => {
 
 		const response = await request(app)
 			.post('/api/scores')
-			.send(newScore)
+			.send(scoreToSend)
 			.expect(201)
 
 		expect(response.body).toMatchObject(scoreExpected)
@@ -62,37 +57,37 @@ describe('POST /api/scores', () => {
 
 		const response = await request(app)
 			.post('/api/scores')
-			.send(newScore)
+			.send(createRandomScore())
 			.expect(409)
 
 		expect(response.body).toMatchObject({ message: error.message })
 	})
 
-	it('responds with 400 when time is on the wrong format', async () => {
-		await request(app)
+	it('responds with 400 when time is on the wrong format', () => {
+		return request(app)
 			.post('/api/scores')
-			.send({ ...newScore, time: 'invalid-time-format' })
+			.send({ ...createRandomScore(), time: 'invalid-time-format' })
 			.expect(400)
 	})
 
-	it('responds with 400 when scenarioId is not a UUID', async () => {
-		await request(app)
+	it('responds with 400 when scenarioId is not a UUID', () => {
+		return request(app)
 			.post('/api/scores')
-			.send({ ...newScore, scenarioId: 'invalid-uuid' })
+			.send({ ...createRandomScore(), scenarioId: 'invalid-uuid' })
 			.expect(400)
 	})
 
-	it('responds with 400 when username is not a string', async () => {
-		await request(app)
+	it('responds with 400 when username is not a string', () => {
+		return request(app)
 			.post('/api/scores')
-			.send({ ...newScore, username: 12345 })
+			.send({ ...createRandomScore(), username: 12345 })
 			.expect(400)
 	})
 
-	it('responds with 400 when a field is missing', async () => {
-		await request(app)
-			.post('/api/scores')
-			.send({ username: 'playerWithoutTime', scenarioId: crypto.randomUUID() })
-			.expect(400)
+	it('responds with 400 when a field is missing', () => {
+		const fakeScore = createRandomScore()
+		const { time: _, ...scoreWithoutTime } = fakeScore
+
+		return request(app).post('/api/scores').send(scoreWithoutTime).expect(400)
 	})
 })
