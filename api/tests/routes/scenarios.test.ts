@@ -1,15 +1,16 @@
 import request from 'supertest'
+import { ScenarioModel } from '~models/ScenarioModel'
 import { app } from '~tests/app'
 import { getRandomFrom } from '~tests/lib/getRandomFrom'
 import scenariosCollection from '~tests/mocks/scenariosCollection'
 
-vi.mock('~models/ScenarioModel', async () => {
-	const { ScenarioModelMock } = await import('~tests/mocks/ScenarioModelMock')
-	return { ScenarioModel: ScenarioModelMock }
-})
+vi.mock('~models/ScenarioModel')
+
+const ScenarioModelMock = vi.mocked(ScenarioModel)
 
 describe('GET /api/scenarios', () => {
-	it('responds with all scenarios', async () => {
+	it('responds with an array of scenarios', async () => {
+		ScenarioModelMock.getAll.mockResolvedValueOnce(scenariosCollection)
 		const response = await request(app).get('/api/scenarios').expect(200)
 		expect(response.body).toEqual(scenariosCollection)
 	})
@@ -18,6 +19,9 @@ describe('GET /api/scenarios', () => {
 describe('GET /api/scenarios/:id', () => {
 	it('responds with the scenario found', async () => {
 		const fakeScenario = getRandomFrom(scenariosCollection)
+		ScenarioModelMock.getById.mockImplementationOnce(async (id: string) => {
+			return id === fakeScenario.id ? fakeScenario : null
+		})
 
 		const response = await request(app)
 			.get(`/api/scenarios/${fakeScenario.id}`)
@@ -27,6 +31,7 @@ describe('GET /api/scenarios/:id', () => {
 	})
 
 	it('responds 404 if the scenario does not exist', async () => {
+		ScenarioModelMock.getById.mockResolvedValueOnce(null)
 		await request(app).get(`/api/scenarios/${crypto.randomUUID()}`).expect(404)
 	})
 
