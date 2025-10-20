@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express'
 import { CharacterModel } from '~models/CharacterModel'
 
-export const CharactersController = {
+export const CharacterController = {
 	getAll,
 	get,
 	checkClick,

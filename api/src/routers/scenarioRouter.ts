@@ -1,9 +1,9 @@
 import { Router } from 'express'
 import { validate } from '~/middlewares/validate'
 import { getScenarioSchema } from '~/schemas/scenarioSchemas'
-import { ScenariosController } from '~controllers/ScenariosController'
+import { ScenarioController } from '~controllers/ScenarioController'
 
 export const scenarioRouter = Router()
 
-scenarioRouter.get('/', ScenariosController.getAll)
-scenarioRouter.get('/:id', validate(getScenarioSchema), ScenariosController.get)
+scenarioRouter.get('/', ScenarioController.getAll)
+scenarioRouter.get('/:id', validate(getScenarioSchema), ScenarioController.get)

@@ -5,22 +5,22 @@ import {
 	getAllCharactersSchema,
 	getCharacterSchema,
 } from '~/schemas/characterSchemas'
-import { CharactersController } from '~controllers/CharactersController'
+import { CharacterController } from '~controllers/CharacterController'
 
 export const characterRouter = Router()
 
 characterRouter.get(
 	'/',
 	validate(getAllCharactersSchema),
-	CharactersController.getAll
+	CharacterController.getAll
 )
 characterRouter.get(
 	'/:id',
 	validate(getCharacterSchema),
-	CharactersController.get
+	CharacterController.get
 )
 characterRouter.get(
 	'/:id/click',
 	validate(clickCharacterSchema),
-	CharactersController.checkClick
+	CharacterController.checkClick
 )

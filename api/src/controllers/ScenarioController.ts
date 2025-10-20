@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express'
 import { ScenarioModel } from '~models/ScenarioModel'
 
-export const ScenariosController = {
+export const ScenarioController = {
 	getAll,
 	get,
 }
