@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { useLevelStore } from '~/stores/levelStore'
 import type { Scenario as ScenarioType } from '~/types'
 
@@ -14,18 +15,25 @@ interface ScenarioProps {
 
 function Scenario({ data, children }: ScenarioProps) {
 	const handleClick = useLevelStore((state) => state.handleClick)
-	const startTimer = useLevelStore((state) => state.init)
+	const startTimer = useLevelStore((state) => state.resume)
+	const imgRef = useRef<HTMLImageElement>(null)
+
+	useEffect(() => {
+		if (imgRef.current?.complete) {
+			startTimer()
+		}
+	}, [imgRef.current?.complete])
 
 	return (
 		<main className="overflow-auto">
 			<div className="relative size-fit overflow-hidden">
-				{/** biome-ignore lint/a11y/useKeyWithClickEvents: Precise mouse coordinates are needed */}
+				{/* * biome-ignore lint/a11y/useKeyWithClickEvents: Precise mouse coordinates are needed */}
 				<img
+					ref={imgRef}
 					src={data.imgUrl}
 					alt={data.name}
 					onClick={handleClick}
 					className="max-w-none cursor-crosshair select-none md:max-w-full"
-					onLoad={() => startTimer()}
 				/>
 				{children}
 			</div>

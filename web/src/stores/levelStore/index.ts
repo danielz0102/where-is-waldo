@@ -12,8 +12,7 @@ export const useLevelStore = create<LevelStore>()((...a) => ({
 	...createTimerSlice(...a),
 	win: false,
 	setWin: () => {
-		const pause = a[1]().pause
+		a[1]().reset()
 		a[0]({ win: true })
-		pause()
 	},
 }))

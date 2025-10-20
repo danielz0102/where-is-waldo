@@ -1,5 +1,7 @@
+import { useEffect } from 'react'
 import { Link, useParams } from 'react-router'
 import { useLevelQuery } from '~/querys/useLevelQuery'
+import { useLevelStore } from '~/stores/levelStore'
 import CharacterMenu from '~components/CharacterMenu'
 import Scenario from '~components/Scenario'
 import ScoreTimer from '~components/ScoreTimer'
@@ -7,6 +9,7 @@ import TargetBox from '~components/TargetBox'
 import WinnerModal from '~components/WinnerModal'
 
 export default function Level() {
+	const resetTimer = useLevelStore((state) => state.reset)
 	const { id } = useParams<{ id: string }>()
 
 	if (!id) {
@@ -14,6 +17,12 @@ export default function Level() {
 	}
 
 	const { data, isLoading } = useLevelQuery(id)
+
+	useEffect(() => {
+		return () => {
+			resetTimer()
+		}
+	})
 
 	if (isLoading) {
 		return <div>Loading...</div>

@@ -5,6 +5,10 @@
 - [x] Show modal when all characters are found
 - [ ] Save score to leaderboard if it's in top 10
 
+# Bugs
+
+- [x] Time is not being reset when starting a new game
+
 # Tasks
 
 - [x] Fix character coordinates on DB
