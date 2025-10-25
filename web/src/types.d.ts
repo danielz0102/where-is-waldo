@@ -14,3 +14,10 @@ export interface Character {
 	minY: number
 	scenarioId: string
 }
+
+export interface Score {
+	id: string
+	scenarioId: string
+	time: string
+	username: string
+}
