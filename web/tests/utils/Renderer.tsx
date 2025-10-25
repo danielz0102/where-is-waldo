@@ -41,8 +41,10 @@ export class Renderer {
 
 		const PreviousWrapper = this.Wrapper
 
-		this.Wrapper = ({ children }) => {
-			return <NewWrapper>{PreviousWrapper({ children })}</NewWrapper>
-		}
+		this.Wrapper = ({ children }) => (
+			<NewWrapper>
+				<PreviousWrapper>{children}</PreviousWrapper>
+			</NewWrapper>
+		)
 	}
 }
