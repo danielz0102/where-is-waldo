@@ -9,7 +9,7 @@ import TargetBox from '~components/TargetBox'
 import WinnerModal from '~components/WinnerModal'
 
 export default function Level() {
-	const resetTimer = useLevelStore((state) => state.reset)
+	const resetTimer = useLevelStore((state) => state.resetTimer)
 	const { id } = useParams<{ id: string }>()
 
 	if (!id) {

@@ -15,7 +15,7 @@ interface ScenarioProps {
 
 function Scenario({ data, children }: ScenarioProps) {
 	const handleClick = useLevelStore((state) => state.handleClick)
-	const startTimer = useLevelStore((state) => state.resume)
+	const startTimer = useLevelStore((state) => state.resumeTimer)
 	const imgRef = useRef<HTMLImageElement>(null)
 
 	useEffect(() => {

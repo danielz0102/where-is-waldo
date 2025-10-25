@@ -2,10 +2,10 @@ import type { StateCreator } from 'zustand'
 
 export interface TimerSlice {
 	seconds: number
-	pause: () => void
-	resume: () => void
+	pauseTimer: () => void
+	resumeTimer: () => void
 	getTimeFormatted: () => string
-	reset: () => void
+	resetTimer: () => void
 }
 
 export const createTimerSlice: StateCreator<TimerSlice> = (set, get, store) => {
@@ -18,10 +18,10 @@ export const createTimerSlice: StateCreator<TimerSlice> = (set, get, store) => {
 
 	return {
 		seconds: 0,
-		resume: () => {
+		resumeTimer: () => {
 			paused = false
 		},
-		pause: () => {
+		pauseTimer: () => {
 			paused = true
 		},
 		getTimeFormatted: () => {
@@ -32,8 +32,8 @@ export const createTimerSlice: StateCreator<TimerSlice> = (set, get, store) => {
 			const remainingSeconds = (seconds % 60).toString().padStart(2, '0')
 			return `${minutes}:${remainingSeconds}`
 		},
-		reset: () => {
-			get().pause()
+		resetTimer: () => {
+			get().pauseTimer()
 			set(store.getInitialState())
 		},
 	}
