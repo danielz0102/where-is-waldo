@@ -14,5 +14,5 @@
 - [x] Fix character coordinates on DB
 - [x] Remove kebab-case file names
 - [x] Add 404 page
-- [ ] Improve Level page loading state
+- [x] Improve Level page loading state
 - [ ] Add link to homepage on Level page

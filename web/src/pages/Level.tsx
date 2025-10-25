@@ -22,10 +22,14 @@ export default function Level() {
 		return () => {
 			resetTimer()
 		}
-	})
+	}, [])
 
 	if (isLoading) {
-		return <div>Loading...</div>
+		return (
+			<div className="flex h-screen w-screen animate-pulse items-center justify-center">
+				Loading...
+			</div>
+		)
 	}
 
 	if (data) {

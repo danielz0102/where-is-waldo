@@ -8,6 +8,9 @@ export function useLevelQuery(id: string) {
 		queryFn: async () => {
 			const scenario = await ScenarioService.getById(id)
 			const characters = await CharacterService.getByScenario(scenario.id)
+
+			await new Promise((resolve) => setTimeout(resolve, 2000))
+
 			return { scenario, characters }
 		},
 		refetchOnWindowFocus: false,
