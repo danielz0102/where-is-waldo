@@ -15,6 +15,9 @@
 					"level": "info",
 					"options": { "attributes": ["className"] }
 				}
+			},
+			"suspicious": {
+				"noUnknownAtRules": "off"
 			}
 		}
 	}

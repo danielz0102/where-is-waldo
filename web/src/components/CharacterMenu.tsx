@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { Check, CircleOff, LoaderCircle } from 'lucide-react'
-import { useState, useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useLevelStore } from '~/stores/levelStore'
 import type { Character } from '~/types'
 import CharacterService from '~services/CharacterService'
