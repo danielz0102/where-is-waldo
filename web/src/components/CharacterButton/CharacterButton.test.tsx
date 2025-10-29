@@ -1,19 +1,10 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { Character } from '~/types'
 import CharacterService from '~services/CharacterService'
+import { createRandomCharacter } from '~tests/utils/fakeData'
 import CharacterButton from '.'
 
-const fakeCharacter: Character = {
-	id: '1',
-	name: 'Waldo',
-	imgUrl: '/images/waldo.png',
-	maxX: 100,
-	maxY: 100,
-	minX: 0,
-	minY: 0,
-	scenarioId: 'scenario1',
-}
+const fakeCharacter = createRandomCharacter()
 
 vi.mock('~services/CharacterService', () => ({
 	default: {
