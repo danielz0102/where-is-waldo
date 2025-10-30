@@ -5,14 +5,22 @@ import { createTimerSlice, type TimerSlice } from './timerSlice'
 interface LevelStore extends ClickSlice, TimerSlice {
 	win: boolean
 	setWin: (win: boolean) => void
+	reset: () => void
 }
 
-export const useLevelStore = create<LevelStore>()((...a) => ({
-	...createClickSlice(...a),
-	...createTimerSlice(...a),
-	win: false,
-	setWin: () => {
-		a[1]().pauseTimer()
-		a[0]({ win: true })
-	},
-}))
+export const useLevelStore = create<LevelStore>()((...args) => {
+	const [set, get, store] = args
+
+	return {
+		...createClickSlice(...args),
+		...createTimerSlice(...args),
+		win: false,
+		setWin: () => {
+			get().pauseTimer()
+			set({ win: true })
+		},
+		reset: () => {
+			set(store.getInitialState())
+		},
+	}
+})

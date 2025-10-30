@@ -12,6 +12,11 @@ vi.mock('~services/CharacterService', () => ({
 
 const fakeCharacters = createRandomCharacters()
 
+beforeEach(() => {
+	const { result } = renderHook(() => useLevelStore())
+	result.current.reset()
+})
+
 test('renders character buttons', () => {
 	render(<CharacterMenu characters={fakeCharacters} />)
 
@@ -30,7 +35,6 @@ test('set win when all characters are found', async () => {
 	expect(result.current.win).toBe(false)
 
 	render(<CharacterMenu characters={fakeCharacters} />)
-
 	const clickPromises = fakeCharacters.map((character) => {
 		return user.click(
 			screen.getByRole('button', {
