@@ -21,7 +21,7 @@ test('renders a button with character name', () => {
 	).toBeInTheDocument()
 })
 
-test('should show loading state when checking click', async () => {
+test('shows loading state when checking click', async () => {
 	const user = userEvent.setup()
 	CheckClickMock.mockImplementationOnce(
 		() => new Promise((resolve) => setTimeout(() => resolve(true), 500))
@@ -33,7 +33,7 @@ test('should show loading state when checking click', async () => {
 	expect(button).toHaveTextContent(/loading/i)
 })
 
-test('should show success state when click is correct', async () => {
+test('shows success state when click is correct', async () => {
 	const user = userEvent.setup()
 	const button = renderButton()
 
@@ -44,7 +44,7 @@ test('should show success state when click is correct', async () => {
 	})
 })
 
-test('should show error state when click is wrong', async () => {
+test('shows error state when click is wrong', async () => {
 	CheckClickMock.mockResolvedValueOnce(false)
 	const user = userEvent.setup()
 	const button = renderButton()
@@ -56,7 +56,7 @@ test('should show error state when click is wrong', async () => {
 	})
 })
 
-test('should call onSuccess callback when click is correct', async () => {
+test('calls onSuccess callback when click is correct', async () => {
 	const user = userEvent.setup()
 	const onSuccessMock = vi.fn()
 	const button = renderButton(onSuccessMock)
@@ -68,7 +68,7 @@ test('should call onSuccess callback when click is correct', async () => {
 	})
 })
 
-test('should disable button during loading state', async () => {
+test('disables button during loading state', async () => {
 	CheckClickMock.mockImplementationOnce(
 		() => new Promise((resolve) => setTimeout(() => resolve(true), 500))
 	)
@@ -80,7 +80,7 @@ test('should disable button during loading state', async () => {
 	expect(button).toBeDisabled()
 })
 
-test('should disable button after successful click', async () => {
+test('disables button after successful click', async () => {
 	const user = userEvent.setup()
 	const button = renderButton()
 
@@ -93,7 +93,7 @@ test('should disable button after successful click', async () => {
 	expect(button).toBeDisabled()
 })
 
-test('should reset after showing error', async () => {
+test('resets after showing error', async () => {
 	CheckClickMock.mockResolvedValueOnce(false)
 	const user = userEvent.setup()
 	const button = renderButton()
