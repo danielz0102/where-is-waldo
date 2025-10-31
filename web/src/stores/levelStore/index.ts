@@ -4,7 +4,7 @@ import { createTimerSlice, type TimerSlice } from './timerSlice'
 
 interface LevelStore extends ClickSlice, TimerSlice {
 	win: boolean
-	setWin: (win: boolean) => void
+	setWin: () => void
 	reset: () => void
 }
 
