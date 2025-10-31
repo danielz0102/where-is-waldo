@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import CharacterService from '~services/CharacterService'
 import { createRandomCharacter } from '~tests/utils/fakeData'
@@ -83,7 +83,8 @@ test('disables button after successful click', async () => {
 	expect(button).toBeDisabled()
 })
 
-test.skip('resets after showing error', async () => {
+test('resets after showing error', async () => {
+	vi.useFakeTimers({ shouldAdvanceTime: true })
 	CheckClickMock.mockResolvedValueOnce(false)
 	const user = userEvent.setup()
 	const button = renderButton()
@@ -92,12 +93,13 @@ test.skip('resets after showing error', async () => {
 
 	expect(button).toHaveTextContent(/wrong/i)
 
-	await waitFor(
-		() => {
-			expect(button).toHaveTextContent(new RegExp(fakeCharacter.name, 'i'))
-		},
-		{ timeout: 1500 }
-	)
+	act(() => {
+		vi.advanceTimersByTime(1500)
+	})
+
+	expect(button).toHaveTextContent(new RegExp(fakeCharacter.name, 'i'))
+
+	vi.useRealTimers()
 })
 
 function renderButton(onSuccess = () => {}) {
