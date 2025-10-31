@@ -2,28 +2,31 @@ import type { StateCreator } from 'zustand'
 
 export interface TimerSlice {
 	seconds: number
-	paused: boolean
 	pauseTimer: () => void
 	resumeTimer: () => void
 	getTimeFormatted: () => string
 	resetTimer: () => void
 }
 
-export const createTimerSlice: StateCreator<TimerSlice> = (set, get, store) => {
-	setInterval(() => {
-		if (!get().paused) {
-			set((state) => ({ seconds: state.seconds + 1 }))
-		}
-	}, 1000)
+export const createTimerSlice: StateCreator<TimerSlice> = (set, get, slice) => {
+	let interval: ReturnType<typeof setInterval> | null = null
 
 	return {
-		paused: true,
 		seconds: 0,
 		resumeTimer: () => {
-			set({ paused: false })
+			if (interval) {
+				return
+			}
+
+			interval = setInterval(() => {
+				set((state) => ({ seconds: state.seconds + 1 }))
+			}, 1000)
 		},
 		pauseTimer: () => {
-			set({ paused: true })
+			if (interval) {
+				clearInterval(interval)
+				interval = null
+			}
 		},
 		getTimeFormatted: () => {
 			const { seconds } = get()
@@ -35,7 +38,7 @@ export const createTimerSlice: StateCreator<TimerSlice> = (set, get, store) => {
 		},
 		resetTimer: () => {
 			get().pauseTimer()
-			set(store.getInitialState())
+			set(slice.getInitialState())
 		},
 	}
 }
