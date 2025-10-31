@@ -1,10 +1,10 @@
 import '@fontsource/indie-flower'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter, Route, Routes } from 'react-router'
+import NotFound from '~pages/404'
 import Landing from '~pages/Landing'
 import Level from '~pages/Level'
 import SelectScenario from '~pages/SelectScenario'
-import NotFound from '~pages/404'
 
 const queryClient = new QueryClient()
 

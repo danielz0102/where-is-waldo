@@ -20,7 +20,7 @@ export default function CharacterMenu({ characters }: CharacterMenuProps) {
 		const allFound = charactersRef.current.every((c) => c.found)
 
 		if (allFound) {
-			setWin(true)
+			setWin()
 		}
 	}
 
