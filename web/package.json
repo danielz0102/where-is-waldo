@@ -9,6 +9,7 @@
 		"lint": "biome lint",
 		"lint:fix": "biome lint --write",
 		"format": "biome format --write",
+		"check": "tsc --noEmit --project tsconfig.app.json",
 		"test": "vitest",
 		"preview": "vite preview"
 	},

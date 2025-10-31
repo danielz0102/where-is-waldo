@@ -35,6 +35,6 @@
 			"~/*": ["src/*"]
 		}
 	},
-	"include": ["src", "tests"],
+	"include": ["src"],
 	"exclude": ["**/*.test.*", "**/*.spec.*"]
 }
