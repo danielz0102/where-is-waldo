@@ -1,10 +1,11 @@
 import { screen } from '@testing-library/react'
 import ScenarioQueries from '~/querys/ScenarioQueries'
-import fakeScenarios from '~tests/mocks/scenarios'
+import { createRandomScenarios } from '~tests/utils/fakeData'
 import { Renderer } from '~tests/utils/Renderer'
 import SelectScenario from '.'
 
 const renderer = new Renderer().withRouter()
+const fakeScenarios = createRandomScenarios()
 
 vi.mock('~/querys/ScenarioQueries', () => ({
 	default: {

@@ -14,7 +14,7 @@ export const createRandomCharacter = (): Character => ({
 
 export const createRandomScenario = (): Scenario => ({
 	id: faker.string.uuid(),
-	name: faker.lorem.words({ min: 1, max: 5 }),
+	name: faker.lorem.words({ min: 1, max: 3 }),
 	imgUrl: faker.image.url(),
 })
 
@@ -25,10 +25,16 @@ export const createRandomScore = (): Score => ({
 	scenarioId: faker.string.uuid(),
 })
 
-export const createRandomCharacters = () =>
-	createMultiple(createRandomCharacter)
-export const createRandomScenarios = () => createMultiple(createRandomScenario)
-export const createRandomScores = () => createMultiple(createRandomScore)
+export const createRandomCharacters = () => {
+	return createMultiple({ creator: createRandomCharacter })
+}
+export const createRandomScenarios = () => {
+	// Seeded to enforce unique names and avoid false negatives in tests
+	return createMultiple({ creator: createRandomScenario, seed: 64 })
+}
+export const createRandomScores = () => {
+	return createMultiple({ creator: createRandomScore })
+}
 
 type Count =
 	| number
@@ -36,12 +42,19 @@ type Count =
 			min: number
 			max: number
 	  }
-	| undefined
 
-const createMultiple = <T>(
-	creator: () => T,
-	count: Count = { min: 10, max: 30 }
-): T[] => {
+interface CreateMultipleOptions<T> {
+	creator: () => T
+	count?: Count
+	seed?: number
+}
+
+function createMultiple<T>({
+	creator,
+	count = { min: 10, max: 30 },
+	seed,
+}: CreateMultipleOptions<T>): T[] {
+	faker.seed(seed)
 	return faker.helpers.multiple(creator, {
 		count,
 	})
