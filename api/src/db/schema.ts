@@ -4,6 +4,7 @@ import { pgTable, real, time, uuid, varchar } from 'drizzle-orm/pg-core'
 export const scenarios = pgTable('scenarios', {
 	id: uuid().primaryKey().defaultRandom(),
 	name: varchar({ length: 255 }).notNull(),
+	slug: varchar({ length: 255 }).notNull().unique(),
 	imgUrl: varchar({ length: 255 }).notNull(),
 })
 

@@ -16,6 +16,7 @@ export const createRandomScenario = (): Scenario => ({
 	id: faker.string.uuid(),
 	name: faker.lorem.words({ min: 1, max: 5 }),
 	imgUrl: faker.image.url(),
+	slug: faker.lorem.slug(),
 })
 
 export const createRandomScore = (): Score => ({

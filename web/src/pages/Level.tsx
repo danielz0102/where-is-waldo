@@ -16,6 +16,7 @@ export default function Level() {
 		throw new Error('No id provided')
 	}
 
+	// TODO: get by slug instead of id
 	const { data, isLoading } = useLevelQuery(id)
 
 	useEffect(() => {

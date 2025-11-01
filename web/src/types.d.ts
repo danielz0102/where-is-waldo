@@ -1,12 +1,13 @@
 export interface Scenario {
 	id: string
 	name: string
+	slug: string
 	imgUrl: string
 }
 
 export interface Character {
-	name: string
 	id: string
+	name: string
 	imgUrl: string
 	maxX: number
 	minX: number
