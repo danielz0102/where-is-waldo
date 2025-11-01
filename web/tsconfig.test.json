@@ -16,5 +16,6 @@
 			"~/*": ["src/*"]
 		}
 	},
-	"include": ["**/*.test.*", "**/*.spec.*"]
+	"include": ["**/*.test.*", "**/*.spec.*"],
+	"exclude": ["tests/e2e"]
 }
