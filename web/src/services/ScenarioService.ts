@@ -3,8 +3,8 @@ import HTTPClient from './HTTPClient'
 
 export default {
 	getAll,
-	getById,
 	getByName,
+	getBySlug,
 }
 
 async function getAll(): Promise<Scenario[]> {
@@ -12,12 +12,12 @@ async function getAll(): Promise<Scenario[]> {
 	return data
 }
 
-async function getById(id: string): Promise<Scenario> {
-	const { data } = await HTTPClient.get<Scenario>(`scenarios/${id}`)
-	return data
-}
-
 async function getByName(name: string): Promise<Scenario | null> {
 	const { data } = await HTTPClient.get<Scenario[]>(`scenarios?name=${name}`)
 	return data.length > 0 ? data[0] : null
+}
+
+async function getBySlug(slug: string): Promise<Scenario> {
+	const { data } = await HTTPClient.get<Scenario>(`scenarios/${slug}`)
+	return data
 }

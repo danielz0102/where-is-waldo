@@ -4,6 +4,7 @@
 - [x] Record time
 - [x] Show modal when all characters are found
 - [ ] Save score to leaderboard if it's in top 10
+- [ ] Use slug instead of ID in Level page URL
 
 # Bugs
 

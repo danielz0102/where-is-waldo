@@ -14,7 +14,7 @@ export const createRandomCharacter = (): Character => ({
 
 export const createRandomScenario = (): Scenario => ({
 	id: faker.string.uuid(),
-	name: faker.lorem.words({ min: 1, max: 3 }),
+	name: faker.lorem.words({ min: 1, max: 2 }),
 	slug: faker.lorem.slug(),
 	imgUrl: faker.image.url(),
 })

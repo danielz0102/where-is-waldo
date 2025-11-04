@@ -69,7 +69,7 @@ function ScenarioCard({ scenario }: { scenario: Scenario }) {
 	return (
 		<Link
 			key={scenario.id}
-			to={`/scenario/${scenario.id}`}
+			to={`/scenario/${scenario.slug}`}
 			className="relative overflow-hidden rounded shadow transition-transform hover:scale-105 active:scale-95"
 		>
 			<img

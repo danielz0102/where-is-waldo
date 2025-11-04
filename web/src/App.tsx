@@ -15,7 +15,7 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Landing />} />
 					<Route path="/select-scenario" element={<SelectScenario />} />
-					<Route path="/scenario/:id" element={<Level />} />
+					<Route path="/scenario/:slug" element={<Level />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</BrowserRouter>

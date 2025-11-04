@@ -10,14 +10,14 @@ import WinnerModal from '~components/WinnerModal'
 
 export default function Level() {
 	const resetTimer = useLevelStore((state) => state.resetTimer)
-	const { id } = useParams<{ id: string }>()
+	const { slug } = useParams<{ slug: string }>()
 
-	if (!id) {
-		throw new Error('No id provided')
+	if (!slug) {
+		throw new Error('No slug provided')
 	}
 
 	// TODO: get by slug instead of id
-	const { data, isLoading } = useLevelQuery(id)
+	const { data, isLoading } = useLevelQuery(slug)
 
 	useEffect(() => {
 		return () => {

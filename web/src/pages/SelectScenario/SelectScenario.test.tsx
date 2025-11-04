@@ -49,7 +49,7 @@ test('displays a link and an image for each scenario', () => {
 			name: new RegExp(scn.name, 'i'),
 		})
 
-		expect(scenarioLink).toHaveAttribute('href', `/scenario/${scn.id}`)
+		expect(scenarioLink).toHaveAttribute('href', `/scenario/${scn.slug}`)
 
 		const scenarioImage = screen.getByRole('img', {
 			name: new RegExp(scn.name, 'i'),
