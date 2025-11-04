@@ -6,4 +6,8 @@ import { ScenarioController } from '~controllers/ScenarioController'
 export const scenarioRouter = Router()
 
 scenarioRouter.get('/', ScenarioController.getAll)
-scenarioRouter.get('/:id', validate(getScenarioSchema), ScenarioController.get)
+scenarioRouter.get(
+	'/:slug',
+	validate(getScenarioSchema),
+	ScenarioController.get
+)

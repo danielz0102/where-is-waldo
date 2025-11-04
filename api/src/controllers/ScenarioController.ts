@@ -11,9 +11,9 @@ async function getAll(_: Request, res: Response) {
 	res.json(scenarios)
 }
 
-async function get(req: Request<{ id: string }>, res: Response) {
-	const { id } = req.params
-	const scenario = await ScenarioModel.getById(id)
+async function get(req: Request<{ slug: string }>, res: Response) {
+	const { slug } = req.params
+	const scenario = await ScenarioModel.getBySlug(slug)
 
 	if (!scenario) {
 		return res.status(404).json({ error: 'Scenario not found' })

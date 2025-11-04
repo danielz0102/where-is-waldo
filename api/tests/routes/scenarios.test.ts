@@ -19,26 +19,22 @@ describe('GET /api/scenarios', () => {
 	})
 })
 
-describe('GET /api/scenarios/:id', () => {
+describe('GET /api/scenarios/:slug', () => {
 	it('responds with the scenario found', async () => {
 		const fakeScenario = createRandomScenario()
-		ScenarioModelMock.getById.mockImplementationOnce(async (id: string) => {
-			return id === fakeScenario.id ? fakeScenario : null
+		ScenarioModelMock.getBySlug.mockImplementationOnce(async (slug: string) => {
+			return slug === fakeScenario.slug ? fakeScenario : null
 		})
 
 		const response = await request(app)
-			.get(`/api/scenarios/${fakeScenario.id}`)
+			.get(`/api/scenarios/${fakeScenario.slug}`)
 			.expect(200)
 
 		expect(response.body).toEqual(fakeScenario)
 	})
 
 	it('responds 404 if the scenario does not exist', async () => {
-		ScenarioModelMock.getById.mockResolvedValueOnce(null)
-		await request(app).get(`/api/scenarios/${crypto.randomUUID()}`).expect(404)
-	})
-
-	it('responds 400 if the id is not a valid UUID', async () => {
-		await request(app).get('/api/scenarios/invalid-uuid').expect(400)
+		ScenarioModelMock.getBySlug.mockResolvedValueOnce(null)
+		await request(app).get('/api/scenarios/random-scenario').expect(404)
 	})
 })
