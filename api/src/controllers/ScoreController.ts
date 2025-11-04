@@ -6,7 +6,6 @@ import { ScoreModel } from '~models/ScoreModel'
 export const ScoreController = {
 	getAllByScenarioId,
 	post,
-	isInTop10,
 }
 
 async function getAllByScenarioId(
@@ -35,13 +34,4 @@ async function post(
 
 		return next(error)
 	}
-}
-
-async function isInTop10(
-	req: Request<null, null, { time: string; scenarioId: string }>,
-	res: Response<boolean>
-) {
-	const { time, scenarioId } = req.body
-	const isTop10 = await ScoreModel.isTop10(time, scenarioId)
-	res.send(isTop10)
 }

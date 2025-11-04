@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm'
 import db from '~/db'
 import { scenarios, scores } from '~/db/schema'
-import { msToTime, timeToMs } from '~/lib/timeUtils'
+import { timeToMs } from '~/lib/timeUtils'
 import { ScoreModel } from '~models/ScoreModel'
 import { getRandomRecordFrom } from '~tests/lib/getRandomRecord'
 
@@ -61,8 +61,8 @@ describe('new', async () => {
 			time: '00:02:00',
 		})
 
-		expect(updatedScore?.id).toBe(existingScore.id)
-		expect(updatedScore?.time).toBe('00:02:00')
+		expect(updatedScore.id).toBe(existingScore.id)
+		expect(updatedScore.time).toBe('00:02:00')
 	})
 
 	it('throws an error if the new score is not better than the existing one', async () => {
@@ -72,32 +72,5 @@ describe('new', async () => {
 		})
 
 		await expect(promise).rejects.toThrow(/score is not better/i)
-	})
-})
-
-describe('isTop10', async () => {
-	const scenario = await getRandomRecordFrom(scenarios)
-	const scores = await ScoreModel.getTop10(scenario.id)
-	const worstTop10 = scores.at(-1)
-
-	if (!worstTop10) {
-		throw new Error('No scores found for the scenario', { cause: scenario })
-	}
-
-	it('returns true if the score is less than the worst top 10 score', async () => {
-		const time = msToTime(timeToMs(worstTop10.time) - 1000)
-		const isTop10 = await ScoreModel.isTop10(time, scenario.id)
-		expect(isTop10).toBe(true)
-	})
-
-	it('returns false if the score is greater than the worst top 10 score', async () => {
-		const time = msToTime(timeToMs(worstTop10.time) + 1000)
-		const isTop10 = await ScoreModel.isTop10(time, scenario.id)
-		expect(isTop10).toBe(false)
-	})
-
-	it('returns false if the score is equal to the worst top 10 score', async () => {
-		const isTop10 = await ScoreModel.isTop10(worstTop10.time, scenario.id)
-		expect(isTop10).toBe(false)
 	})
 })
