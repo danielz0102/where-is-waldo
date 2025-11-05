@@ -21,6 +21,9 @@ export default function CharacterMenu({ characters }: CharacterMenuProps) {
 
 		if (allFound) {
 			setWin()
+			charactersRef.current.forEach((c) => {
+				c.found = false
+			})
 		}
 	}
 

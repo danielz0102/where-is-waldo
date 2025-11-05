@@ -3,6 +3,8 @@ import { useLevelStore } from '~/stores/levelStore'
 export default function WinnerModal() {
 	const time = useLevelStore((state) => state.getTimeFormatted())
 	const win = useLevelStore((state) => state.win)
+	const reset = useLevelStore((state) => state.reset)
+	const startTime = useLevelStore((state) => state.resumeTimer)
 
 	return (
 		<dialog
@@ -13,6 +15,16 @@ export default function WinnerModal() {
 			<p>
 				Your time: <time className="font-bold font-mono">{time}</time>
 			</p>
+			<button
+				onClick={() => {
+					reset()
+					startTime()
+				}}
+				type="button"
+				className="mt-4 cursor-pointer font-semibold text-blue-900"
+			>
+				Play Again
+			</button>
 		</dialog>
 	)
 }

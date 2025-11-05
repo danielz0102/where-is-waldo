@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { Check, CircleOff, LoaderCircle } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLevelStore } from '~/stores/levelStore'
 import type { Character } from '~/types'
 import CharacterService from '~services/CharacterService'
@@ -18,6 +18,7 @@ export default function CharacterButton({
 }: CharacterButtonProps) {
 	const x = useLevelStore((state) => state.normX)
 	const y = useLevelStore((state) => state.normY)
+	const onReset = useLevelStore((state) => state.onReset)
 	const [feedback, setFeedback] = useState<Feedback>('idle')
 
 	const text = (() => {
@@ -39,6 +40,12 @@ export default function CharacterButton({
 		setFeedback('success')
 		onSuccess(character.id)
 	}
+
+	useEffect(() => {
+		onReset(() => {
+			setFeedback('idle')
+		})
+	}, [])
 
 	return (
 		<button
