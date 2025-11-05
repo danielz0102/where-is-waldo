@@ -11,7 +11,7 @@ export default function WinnerModal() {
 		>
 			<h2 className="mb-4 font-bold text-3xl">You won!</h2>
 			<p>
-				Your time: <span className="font-bold font-mono">{time}</span>
+				Your time: <time className="font-bold font-mono">{time}</time>
 			</p>
 		</dialog>
 	)
