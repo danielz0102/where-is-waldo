@@ -1,10 +1,20 @@
+import { useEffect } from 'react'
+import ScoreQueries from '~/querys/ScoreQueries'
 import { useLevelStore } from '~/stores/levelStore'
 
-export default function WinnerModal() {
+export default function WinnerModal({ scenarioId }: { scenarioId: string }) {
 	const time = useLevelStore((state) => state.getTimeFormatted())
 	const win = useLevelStore((state) => state.win)
+	const seconds = useLevelStore((state) => state.seconds)
 	const reset = useLevelStore((state) => state.reset)
 	const startTime = useLevelStore((state) => state.resumeTimer)
+	const isTop10 = ScoreQueries.useIsTop10Query(scenarioId, seconds)
+
+	useEffect(() => {
+		if (win) {
+			isTop10.refetch()
+		}
+	}, [win])
 
 	return (
 		<dialog
@@ -15,16 +25,27 @@ export default function WinnerModal() {
 			<p>
 				Your time: <time className="font-bold font-mono">{time}</time>
 			</p>
-			<button
-				onClick={() => {
-					reset()
-					startTime()
-				}}
-				type="button"
-				className="mt-4 cursor-pointer font-semibold text-blue-900"
-			>
-				Play Again
-			</button>
+			{isTop10.isFetching ? (
+				<p className="mt-4 animate-pulse text-gray-600">Loading...</p>
+			) : (
+				<>
+					{isTop10.data && (
+						<p className="mt-4 font-semibold text-green-700">
+							Congratulations! You made it to the Top 10!
+						</p>
+					)}
+					<button
+						onClick={() => {
+							reset()
+							startTime()
+						}}
+						type="button"
+						className="mt-4 cursor-pointer font-semibold text-blue-900 transition-opacity hover:opacity-50"
+					>
+						Play Again
+					</button>
+				</>
+			)}
 		</dialog>
 	)
 }

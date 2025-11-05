@@ -16,7 +16,6 @@ export default function Level() {
 		throw new Error('No slug provided')
 	}
 
-	// TODO: get by slug instead of id
 	const { data, isLoading } = useLevelQuery(slug)
 
 	useEffect(() => {
@@ -51,7 +50,7 @@ export default function Level() {
 						Back to Home
 					</Link>
 				</Scenario.Header>
-				<WinnerModal />
+				<WinnerModal scenarioId={data.scenario.id} />
 			</Scenario.Root>
 		)
 	}
