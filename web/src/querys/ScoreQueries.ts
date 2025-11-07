@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import type { Score } from '~/types'
+import { isTop10 } from '~/useCases/isTop10'
 import ScoreService from '~services/ScoreService'
 
 export default {
@@ -18,7 +19,7 @@ function useGetTop10ScoresQuery(scenarioId: string) {
 function useIsTop10Query(scenarioId: string, seconds: number) {
 	return useQuery({
 		queryKey: ['isTop10', scenarioId, seconds],
-		queryFn: () => ScoreService.isTop10(scenarioId, seconds),
+		queryFn: () => isTop10(scenarioId, seconds),
 		refetchOnWindowFocus: false,
 		enabled: false,
 	})

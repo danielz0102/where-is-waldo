@@ -26,15 +26,15 @@ export const createRandomScore = (): Score => ({
 	scenarioId: faker.string.uuid(),
 })
 
-export const createRandomCharacters = () => {
-	return createMultiple({ creator: createRandomCharacter })
+export const createRandomCharacters = (count?: number) => {
+	return createMultiple({ creator: createRandomCharacter, count })
 }
-export const createRandomScenarios = () => {
+export const createRandomScenarios = (count?: number) => {
 	// Seeded to enforce unique names and avoid false negatives in tests
-	return createMultiple({ creator: createRandomScenario, seed: 64 })
+	return createMultiple({ creator: createRandomScenario, seed: 64, count })
 }
-export const createRandomScores = () => {
-	return createMultiple({ creator: createRandomScore })
+export const createRandomScores = (count?: number) => {
+	return createMultiple({ creator: createRandomScore, count })
 }
 
 type Count =
