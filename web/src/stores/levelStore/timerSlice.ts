@@ -30,11 +30,15 @@ export const createTimerSlice: StateCreator<TimerSlice> = (set, get, slice) => {
 		},
 		getTimeFormatted: () => {
 			const { seconds } = get()
-			const minutes = Math.floor(seconds / 60)
+			const hours = Math.floor(seconds / 3600)
+				.toString()
+				.padStart(2, '0')
+			const minutes = Math.floor((seconds % 3600) / 60)
 				.toString()
 				.padStart(2, '0')
 			const remainingSeconds = (seconds % 60).toString().padStart(2, '0')
-			return `${minutes}:${remainingSeconds}`
+
+			return `${hours}:${minutes}:${remainingSeconds}`
 		},
 		resetTimer: () => {
 			get().pauseTimer()

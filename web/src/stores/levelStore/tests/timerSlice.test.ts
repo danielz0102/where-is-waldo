@@ -66,7 +66,7 @@ describe('resetTimer', () => {
 })
 
 describe('getTimeFormatted', () => {
-	it('returns the time in MM:SS format', () => {
+	it('returns the time in HH:MM:SS format', () => {
 		const { result } = renderHook(() => useLevelStore())
 		result.current.resumeTimer()
 
@@ -74,6 +74,6 @@ describe('getTimeFormatted', () => {
 			vi.advanceTimersByTime(125000) // 2 minutes and 5 seconds
 		})
 
-		expect(result.current.getTimeFormatted()).toBe('02:05')
+		expect(result.current.getTimeFormatted()).toBe('00:02:05')
 	})
 })
