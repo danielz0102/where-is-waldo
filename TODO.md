@@ -17,3 +17,6 @@
 - [x] Add 404 page
 - [x] Improve Level page loading state
 - [x] Add link to homepage on Level page
+- [ ] Check if a tanstack query can be used in CharacterButton
+- [ ] Add tests to WinnerModal
+- [ ] Add tests to ScoreForm
