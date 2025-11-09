@@ -17,5 +17,5 @@
 - [x] Add 404 page
 - [x] Improve Level page loading state
 - [x] Add link to homepage on Level page
-- [ ] Add tests to WinnerModal
+- [x] Add tests to WinnerModal
 - [ ] Add tests to ScoreForm

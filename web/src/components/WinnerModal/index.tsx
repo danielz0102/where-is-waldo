@@ -2,7 +2,7 @@ import { CircleStar } from 'lucide-react'
 import { useEffect } from 'react'
 import ScoreQueries from '~/querys/ScoreQueries'
 import { useLevelStore } from '~/stores/levelStore'
-import ScoreForm from './ScoreForm'
+import ScoreForm from '../ScoreForm'
 
 export default function WinnerModal({ scenarioId }: { scenarioId: string }) {
 	const time = useLevelStore((state) => state.getTimeFormatted())
