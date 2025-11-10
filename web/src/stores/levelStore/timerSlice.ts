@@ -15,7 +15,7 @@ export const createTimerSlice: StateCreator<TimerSlice> = (set, get, slice) => {
 		seconds: 0,
 		resumeTimer: () => {
 			if (interval) {
-				return
+				clearInterval(interval)
 			}
 
 			interval = setInterval(() => {
@@ -25,7 +25,6 @@ export const createTimerSlice: StateCreator<TimerSlice> = (set, get, slice) => {
 		pauseTimer: () => {
 			if (interval) {
 				clearInterval(interval)
-				interval = null
 			}
 		},
 		getTimeFormatted: () => {
@@ -41,7 +40,10 @@ export const createTimerSlice: StateCreator<TimerSlice> = (set, get, slice) => {
 			return `${hours}:${minutes}:${remainingSeconds}`
 		},
 		resetTimer: () => {
-			get().pauseTimer()
+			if (interval) {
+				clearInterval(interval)
+			}
+
 			set(slice.getInitialState())
 		},
 	}

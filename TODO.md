@@ -3,7 +3,7 @@
 - [x] Add loading, error, and success states to character buttons
 - [x] Record time
 - [x] Show modal when all characters are found
-- [ ] Save score to leaderboard if it's in top 10
+- [x] Save score to leaderboard if it's in top 10
 - [x] Use slug instead of ID in Level page URL
 
 # Bugs
