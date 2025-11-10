@@ -2,7 +2,7 @@ import z from 'zod'
 
 export const getAllScoresSchema = z.object({
 	params: z.object({
-		scenarioId: z.uuid(),
+		scenarioSlug: z.string(),
 	}),
 })
 

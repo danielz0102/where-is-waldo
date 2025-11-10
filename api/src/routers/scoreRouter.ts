@@ -6,8 +6,8 @@ import { ScoreController } from '~controllers/ScoreController'
 export const scoreRouter = Router()
 
 scoreRouter.get(
-	'/:scenarioId',
+	'/:scenarioSlug',
 	validate(getAllScoresSchema),
-	ScoreController.getAllByScenarioId
+	ScoreController.getAllByScenario
 )
 scoreRouter.post('/', validate(postScoreSchema), ScoreController.post)

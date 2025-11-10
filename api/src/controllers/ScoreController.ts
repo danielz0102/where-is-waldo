@@ -4,17 +4,27 @@ import { BusinessError } from '~/errors'
 import { ScoreModel } from '~models/ScoreModel'
 
 export const ScoreController = {
-	getAllByScenarioId,
+	getAllByScenario,
 	post,
 }
 
-async function getAllByScenarioId(
-	req: Request<{ scenarioId: string }, unknown, unknown, { limit: string }>,
-	res: Response
+async function getAllByScenario(
+	req: Request<{ scenarioSlug: string }, unknown, unknown, { limit: string }>,
+	res: Response,
+	next: NextFunction
 ) {
-	const { scenarioId } = req.params
-	const scores = await ScoreModel.getTop10(scenarioId)
-	res.json(scores)
+	const { scenarioSlug } = req.params
+
+	try {
+		const scores = await ScoreModel.getTop10(scenarioSlug)
+		res.json(scores)
+	} catch (error) {
+		if (error instanceof BusinessError) {
+			return res.status(404).json({ message: error.message })
+		}
+
+		return next(error)
+	}
 }
 
 async function post(

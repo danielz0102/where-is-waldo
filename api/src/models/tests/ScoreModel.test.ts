@@ -9,7 +9,7 @@ describe('getTop10', () => {
 	it('returns the top 10 of the given scenario', async () => {
 		const scenario = await getRandomRecordFrom(scenarios)
 
-		const scores = await ScoreModel.getTop10(scenario.id)
+		const scores = await ScoreModel.getTop10(scenario.slug)
 
 		expect(scores.length).toBeLessThanOrEqual(10)
 		expect(scores[0]?.scenarioId).toBe(scenario.id)
@@ -48,7 +48,7 @@ describe('new', async () => {
 	})
 
 	it('updates the score if the username exists and the new score is better', async () => {
-		const existingScore = await ScoreModel.getTop10(scenario.id).then(
+		const existingScore = await ScoreModel.getTop10(scenario.slug).then(
 			(scores) => scores.find((s) => s.username === newScoreData.username)
 		)
 

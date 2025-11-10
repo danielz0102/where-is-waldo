@@ -9,20 +9,26 @@ vi.mock('~models/ScoreModel')
 const ScoreModelMock = vi.mocked(ScoreModel)
 const fakeScores = createRandomScores()
 
-describe('GET /api/scores/:scenarioId', () => {
+describe('GET /api/scores/:scenarioSlug', () => {
 	it('responds with an array of scores', async () => {
-		const fakeId = crypto.randomUUID()
-		ScoreModelMock.getTop10.mockImplementationOnce(async (id) => {
-			return id === fakeId ? fakeScores : []
+		const fakeSlug = 'fake-scenario-slug'
+		ScoreModelMock.getTop10.mockImplementationOnce(async (scenarioSlug) => {
+			return scenarioSlug === fakeSlug ? fakeScores : []
 		})
 
-		const response = await request(app).get(`/api/scores/${fakeId}`).expect(200)
+		const response = await request(app)
+			.get(`/api/scores/${fakeSlug}`)
+			.expect(200)
 
 		expect(response.body).toEqual(fakeScores)
 	})
 
-	it('responds with 400 if scenarioId is invalid', async () => {
-		await request(app).get('/api/scores/invalid-scenario-id').expect(400)
+	it('responds with 404 if the scenario does not exists', async () => {
+		ScoreModelMock.getTop10.mockRejectedValueOnce(
+			new BusinessError('Scenario not found')
+		)
+
+		await request(app).get('/api/scores/fake-scenario').expect(404)
 	})
 })
 
