@@ -18,4 +18,4 @@
 - [x] Improve Level page loading state
 - [x] Add link to homepage on Level page
 - [x] Add tests to WinnerModal
-- [ ] Add tests to ScoreForm
+- [x] Add tests to ScoreForm
