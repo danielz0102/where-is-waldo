@@ -1,4 +1,4 @@
-import React, { useId } from 'react'
+import { useId } from 'react'
 import ScoreQueries from '~/querys/ScoreQueries'
 
 interface ScoreFormProps {
@@ -10,13 +10,13 @@ export default function ScoreForm({ scenarioId, time }: ScoreFormProps) {
 	const usernameId = useId()
 	const registerScore = ScoreQueries.useRegisterScoreMutation()
 
-	const buttonText = () => {
+	const buttonText = (() => {
 		if (registerScore.isPending) {
 			return (
-				<React.Fragment>
+				<span className="flex items-center gap-2">
 					Loading...
 					<Spinner />
-				</React.Fragment>
+				</span>
 			)
 		}
 
@@ -25,7 +25,7 @@ export default function ScoreForm({ scenarioId, time }: ScoreFormProps) {
 		}
 
 		return 'Submit'
-	}
+	})()
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
@@ -60,7 +60,7 @@ export default function ScoreForm({ scenarioId, time }: ScoreFormProps) {
 						disabled={registerScore.isPending}
 						className="flex cursor-pointer items-center justify-center rounded border border-neutral-500 bg-neutral-800 px-2 py-1 text-white hover:bg-neutral-50 hover:text-neutral-900 focus:bg-neutral-50 focus:text-neutral-900 focus:outline-none disabled:cursor-not-allowed disabled::opacity-50"
 					>
-						{buttonText()}
+						{buttonText}
 					</button>
 				)}
 			</div>
