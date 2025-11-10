@@ -16,6 +16,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "^2.2.4",
 		"@faker-js/faker": "^10.1.0",
+		"@vitest/coverage-v8": "^4.0.8",
 		"vite-tsconfig-paths": "^5.1.4",
 		"vitest": "^4.0.8"
 	},

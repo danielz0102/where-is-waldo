@@ -12,6 +12,7 @@
 		"check": "tsc --noEmit --project tsconfig.app.json",
 		"test": "vitest",
 		"test:e2e": "playwright test",
+		"test:coverage": "vitest run --coverage",
 		"preview": "vite preview"
 	},
 	"dependencies": {
