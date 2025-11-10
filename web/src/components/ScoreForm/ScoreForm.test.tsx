@@ -8,19 +8,11 @@ import ScoreForm from '.'
 
 vi.mock('~services/ScoreService', () => ({
 	default: {
-		registerScore: vi.fn(() =>
-			Promise.resolve({
-				id: crypto.randomUUID(),
-				username: 'TestUser',
-				time: '00:05:23',
-				scenarioId: crypto.randomUUID(),
-			})
-		),
+		registerScore: vi.fn(() => Promise.resolve(createRandomScore())),
 	},
 }))
 
 const registerScoreMock = vi.mocked(ScoreService.registerScore)
-
 const fakeScenarioId = crypto.randomUUID()
 const fakeTime = '00:05:23'
 const fakeScore = createRandomScore()
