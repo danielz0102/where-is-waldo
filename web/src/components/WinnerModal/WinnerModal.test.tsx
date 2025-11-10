@@ -19,7 +19,10 @@ const fakeScenarioId = crypto.randomUUID()
 
 beforeEach(() => {
 	const { result } = renderHook(() => useLevelStore())
-	result.current.reset()
+
+	act(() => {
+		result.current.reset()
+	})
 
 	isTop10Mock.mockClear()
 	isTop10Mock.mockResolvedValue(true)
@@ -54,11 +57,8 @@ test('displays the formatted time', async () => {
 
 	renderModal()
 
-	await waitFor(() => {
-		expect(screen.getByText(/your time:/i)).toBeInTheDocument()
-	})
-
 	const timeElement = screen.getByRole('time')
+	expect(timeElement).toBeVisible()
 	expect(timeElement).toHaveTextContent(result.current.getTimeFormatted())
 })
 
@@ -77,7 +77,7 @@ test('shows loading state while checking if score is top 10', async () => {
 	renderModal()
 
 	await waitFor(() => {
-		expect(screen.getByText(/loading/i)).toBeInTheDocument()
+		expect(screen.getByText(/loading/i)).toBeVisible()
 	})
 })
 
@@ -91,11 +91,11 @@ test('displays top 10 badge when score is in top 10', async () => {
 	renderModal()
 
 	await waitFor(() => {
-		expect(screen.getByText(/top 10/i)).toBeInTheDocument()
+		expect(screen.queryByText(/top 10/i)).toBeVisible()
 	})
 })
 
-test('does not display top 10 badge when score is not in top 10', async () => {
+test('does not render top 10 badge when score is not in top 10', async () => {
 	const { result } = renderHook(() => useLevelStore())
 	isTop10Mock.mockResolvedValueOnce(false)
 
@@ -120,7 +120,7 @@ test('renders score form when score is top 10', async () => {
 	renderModal()
 
 	await waitFor(() => {
-		expect(screen.getByTestId('score-form')).toBeInTheDocument()
+		expect(screen.queryByTestId('score-form')).toBeInTheDocument()
 	})
 })
 
@@ -172,9 +172,7 @@ test('resets store and resumes timer when play again is clicked', async () => {
 	renderModal()
 
 	await waitFor(() => {
-		expect(
-			screen.getByRole('button', { name: /play again/i })
-		).toBeInTheDocument()
+		expect(screen.getByRole('button', { name: /play again/i })).toBeVisible()
 	})
 
 	expect(result.current.win).toBe(true)
@@ -185,7 +183,7 @@ test('resets store and resumes timer when play again is clicked', async () => {
 	expect(result.current.win).toBe(false)
 })
 
-test('does not show play again button during loading', async () => {
+test('does not render play again button during loading', async () => {
 	const { result } = renderHook(() => useLevelStore())
 
 	isTop10Mock.mockImplementation(
@@ -199,7 +197,7 @@ test('does not show play again button during loading', async () => {
 	renderModal()
 
 	await waitFor(() => {
-		expect(screen.getByText(/loading/i)).toBeInTheDocument()
+		expect(screen.queryByText(/loading/i)).toBeVisible()
 	})
 
 	expect(
