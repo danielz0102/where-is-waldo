@@ -96,7 +96,7 @@ test('displays a modal when all characters are found', async ({ page }) => {
 	await expect(modal.getByText(/you won/i)).toBeVisible()
 
 	const time = modal.getByRole('time')
-	await expect(time).toHaveText(/^\d{2}:\d{2}$/)
+	await expect(time).toHaveText(/^\d{2}:\d{2}:\d{2}$/)
 })
 
 async function createCharacterFinder(scenario: Locator) {
