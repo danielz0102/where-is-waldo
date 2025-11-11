@@ -19,4 +19,4 @@
 - [x] Add link to homepage on Level page
 - [x] Add tests to WinnerModal
 - [x] Add tests to ScoreForm
-- [ ] Add Error Boundary
+- [x] Add Error Boundary

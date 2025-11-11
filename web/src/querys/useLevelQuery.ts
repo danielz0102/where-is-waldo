@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 import CharacterService from '~services/CharacterService'
 import ScenarioService from '~services/ScenarioService'
 
@@ -12,5 +13,8 @@ export function useLevelQuery(slug: string) {
 			return { scenario, characters }
 		},
 		refetchOnWindowFocus: false,
+		throwOnError(error) {
+			return error instanceof axios.AxiosError && error.status === 404
+		},
 	})
 }

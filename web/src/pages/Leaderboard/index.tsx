@@ -13,7 +13,11 @@ export default function Leaderboard() {
 		throw new Error('scenarioSlug is required')
 	}
 
-	const { data } = useLeaderboardQuery(scenarioSlug)
+	const { data, isError, error } = useLeaderboardQuery(scenarioSlug)
+
+	if (isError) {
+		throw error
+	}
 
 	if (!data) {
 		return (
