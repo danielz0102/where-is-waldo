@@ -1,9 +1,9 @@
 import { Link } from 'react-router'
-import MainLayout from '~components/layouts/MainLayout'
+import Overlay from '~components/Overlay'
 
 export default function NotFound() {
 	return (
-		<MainLayout>
+		<Overlay className="flex flex-col items-center justify-center">
 			<main className="text-center">
 				<h1 className="mb-6 font-bold text-4xl">404 - Not Found</h1>
 				<p className="mb-2 text-gray-600">
@@ -16,6 +16,6 @@ export default function NotFound() {
 					Go back to home
 				</Link>
 			</main>
-		</MainLayout>
+		</Overlay>
 	)
 }

@@ -2,8 +2,9 @@ import clsx from 'clsx'
 import { Link } from 'react-router'
 import ScenarioQueries from '~/querys/ScenarioQueries'
 import type { Scenario } from '~/types'
-import HomeLink from '~components/HomeLink'
 import Alert from '~components/Alert'
+import HomeLink from '~components/HomeLink'
+import Overlay from '~components/Overlay'
 import Title from '~components/Title'
 
 export default function SelectScenario() {
@@ -14,7 +15,7 @@ export default function SelectScenario() {
 	} = ScenarioQueries.useGetAllQuery()
 
 	return (
-		<div className="flex min-h-screen flex-col bg-gradient-to-br from-blue-100 to-red-100 p-4">
+		<Overlay className="flex flex-col">
 			<nav>
 				<HomeLink />
 			</nav>
@@ -41,7 +42,7 @@ export default function SelectScenario() {
 					))}
 				</div>
 			</main>
-		</div>
+		</Overlay>
 	)
 }
 

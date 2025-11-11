@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router'
 import { useLeaderboardQuery } from '~/querys/useLeaderboardQuery'
 import type { Score } from '~/types'
 import HomeLink from '~components/HomeLink'
-import MainLayout from '~components/layouts/MainLayout'
+import Overlay from '~components/Overlay'
 import Title from '~components/Title'
 
 export default function Leaderboard() {
@@ -17,19 +17,19 @@ export default function Leaderboard() {
 
 	if (!data) {
 		return (
-			<MainLayout>
+			<Overlay className="flex items-center justify-center">
 				<p className="animate-pulse">Loading...</p>
-			</MainLayout>
+			</Overlay>
 		)
 	}
 
 	return (
-		<div className="flex min-h-screen flex-col gap-4 bg-gradient-to-br from-blue-100 to-red-100 p-4">
+		<Overlay className="flex flex-col gap-4">
 			<nav>
 				<HomeLink />
 			</nav>
 			<main className="flex flex-col items-center justify-center gap-4">
-				<Title>{data.scenario.name} Leaderboard</Title>
+				<Title className="text-center">{data.scenario.name} Leaderboard</Title>
 				{data.scores.length === 0 ? (
 					<p className="text-center text-gray-600">
 						There are no scores yet.{' '}
@@ -44,7 +44,7 @@ export default function Leaderboard() {
 					<ScoresTable scores={data.scores} />
 				)}
 			</main>
-		</div>
+		</Overlay>
 	)
 }
 

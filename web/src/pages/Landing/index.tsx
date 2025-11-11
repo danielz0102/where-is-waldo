@@ -1,11 +1,11 @@
 import { Link } from 'react-router'
-import MainLayout from '~components/layouts/MainLayout'
+import Overlay from '~components/Overlay'
 import Title from '~components/Title'
 
 export default function Landing() {
 	return (
-		<MainLayout>
-			<main className="mx-auto max-w-2xl px-6 py-2 text-center">
+		<Overlay className="flex items-center justify-center">
+			<main className="mx-auto max-w-2xl text-center">
 				<img
 					className="mx-auto mb-6 size-75 object-contain"
 					src="https://2cqqce459i.ufs.sh/f/AJOvo5K2Lyhx8fAhsCgdy2TGrODLX3m54PatAcsHqZfvBjRW"
@@ -28,6 +28,6 @@ export default function Landing() {
 					</div>
 				</div>
 			</main>
-		</MainLayout>
+		</Overlay>
 	)
 }
