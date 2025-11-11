@@ -5,6 +5,7 @@
 - [x] Show modal when all characters are found
 - [x] Save score to leaderboard if it's in top 10
 - [x] Use slug instead of ID in Level page URL
+- [ ] Add more scenarios
 
 # Bugs
 

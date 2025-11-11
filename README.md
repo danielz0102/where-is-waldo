@@ -1,5 +1,9 @@
 # Where's Waldo?
 
+<div align="center">
+  <img align="center" src="waldo.webp" alt="Waldo">
+</div>
+
 A full-stack web game where players find hidden characters in detailed scenes and compete for the fastest time on the leaderboard.
 
 ![Node version](https://img.shields.io/badge/Node.js->=20-3c873a?style=flat-square)
