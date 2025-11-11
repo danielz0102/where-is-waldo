@@ -29,9 +29,7 @@ test('renders character buttons', () => {
 
 test('set win when all characters are found', async () => {
 	const user = userEvent.setup()
-
 	const { result } = renderHook(() => useLevelStore())
-
 	expect(result.current.win).toBe(false)
 
 	render(<CharacterMenu characters={fakeCharacters} />)
