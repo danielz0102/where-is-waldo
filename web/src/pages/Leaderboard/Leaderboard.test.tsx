@@ -36,7 +36,6 @@ const ScenarioServiceMock = vi.mocked(ScenarioService)
 const ScoreServiceMock = vi.mocked(ScoreService)
 const fakeScenario = createRandomScenario()
 const fakeScores = createRandomScores(5)
-
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
@@ -44,7 +43,6 @@ const queryClient = new QueryClient({
 		},
 	},
 })
-
 const renderer = new Renderer().withRouter().withQueryProvider(queryClient)
 
 beforeEach(() => {

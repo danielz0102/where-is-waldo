@@ -1,23 +1,31 @@
-import { screen } from '@testing-library/react'
-import ScenarioQueries from '~/querys/ScenarioQueries'
+import { QueryClient } from '@tanstack/react-query'
+import { screen, waitForElementToBeRemoved } from '@testing-library/react'
+import ScenarioService from '~services/ScenarioService'
 import { createRandomScenarios } from '~tests/utils/fakeData'
 import { Renderer } from '~tests/utils/Renderer'
 import SelectScenario from '.'
 
-const renderer = new Renderer().withRouter()
-const fakeScenarios = createRandomScenarios()
-
-vi.mock('~/querys/ScenarioQueries', () => ({
+vi.mock('~services/ScenarioService', () => ({
 	default: {
-		useGetAllQuery: vi.fn(() => ({
-			data: fakeScenarios,
-			isLoading: false,
-			isError: false,
-		})),
+		getAll: vi.fn(),
 	},
 }))
 
-const mockUseGetAllQuery = vi.mocked(ScenarioQueries.useGetAllQuery)
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			retry: false,
+		},
+	},
+})
+const renderer = new Renderer().withRouter().withQueryProvider(queryClient)
+const fakeScenarios = createRandomScenarios()
+const getAllMock = vi.mocked(ScenarioService.getAll)
+
+beforeEach(() => {
+	getAllMock.mockResolvedValue(fakeScenarios)
+	queryClient.clear()
+})
 
 test('has a title', () => {
 	renderer.render(<SelectScenario />)
@@ -27,7 +35,7 @@ test('has a title', () => {
 		name: /select a scenario/i,
 	})
 
-	expect(title).toBeInTheDocument()
+	expect(title).toBeVisible()
 })
 
 test('has a link to go back to the landing page', () => {
@@ -41,45 +49,37 @@ test('has a link to go back to the landing page', () => {
 	expect(backLink).toHaveAttribute('href', '/')
 })
 
-test('displays a link and an image for each scenario', () => {
+test('shows loading state for scenarios', () => {
+	getAllMock.mockImplementationOnce(() => new Promise(() => {}))
 	renderer.render(<SelectScenario />)
+	expect(screen.queryByText(/loading/i)).toBeInTheDocument()
+})
+
+test('displays a link and an image for each scenario', async () => {
+	renderer.render(<SelectScenario />)
+
+	const loading = await screen.findByText(/loading/i)
+	await waitForElementToBeRemoved(loading)
 
 	fakeScenarios.forEach((scn) => {
 		const scenarioLink = screen.getByRole('link', {
 			name: new RegExp(scn.name, 'i'),
 		})
-
-		expect(scenarioLink).toHaveAttribute('href', `/scenario/${scn.slug}`)
-
 		const scenarioImage = screen.getByRole('img', {
 			name: new RegExp(scn.name, 'i'),
 		})
 
+		expect(scenarioLink).toHaveAttribute('href', `/scenario/${scn.slug}`)
 		expect(scenarioImage).toHaveAttribute('src', scn.imgUrl)
 	})
 })
 
-test('shows loading state', () => {
-	mockUseGetAllQuery.mockReturnValueOnce({
-		data: undefined,
-		isLoading: true,
-		isError: false,
-	} as ReturnType<typeof ScenarioQueries.useGetAllQuery>)
-
+test('shows error state', async () => {
+	getAllMock.mockRejectedValueOnce(new Error('Failed to fetch'))
 	renderer.render(<SelectScenario />)
 
-	expect(screen.queryByText(/loading/i)).toBeInTheDocument()
-})
+	const loading = await screen.findByText(/loading/i)
+	await waitForElementToBeRemoved(loading)
 
-test('shows error state', () => {
-	mockUseGetAllQuery.mockReturnValueOnce({
-		data: undefined,
-		isLoading: false,
-		isError: true,
-		error: new Error('Failed to fetch'),
-	} as ReturnType<typeof ScenarioQueries.useGetAllQuery>)
-
-	renderer.render(<SelectScenario />)
-
-	expect(screen.queryByText(/error/i)).toBeInTheDocument()
+	expect(screen.queryByText(/error.*occurred/i)).toBeInTheDocument()
 })

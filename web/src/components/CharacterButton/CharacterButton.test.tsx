@@ -8,9 +8,7 @@ const fakeCharacter = createRandomCharacter()
 
 vi.mock('~services/CharacterService', () => ({
 	default: {
-		checkClick: vi.fn(
-			() => new Promise((resolve) => setTimeout(() => resolve(true), 500))
-		),
+		checkClick: vi.fn(() => new Promise(() => {})),
 	},
 }))
 
@@ -19,8 +17,8 @@ const CheckClickMock = vi.mocked(CharacterService.checkClick)
 test('renders a button with character name', () => {
 	render(<CharacterButton character={fakeCharacter} onSuccess={() => {}} />)
 	expect(
-		screen.queryByRole('button', { name: new RegExp(fakeCharacter.name, 'i') })
-	).toBeInTheDocument()
+		screen.getByRole('button', { name: new RegExp(fakeCharacter.name, 'i') })
+	).toBeVisible()
 })
 
 test('shows loading state when checking click', async () => {

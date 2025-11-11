@@ -6,10 +6,8 @@ const renderer = new Renderer().withRouter()
 
 test('displays the app title "Where is Waldo?"', () => {
 	renderer.render(<LandingPage />)
-
 	const title = screen.getByRole('heading', { name: /where is waldo\?/i })
-
-	expect(title).toBeInTheDocument()
+	expect(title).toBeVisible()
 })
 
 test('has a link to the select-scenario page', () => {
@@ -19,6 +17,6 @@ test('has a link to the select-scenario page', () => {
 		name: /start playing/i,
 	})
 
-	expect(selectScenarioLink).toBeInTheDocument()
+	expect(selectScenarioLink).toBeVisible()
 	expect(selectScenarioLink).toHaveAttribute('href', '/select-scenario')
 })

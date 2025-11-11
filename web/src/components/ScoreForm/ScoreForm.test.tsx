@@ -8,7 +8,7 @@ import ScoreForm from '.'
 
 vi.mock('~services/ScoreService', () => ({
 	default: {
-		registerScore: vi.fn(() => Promise.resolve(createRandomScore())),
+		registerScore: vi.fn(),
 	},
 }))
 
@@ -17,9 +17,27 @@ const fakeScenarioId = crypto.randomUUID()
 const fakeTime = '00:05:23'
 const fakeScore = createRandomScore()
 
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			retry: false,
+		},
+		mutations: {
+			retry: false,
+		},
+	},
+})
+const renderer = new Renderer().withQueryProvider(queryClient)
+
+const renderScoreForm = () => {
+	return renderer.render(
+		<ScoreForm scenarioId={fakeScenarioId} time={fakeTime} />
+	)
+}
+
 beforeEach(() => {
-	registerScoreMock.mockClear()
 	registerScoreMock.mockResolvedValue(fakeScore)
+	queryClient.clear()
 })
 
 test('renders form with all required elements', () => {
@@ -60,17 +78,12 @@ test('calls mutation with correct data when form is submitted', async () => {
 })
 
 test('shows loading state during mutation', async () => {
+	registerScoreMock.mockImplementationOnce(() => new Promise(() => {}))
 	const user = userEvent.setup()
-
-	registerScoreMock.mockImplementation(
-		() => new Promise((resolve) => setTimeout(() => resolve(fakeScore), 1000))
-	)
-
 	renderScoreForm()
 
 	const usernameInput = screen.getByPlaceholderText(/username/i)
 	const submitButton = screen.getByRole('button', { name: /submit/i })
-
 	await user.type(usernameInput, 'TestUser123')
 	await user.click(submitButton)
 
@@ -84,7 +97,6 @@ test('shows success state after successful submission', async () => {
 
 	const usernameInput = screen.getByPlaceholderText(/username/i)
 	const submitButton = screen.getByRole('button', { name: /submit/i })
-
 	await user.type(usernameInput, 'TestUser123')
 	await user.click(submitButton)
 
@@ -94,20 +106,3 @@ test('shows success state after successful submission', async () => {
 		screen.queryByRole('button', { name: /submit/i })
 	).not.toBeInTheDocument()
 })
-
-function renderScoreForm() {
-	const queryClient = new QueryClient({
-		defaultOptions: {
-			queries: {
-				retry: false,
-			},
-			mutations: {
-				retry: false,
-			},
-		},
-	})
-
-	return new Renderer()
-		.withQueryProvider(queryClient)
-		.render(<ScoreForm scenarioId={fakeScenarioId} time={fakeTime} />)
-}
