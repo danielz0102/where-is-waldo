@@ -3,8 +3,8 @@ import { Link } from 'react-router'
 import ScenarioQueries from '~/querys/ScenarioQueries'
 import type { Scenario } from '~/types'
 import HomeLink from '~components/HomeLink'
-import Alert from '~ui/Alert'
-import Title from '~ui/Title'
+import Alert from '~components/Alert'
+import Title from '~components/Title'
 
 export default function SelectScenario() {
 	const {

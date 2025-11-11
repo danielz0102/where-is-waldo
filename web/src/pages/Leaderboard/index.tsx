@@ -4,6 +4,7 @@ import { useLeaderboardQuery } from '~/querys/useLeaderboardQuery'
 import type { Score } from '~/types'
 import HomeLink from '~components/HomeLink'
 import MainLayout from '~components/layouts/MainLayout'
+import Title from '~components/Title'
 
 export default function Leaderboard() {
 	const { scenarioSlug } = useParams<{ scenarioSlug: string }>()
@@ -17,7 +18,7 @@ export default function Leaderboard() {
 	if (!data) {
 		return (
 			<MainLayout>
-				<p>Loading...</p>
+				<p className="animate-pulse">Loading...</p>
 			</MainLayout>
 		)
 	}
@@ -28,9 +29,7 @@ export default function Leaderboard() {
 				<HomeLink />
 			</nav>
 			<main className="flex flex-col items-center justify-center gap-4">
-				<h1 className="font-semibold text-4xl">
-					{data.scenario.name} Leaderboard
-				</h1>
+				<Title>{data.scenario.name} Leaderboard</Title>
 				{data.scores.length === 0 ? (
 					<p className="text-center text-gray-600">
 						There are no scores yet.{' '}

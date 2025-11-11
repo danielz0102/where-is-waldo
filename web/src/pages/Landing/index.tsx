@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import MainLayout from '~components/layouts/MainLayout'
-import Title from '~ui/Title'
+import Title from '~components/Title'
 
 export default function Landing() {
 	return (
