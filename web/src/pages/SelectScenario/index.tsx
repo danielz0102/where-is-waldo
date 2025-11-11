@@ -56,11 +56,7 @@ function ScenarioSkeleton() {
 
 function ScenarioCard({ scenario }: { scenario: Scenario }) {
 	return (
-		<Link
-			key={scenario.id}
-			to={`/scenario/${scenario.slug}`}
-			className="relative overflow-hidden rounded shadow transition-transform hover:scale-105 active:scale-95"
-		>
+		<div className="relative overflow-hidden rounded shadow">
 			<img
 				src={scenario.imgUrl}
 				alt={scenario.name}
@@ -69,6 +65,20 @@ function ScenarioCard({ scenario }: { scenario: Scenario }) {
 			<h2 className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 text-6xl text-shadow-md/30">
 				{scenario.name}
 			</h2>
-		</Link>
+			<Link
+				to={`/leaderboard/${scenario.slug}`}
+				className="absolute bottom-4 left-4 rounded bg-blue-600 px-6 py-3 font-semibold text-white shadow-lg transition-transform hover:scale-105 hover:bg-blue-700 active:scale-95"
+				aria-label={`Leaderboard for ${scenario.name}`}
+			>
+				Leaderboard
+			</Link>
+			<Link
+				to={`/scenario/${scenario.slug}`}
+				className="absolute right-4 bottom-4 rounded bg-red-600 px-6 py-3 font-semibold text-white shadow-lg transition-transform hover:scale-105 hover:bg-red-700 active:scale-95"
+				aria-label={`Play ${scenario.name}`}
+			>
+				Play
+			</Link>
+		</div>
 	)
 }

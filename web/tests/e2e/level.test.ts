@@ -5,7 +5,7 @@ test('navigates to beach level', async ({ page }) => {
 	const link = page.getByRole('link', { name: 'Start Playing' })
 
 	await link.click()
-	const scenarioLink = page.getByRole('link', { name: /Beach/ })
+	const scenarioLink = page.getByRole('link', { name: 'Play Beach' })
 	await scenarioLink.click()
 
 	expect(page.url()).toContain('/scenario/beach')

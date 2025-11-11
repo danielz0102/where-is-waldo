@@ -55,21 +55,28 @@ test('shows loading state for scenarios', () => {
 	expect(screen.queryByText(/loading/i)).toBeInTheDocument()
 })
 
-test('displays a link and an image for each scenario', async () => {
+test('displays two buttons and an image for each scenario', async () => {
 	renderer.render(<SelectScenario />)
 
 	const loading = await screen.findByText(/loading/i)
 	await waitForElementToBeRemoved(loading)
 
 	fakeScenarios.forEach((scn) => {
-		const scenarioLink = screen.getByRole('link', {
-			name: new RegExp(scn.name, 'i'),
+		const playButton = screen.getByRole('link', {
+			name: new RegExp(`play.*${scn.name}`, 'i'),
+		})
+		const leaderboardButton = screen.getByRole('link', {
+			name: new RegExp(`leaderboard.*${scn.name}`, 'i'),
 		})
 		const scenarioImage = screen.getByRole('img', {
 			name: new RegExp(scn.name, 'i'),
 		})
 
-		expect(scenarioLink).toHaveAttribute('href', `/scenario/${scn.slug}`)
+		expect(playButton).toHaveAttribute('href', `/scenario/${scn.slug}`)
+		expect(leaderboardButton).toHaveAttribute(
+			'href',
+			`/leaderboard/${scn.slug}`
+		)
 		expect(scenarioImage).toHaveAttribute('src', scn.imgUrl)
 	})
 })
