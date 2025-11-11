@@ -38,17 +38,6 @@ test('has a title', () => {
 	expect(title).toBeVisible()
 })
 
-test('has a link to go back to the landing page', () => {
-	renderer.render(<SelectScenario />)
-
-	const backLink = screen.queryByRole('link', {
-		name: /home/i,
-	})
-
-	expect(backLink).toBeInTheDocument()
-	expect(backLink).toHaveAttribute('href', '/')
-})
-
 test('shows loading state for scenarios', () => {
 	getAllMock.mockImplementationOnce(() => new Promise(() => {}))
 	renderer.render(<SelectScenario />)

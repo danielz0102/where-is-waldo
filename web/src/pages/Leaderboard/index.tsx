@@ -2,7 +2,7 @@ import { Trophy } from 'lucide-react'
 import { Link, useParams } from 'react-router'
 import { useLeaderboardQuery } from '~/querys/useLeaderboardQuery'
 import type { Score } from '~/types'
-import HomeLink from '~components/HomeLink'
+import BackLink from '~components/BackLink'
 import Overlay from '~components/Overlay'
 import Title from '~components/Title'
 
@@ -30,7 +30,7 @@ export default function Leaderboard() {
 	return (
 		<Overlay className="flex flex-col gap-4">
 			<nav>
-				<HomeLink />
+				<BackLink />
 			</nav>
 			<main className="flex flex-col items-center justify-center gap-4">
 				<Title className="text-center">{data.scenario.name} Leaderboard</Title>

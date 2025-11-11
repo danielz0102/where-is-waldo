@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import ScenarioQueries from '~/querys/ScenarioQueries'
 import type { Scenario } from '~/types'
 import Alert from '~components/Alert'
-import HomeLink from '~components/HomeLink'
+import BackLink from '~components/BackLink'
 import Overlay from '~components/Overlay'
 import Title from '~components/Title'
 
@@ -17,7 +17,7 @@ export default function SelectScenario() {
 	return (
 		<Overlay className="flex flex-col">
 			<nav>
-				<HomeLink />
+				<BackLink />
 			</nav>
 			<main className="flex flex-1 flex-col items-center justify-center gap-2">
 				<Title className="text-center">Select a Scenario</Title>

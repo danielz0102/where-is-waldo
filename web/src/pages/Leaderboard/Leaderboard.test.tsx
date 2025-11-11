@@ -27,10 +27,6 @@ vi.mock('~services/ScoreService', () => ({
 	},
 }))
 
-vi.mock('~components/HomeLink', () => ({
-	default: () => <div>HomeLink</div>,
-}))
-
 const useParamsMock = vi.mocked(useParams)
 const ScenarioServiceMock = vi.mocked(ScenarioService)
 const ScoreServiceMock = vi.mocked(ScoreService)
