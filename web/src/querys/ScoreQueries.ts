@@ -9,10 +9,10 @@ export default {
 	useIsTop10Query,
 }
 
-function useGetTop10ScoresQuery(scenarioId: string) {
+function useGetTop10ScoresQuery(scenarioSlug: string) {
 	return useQuery({
-		queryKey: ['top10Scores', scenarioId],
-		queryFn: () => ScoreService.getTop10ByScenario(scenarioId),
+		queryKey: ['top10Scores', scenarioSlug],
+		queryFn: () => ScoreService.getTop10ByScenario(scenarioSlug),
 	})
 }
 

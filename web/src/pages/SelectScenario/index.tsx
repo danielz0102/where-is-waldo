@@ -1,8 +1,8 @@
 import clsx from 'clsx'
-import { Undo2 } from 'lucide-react'
 import { Link } from 'react-router'
 import ScenarioQueries from '~/querys/ScenarioQueries'
 import type { Scenario } from '~/types'
+import HomeLink from '~components/HomeLink'
 import Alert from '~ui/Alert'
 import Title from '~ui/Title'
 
@@ -42,18 +42,6 @@ export default function SelectScenario() {
 				</div>
 			</main>
 		</div>
-	)
-}
-
-function HomeLink() {
-	return (
-		<Link
-			to="/"
-			aria-label="Home"
-			className="inline-block transition-transform duration-300 hover:rotate-360"
-		>
-			<Undo2 strokeWidth={1.5} size={32} color="#fd1c23" />
-		</Link>
 	)
 }
 

@@ -6,8 +6,8 @@ export default {
 	registerScore,
 }
 
-async function getTop10ByScenario(scenarioId: string): Promise<Score[]> {
-	const { data } = await HTTPClient.get<Score[]>(`scores/${scenarioId}`)
+async function getTop10ByScenario(scenarioSlug: string): Promise<Score[]> {
+	const { data } = await HTTPClient.get<Score[]>(`scores/${scenarioSlug}`)
 	return data
 }
 

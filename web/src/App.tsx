@@ -5,6 +5,7 @@ import NotFound from '~pages/404'
 import Landing from '~pages/Landing'
 import Level from '~pages/Level'
 import SelectScenario from '~pages/SelectScenario'
+import Leaderboard from '~pages/Leaderboard'
 
 const queryClient = new QueryClient()
 
@@ -16,6 +17,7 @@ function App() {
 					<Route path="/" element={<Landing />} />
 					<Route path="/select-scenario" element={<SelectScenario />} />
 					<Route path="/scenario/:slug" element={<Level />} />
+					<Route path="/leaderboard/:scenarioSlug" element={<Leaderboard />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</BrowserRouter>
