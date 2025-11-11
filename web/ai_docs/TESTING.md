@@ -15,6 +15,9 @@ This document provides comprehensive guidelines for writing tests in the `web` p
 9. [Timer Testing](#timer-testing)
 10. [State Management Testing](#state-management-testing)
 
+> [!NOTE]
+> For AI agents: When you want to run tests on the terminal, run it without watch mode to avoid hanging processes.
+
 ---
 
 ## Testing Philosophy
