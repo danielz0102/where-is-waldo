@@ -16,10 +16,10 @@ function useGetTop10ScoresQuery(scenarioSlug: string) {
 	})
 }
 
-function useIsTop10Query(scenarioId: string, seconds: number) {
+function useIsTop10Query(scenarioSlug: string, seconds: number) {
 	return useQuery({
-		queryKey: ['isTop10', scenarioId, seconds],
-		queryFn: () => isTop10(scenarioId, seconds),
+		queryKey: ['isTop10', scenarioSlug, seconds],
+		queryFn: () => isTop10(scenarioSlug, seconds),
 		refetchOnWindowFocus: false,
 		enabled: false,
 	})

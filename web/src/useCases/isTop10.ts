@@ -2,10 +2,10 @@ import { timeToSeconds } from '~/lib/timeUtils'
 import ScoreService from '~/services/ScoreService'
 
 export async function isTop10(
-	scenarioId: string,
+	scenarioSlug: string,
 	seconds: number
 ): Promise<boolean> {
-	const top10Scores = await ScoreService.getTop10ByScenario(scenarioId)
+	const top10Scores = await ScoreService.getTop10ByScenario(scenarioSlug)
 
 	if (top10Scores.length < 10) return true
 

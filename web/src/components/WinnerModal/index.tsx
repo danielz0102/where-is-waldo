@@ -3,14 +3,15 @@ import { useEffect } from 'react'
 import ScoreQueries from '~/querys/ScoreQueries'
 import { useLevelStore } from '~/stores/levelStore'
 import ScoreForm from '../ScoreForm'
+import type { Scenario } from '~/types'
 
-export default function WinnerModal({ scenarioId }: { scenarioId: string }) {
+export default function WinnerModal({ scenario }: { scenario: Scenario }) {
 	const time = useLevelStore((state) => state.getTimeFormatted())
 	const win = useLevelStore((state) => state.win)
 	const seconds = useLevelStore((state) => state.seconds)
 	const reset = useLevelStore((state) => state.reset)
 	const startTime = useLevelStore((state) => state.resumeTimer)
-	const isTop10 = ScoreQueries.useIsTop10Query(scenarioId, seconds)
+	const isTop10 = ScoreQueries.useIsTop10Query(scenario.slug, seconds)
 
 	useEffect(() => {
 		if (win) {
@@ -45,7 +46,7 @@ export default function WinnerModal({ scenarioId }: { scenarioId: string }) {
 				) : (
 					<>
 						{isTop10.data === true && (
-							<ScoreForm scenarioId={scenarioId} time={time} />
+							<ScoreForm scenarioId={scenario.id} time={time} />
 						)}
 						<button
 							onClick={() => {

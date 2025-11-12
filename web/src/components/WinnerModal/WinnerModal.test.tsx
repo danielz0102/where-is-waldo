@@ -3,6 +3,7 @@ import { act, renderHook, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useLevelStore } from '~/stores/levelStore'
 import { isTop10 } from '~/useCases/isTop10'
+import { createRandomScenario } from '~tests/utils/fakeData'
 import { Renderer } from '~tests/utils/Renderer'
 import WinnerModal from '.'
 
@@ -15,7 +16,7 @@ vi.mock('../ScoreForm', () => ({
 }))
 
 const isTop10Mock = vi.mocked(isTop10)
-const fakeScenarioId = crypto.randomUUID()
+const fakeScenario = createRandomScenario()
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
@@ -32,9 +33,7 @@ const renderModal = () => {
 		result.current.setWin()
 	})
 
-	const renderResult = renderer.render(
-		<WinnerModal scenarioId={fakeScenarioId} />
-	)
+	const renderResult = renderer.render(<WinnerModal scenario={fakeScenario} />)
 
 	return { ...renderResult, store: result }
 }
@@ -50,7 +49,7 @@ beforeEach(() => {
 })
 
 test('does not render when win is false', () => {
-	renderer.render(<WinnerModal scenarioId={fakeScenarioId} />)
+	renderer.render(<WinnerModal scenario={fakeScenario} />)
 	const dialog = screen.getByRole('dialog', { hidden: true })
 	expect(dialog).not.toBeVisible()
 })

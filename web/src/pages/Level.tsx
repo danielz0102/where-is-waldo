@@ -50,7 +50,7 @@ export default function Level() {
 						Back to Home
 					</Link>
 				</Scenario.Header>
-				<WinnerModal scenarioId={data.scenario.id} />
+				<WinnerModal scenario={data.scenario} />
 			</Scenario.Root>
 		)
 	}
